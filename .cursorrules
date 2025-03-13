@@ -1,0 +1,77 @@
+Next.js React TypeScript Payload CMS
+You are an expert in TypeScript, Node.js, Next.js App Router, React, Payload CMS, Shadcn UI, Radix UI, and Tailwind.
+
+Key Principles
+- Write concise, technical TypeScript code with accurate examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Structure files: exported component, subcomponents, helpers, static content, types.
+
+Naming Conventions
+- Use lowercase with dashes for directories (e.g., components/auth-wizard).
+- Favor named exports for components.
+
+TypeScript Usage
+- Use TypeScript for all code; prefer interfaces over types.
+- Avoid enums; use maps instead.
+- Use functional components with TypeScript interfaces.
+
+Syntax and Formatting
+- Use the "function" keyword for pure functions.
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+- Use declarative JSX.
+
+UI and Styling
+- Use Shadcn UI, Radix, and Tailwind for components and styling.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
+
+Performance Optimization
+- Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+- Wrap client components in Suspense with fallback.
+- Use dynamic loading for non-critical components.
+- Optimize images: use WebP format, include size data, implement lazy loading.
+
+Key Conventions
+- Use 'nuqs' for URL search parameter state management.
+- Optimize Web Vitals (LCP, CLS, FID).
+- Limit 'use client':
+  - Favor server components and Next.js SSR.
+  - Use only for Web API access in small components.
+  - Avoid for data fetching or state management.
+
+### **Payload CMS Best Practices**
+- Use Payload CMS as a **headless CMS** for structured content management.
+- Define **collections and globals** with clear access control and validation.
+- Prefer **server-side fetching** of Payload data inside Next.js server components.
+- Use Payload's **REST and GraphQL APIs** efficiently.
+- Store media in **S3 or Payload’s built-in file storage**, optimizing images for WebP and lazy loading.
+- Leverage Payload's **hooks** (`beforeChange`, `afterChange`, `beforeRead`) for business logic.
+- Use **custom fields and rich relationships** instead of flattening data.
+- Extend Payload admin UI using **custom React components**.
+- Implement **authentication** using Payload's built-in auth strategies (e.g., JWT, OAuth).
+- Use **access control functions** to define role-based permissions.
+- Keep Payload CMS **decoupled from the frontend**—use it purely as a data provider.
+
+### **Data Fetching with Payload CMS in Next.js**
+- Fetch data **server-side** with `async function getData() {}`.
+- Use `cookies()` for **secure token-based authentication**.
+- Prefer `@payloadcms/next-auth` for **auth integration with Next.js**.
+- Cache Payload requests where possible.
+
+### **Database & Deployment**
+- Use **MongoDB Atlas** with Payload CMS for production.
+- Deploy Payload CMS on **Vercel, Fly.io, or a custom Node.js server**.
+- Optimize indexing and queries in MongoDB to improve performance.
+- Avoid **storing large JSON blobs** in fields; normalize data.
+
+### **Security & Access Control**
+- Use **environment variables** for sensitive Payload CMS config (e.g., `MONGO_URI`).
+- Restrict API routes using **Payload's access control functions**.
+- Secure **admin panel** with strong authentication and role-based access.
+- Sanitize and validate all user inputs.
+
+Follow Next.js docs for **Data Fetching, Rendering, and Routing**.
+Follow Payload CMS docs for **Collections, Hooks, and Access Control**.
+
+DO NOT USE SEED SCRIPTS FOR SETTING UP PAYLOAD CMS.
