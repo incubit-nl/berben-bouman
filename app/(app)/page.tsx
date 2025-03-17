@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Phone, Clock, MapPin, Mail, AlertTriangle, ArrowRight, Calendar, Info } from 'lucide-react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import { NotificationBar } from '@/components/notification-bar';
 
 export const metadata = {
   title: 'Tandartsenpraktijk Berben & Bouman | Utrecht Terwijde',
@@ -148,23 +149,18 @@ export default async function Home() {
     <div className="flex flex-col">
       {/* Important Announcement Banner (conditionally rendered) */}
       {importantAnnouncement?.isActive && (
-        <div className="bg-accent-500 text-white py-4">
-          <div className="container mx-auto px-4">
-            <div className="flex items-start gap-3">
-              <AlertTriangle className="h-6 w-6 flex-shrink-0 mt-0.5" />
-              <div>
-                <h2 className="font-bold text-lg">{importantAnnouncement.title}</h2>
-                <div className="whitespace-pre-line">
-                  {importantAnnouncement.content}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <NotificationBar
+          title={importantAnnouncement.title || ''}
+          content={importantAnnouncement.content?.replace(/\n/g, ' · ') || ''}
+          variant="warning"
+          isDismissible={true}
+          speed="medium"
+          className="sticky top-0 z-50"
+        />
       )}
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-primary-900 to-primary-800 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-r from-primary-900 to-primary-800 text-white overflow-hidden pt-24 lg:pt-32">
         <div className="absolute inset-0 z-0 opacity-10 bg-[url('/images/header-bg.png')] bg-repeat"></div>
         <div className="container mx-auto px-4 py-20 md:py-28 lg:py-36 relative z-10">
           <div className="max-w-3xl">

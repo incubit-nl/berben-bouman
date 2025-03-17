@@ -30,7 +30,7 @@ export default function IntakeAppointmentPage() {
               <ChevronLeft className="h-4 w-4 mr-1" />
               <span>Terug naar alle behandelingen</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-accent-50">
               Intake afspraak
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">

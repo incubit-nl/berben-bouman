@@ -167,7 +167,7 @@ export function Header({ contactInfo }: HeaderProps) {
           <Link href="/" className="flex items-center" onClick={handleCloseMenu}>
             <div className="relative mr-3">
               <Image 
-                src={isScrolled || isMobileMenuOpen ? "/images/logo_small.png" : "/images/logo_large.png"} 
+                src={isScrolled || isMobileMenuOpen ? "/images/logo_large_black.png" : "/images/logo_large.png"} 
                 alt="Tandartsenpraktijk Berben & Bouman" 
                 className="object-contain"
                 width={150}
@@ -225,12 +225,14 @@ export function Header({ contactInfo }: HeaderProps) {
           
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Link
-              href="/inschrijven"
+            <a
+              href="https://www.anamneselijst.nl/Berben-Bouman/"
               className="bg-accent-500 hover:bg-accent-600 text-white px-4 py-2 rounded-md font-medium transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Inschrijven
-            </Link>
+            </a>
           </div>
           
           {/* Mobile Menu Button */}

@@ -133,7 +133,7 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar het team</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-2">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-2 text-accent-50">
               {teamMember.name}
             </h1>
             <p className="text-xl text-white/90">

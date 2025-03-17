@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
             )}
           </div>
 
-          <h1 className="text-4xl font-heading text-brown font-bold mb-6">{post.title}</h1>
+          <h1 className="text-4xl font-heading text-primary-600 font-bold mb-6">{post.title}</h1>
 
           <BlogContent content={post.content} />
         </div>

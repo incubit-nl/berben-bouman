@@ -76,14 +76,14 @@ export default async function FAQPage() {
       <section className="py-16">
         <div className="container max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-medium mb-3 text-brown">Veelgestelde vragen</h1>
+            <h1 className="text-4xl font-medium mb-3 text-primary-600">Veelgestelde vragen</h1>
             <p className="text-olive/80 text-lg">Vind antwoorden op de meest voorkomende vragen over onze studio en yoga</p>
           </div>
 
           <div className="space-y-16">
             {Object.entries(processedFaqsByCategory).map(([category, categoryFaqs]) => (
               <div key={category} className="space-y-6">
-                <h2 className="inline-flex px-4 py-1.5 text-lg font-medium text-brown border-2 border-brown/20 rounded-full">
+                <h2 className="inline-flex px-4 py-1.5 text-lg font-medium text-primary-600 border-2 border-primary-600/20 rounded-full">
                   {category}
                 </h2>
                 
@@ -92,22 +92,22 @@ export default async function FAQPage() {
                     <AccordionItem 
                       key={faq.id} 
                       value={faq.id}
-                      className="border-b border-brown/10"
+                      className="border-b border-primary-600/10"
                     >
                       <AccordionTrigger 
-                        className="py-6 text-2xl font-medium text-brown hover:text-brown hover:no-underline group"
+                        className="py-6 text-2xl font-medium text-primary-600 hover:text-primary-600 hover:no-underline group"
                       >
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="pb-8">
                         <div 
                           className="prose max-w-none text-olive/90
-                            prose-headings:text-brown prose-headings:font-medium 
-                            prose-strong:text-brown prose-strong:font-medium
+                            prose-headings:text-primary-600 prose-headings:font-medium 
+                            prose-strong:text-primary-600 prose-strong:font-medium
                             prose-p:leading-relaxed prose-p:text-olive/90
                             prose-ul:pl-5 prose-ol:pl-5 prose-li:marker:text-coral 
                             prose-li:text-olive/90 prose-li:mb-3
-                            [&_strong]:text-brown [&_strong]:font-medium
+                            [&_strong]:text-primary-600 [&_strong]:font-medium
                             [&>p]:text-lg [&>ul>li]:text-lg [&>ol>li]:text-lg"
                           dangerouslySetInnerHTML={{ __html: faq.answer }} 
                         />
@@ -120,7 +120,7 @@ export default async function FAQPage() {
           </div>
 
           <div className="mt-16 bg-sage/5 rounded-2xl p-8 text-center">
-            <h2 className="text-2xl font-medium text-brown mb-4">
+            <h2 className="text-2xl font-medium text-primary-600 mb-4">
               Nog steeds vragen?
             </h2>
             <p className="text-olive/90 text-lg mb-6">

@@ -57,16 +57,16 @@ export function BlogContent({ content }: BlogContentProps) {
         const level = node.tag?.replace('h', '') || '3';
         const HeadingTag = `h${level}` as keyof React.JSX.IntrinsicElements;
         const headingClasses: Record<string, string> = {
-          h1: "text-3xl font-heading text-brown font-bold mt-6 mb-4",
-          h2: "text-2xl font-heading text-brown font-bold mt-6 mb-3",
-          h3: "text-xl font-heading text-brown font-bold mt-5 mb-3",
-          h4: "text-lg font-heading text-brown font-bold mt-4 mb-2",
-          h5: "text-base font-heading text-brown font-bold mt-4 mb-2",
-          h6: "text-sm font-heading text-brown font-bold mt-4 mb-2",
+          h1: "text-3xl font-heading text-primary-600 font-bold mt-6 mb-4",
+          h2: "text-2xl font-heading text-primary-600 font-bold mt-6 mb-3",
+          h3: "text-xl font-heading text-primary-600 font-bold mt-5 mb-3",
+          h4: "text-lg font-heading text-primary-600 font-bold mt-4 mb-2",
+          h5: "text-base font-heading text-primary-600 font-bold mt-4 mb-2",
+          h6: "text-sm font-heading text-primary-600 font-bold mt-4 mb-2",
         };
         return <HeadingTag className={headingClasses[HeadingTag] || headingClasses.h3}>{children}</HeadingTag>;
       case 'quote':
-        return <blockquote className="border-l-4 border-peach pl-4 italic my-4 text-brown/80">{children}</blockquote>;
+        return <blockquote className="border-l-4 border-accent-200 pl-4 italic my-4 text-primary-600/80">{children}</blockquote>;
       case 'ul':
         return <ul className="list-disc list-inside my-4 text-olive">{children}</ul>;
       case 'ol':

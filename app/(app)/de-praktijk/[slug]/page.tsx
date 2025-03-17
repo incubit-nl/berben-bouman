@@ -160,7 +160,7 @@ export default async function PracticeInfoPage({ params }: { params: { slug: str
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar De Praktijk</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
               {practiceInfo.title}
             </h1>
             {infoTypeLabels[practiceInfo.infoType] && (

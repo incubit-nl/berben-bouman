@@ -145,7 +145,7 @@ export default function TreatmentsPage() {
         </div>
         <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-accent-50">
               Behandelingen
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">

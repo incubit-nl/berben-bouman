@@ -62,7 +62,7 @@ export default async function AppLayout({
   return (
     <div className={`flex flex-col min-h-screen ${openSans.variable}`}>
       <Header contactInfo={contactInfo} />
-      <main className="flex-grow pt-24 lg:pt-32">
+      <main className="flex-grow">
         {children}
       </main>
       <Footer contactInfo={contactInfo} />

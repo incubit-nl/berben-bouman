@@ -491,3 +491,19 @@ img {
   animation: fade-in 0.8s ease-out forwards;
   opacity: 0;
 }
+
+a,
+a:hover,
+a:active,
+a:focus {
+  outline: 0;
+  background-color: transparent !important; /* Prevent any darkening */
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+}
+
+/* Ensure Next.js Link components (which render as <a>) inherit this */
+*[data-js="NextLink"] a:active,
+*[data-js="NextLink"] a:focus {
+  background-color: transparent !important;
+}

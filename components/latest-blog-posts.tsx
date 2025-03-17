@@ -20,7 +20,7 @@ export function LatestBlogPosts({ posts }: LatestBlogPostsProps) {
 
   return (
     <div>
-      <h2 className="text-4xl font-heading text-brown mb-8 relative after:absolute after:bottom-0 after:left-0 after:w-16 after:h-1 after:bg-coral after:rounded-full pb-4">Onze Blog</h2>
+      <h2 className="text-4xl font-heading text-primary-600 mb-8 relative after:absolute after:bottom-0 after:left-0 after:w-16 after:h-1 after:bg-accent-400 after:rounded-full pb-4">Onze Blog</h2>
       <div className="space-y-8">
         {posts.map((post) => (
           <Link 
@@ -41,11 +41,11 @@ export function LatestBlogPosts({ posts }: LatestBlogPostsProps) {
                 )}
                 <div className="flex-1 p-6 relative bg-white/70 backdrop-blur-sm">
                   {post.publishedDate && (
-                    <span className="inline-block bg-peach/10 rounded-full px-3 py-1 text-xs text-brown font-medium mb-3">
+                    <span className="inline-block bg-primary-50 rounded-full px-3 py-1 text-xs text-primary-600 font-medium mb-3">
                       {formatDate(post.publishedDate)}
                     </span>
                   )}
-                  <h3 className="text-2xl font-semibold text-brown group-hover:text-coral transition-colors mb-3 group-hover:underline decoration-peach/30 underline-offset-4">
+                  <h3 className="text-2xl font-semibold text-primary-600 group-hover:text-accent-500 transition-colors mb-3 group-hover:underline decoration-accent-200 underline-offset-4">
                     {post.title}
                   </h3>
                   <div>

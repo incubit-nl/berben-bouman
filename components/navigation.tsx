@@ -218,7 +218,7 @@ export function Navigation({ navigationData }: NavigationProps) {
         </div>
 
         {/* Center logo */}
-        <Link href="/" className="logo text-brown hover:text-coral transition-colors absolute left-1/2 -translate-x-1/2 text-3xl font-medium">
+        <Link href="/" className="logo text-primary-600 hover:text-accent-500 transition-colors absolute left-1/2 -translate-x-1/2 text-3xl font-medium">
           title
         </Link>
 
@@ -229,7 +229,7 @@ export function Navigation({ navigationData }: NavigationProps) {
             <span>Lesrooster</span>
           </Link>
           <button
-            className="text-brown hover:text-coral transition-colors p-2 rounded-md hover:bg-peach/20"
+            className="text-primary-600 hover:text-accent-500 transition-colors p-2 rounded-md hover:bg-accent-100"
             onClick={handleMenuToggle}
             aria-label="Toggle menu"
           >
@@ -260,9 +260,9 @@ export function Navigation({ navigationData }: NavigationProps) {
             {/* Menu header */}
             <div className="p-6 border-b border-peach/20 bg-gradient-to-r from-white to-peach-light/50">
               <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-heading font-medium text-brown">Menu</h3>
+                <h3 className="text-2xl font-heading font-medium text-primary-600">Menu</h3>
                 <button
-                  className="text-brown hover:text-coral transition-colors"
+                  className="text-primary-600 hover:text-accent-500 transition-colors"
                   onClick={handleCloseMenu}
                 >
                   <X className="h-6 w-6" />
@@ -288,7 +288,7 @@ export function Navigation({ navigationData }: NavigationProps) {
                   href={EVERS_PORTS_LOGIN_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 px-5 py-2 rounded-full border-2 border-brown text-brown hover:bg-brown/5 transition-colors w-full"
+                  className="flex items-center justify-center gap-2 px-5 py-2 rounded-full border-2 border-primary-700 text-primary-700 hover:bg-primary-700/5 transition-colors w-full"
                   onClick={handleCloseMenu}
                 >
                   <User className="h-4 w-4" />

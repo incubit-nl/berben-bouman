@@ -16,19 +16,15 @@ export function Footer({ contactInfo }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1: Logo and about */}
           <div>
-            <div className="flex items-center mb-6">
+            <div className="flex items-center mt-11">
               <div className="mr-3">
                 <Image 
-                  src="/logo-white.svg" 
+                  src="/images/logo_large.png" 
                   alt="Tandartsenpraktijk Berben & Bouman" 
                   width={40} 
                   height={40}
                   className="h-10 w-auto"
                 />
-              </div>
-              <div>
-                <h2 className="text-lg font-heading font-bold text-white">Berben & Bouman</h2>
-                <p className="text-xs text-white/80">Tandartsenpraktijk</p>
               </div>
             </div>
             <p className="text-white/80 mb-6">

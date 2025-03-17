@@ -40,7 +40,7 @@ export function HomepageFaq({
       <div className="container max-w-4xl mx-auto px-4">
         {title && subtitle && (
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-medium mb-3 text-brown">{title}</h2>
+            <h2 className="text-4xl font-medium mb-3 text-primary-600">{title}</h2>
             <p className="text-olive/80 text-lg">{subtitle}</p>
           </div>
         )}
@@ -53,7 +53,7 @@ export function HomepageFaq({
               className="border-b border-brown/10"
             >
               <AccordionTrigger 
-                className="py-6 text-2xl font-medium text-brown hover:text-brown hover:no-underline group"
+                className="py-6 text-2xl font-medium text-primary-600 hover:text-primary-600 hover:no-underline group"
               >
                 {faq.question || 'FAQ Question'}
               </AccordionTrigger>
@@ -61,12 +61,12 @@ export function HomepageFaq({
                 {faq.answer ? (
                   <div 
                     className="prose max-w-none text-olive/90
-                      prose-headings:text-brown prose-headings:font-medium 
-                      prose-strong:text-brown prose-strong:font-medium
+                      prose-headings:text-primary-600 prose-headings:font-medium 
+                      prose-strong:text-primary-600 prose-strong:font-medium
                       prose-p:leading-relaxed prose-p:text-olive/90
                       prose-ul:pl-5 prose-ol:pl-5 prose-li:marker:text-coral 
                       prose-li:text-olive/90 prose-li:mb-3
-                      [&_strong]:text-brown [&_strong]:font-medium
+                      [&_strong]:text-primary-600 [&_strong]:font-medium
                       [&>p]:text-lg [&>ul>li]:text-lg [&>ol>li]:text-lg"
                     dangerouslySetInnerHTML={{ __html: typeof faq.answer === 'string' ? faq.answer : JSON.stringify(faq.answer) }} 
                   />

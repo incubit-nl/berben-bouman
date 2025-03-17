@@ -86,7 +86,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         >
           ← Terug naar alle workshops
         </Link>
-        <h1 className="text-4xl font-bold text-brown mb-4">{workshop.title}</h1>
+        <h1 className="text-4xl font-bold text-primary-600 mb-4">{workshop.title}</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -103,7 +103,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           </div>
 
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-8 mb-8">
-            <h2 className="text-2xl font-semibold mb-6 text-brown">Over deze workshop</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-primary-600">Over deze workshop</h2>
             <div className="prose prose-olive max-w-none">
               <p className="text-olive text-lg leading-relaxed whitespace-pre-line">
                 {workshop.description}
@@ -114,7 +114,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
           {/* Teacher Section */}
           {workshop.teacher && typeof workshop.teacher !== 'string' && (
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-8">
-              <h2 className="text-2xl font-semibold mb-6 text-brown">Over de docent</h2>
+              <h2 className="text-2xl font-semibold mb-6 text-primary-600">Over de docent</h2>
               <div className="flex flex-col md:flex-row gap-6 items-start">
                 {workshop.teacher.image && (
                   <div className="relative h-32 w-32 rounded-full overflow-hidden flex-shrink-0">
@@ -127,7 +127,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
                   </div>
                 )}
                 <div>
-                  <h3 className="text-xl font-medium text-brown mb-2">{workshop.teacher.name}</h3>
+                  <h3 className="text-xl font-medium text-primary-600 mb-2">{workshop.teacher.name}</h3>
                   <p className="text-olive">{workshop.teacher.bio}</p>
                 </div>
               </div>
@@ -138,7 +138,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
         {/* Sidebar */}
         <div className="lg:col-span-1">
           <div className="bg-white/70 backdrop-blur-sm rounded-xl p-8 sticky top-24">
-            <h2 className="text-2xl font-semibold mb-6 text-brown">Details</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-primary-600">Details</h2>
             
             <div className="space-y-4 mb-8">
               <div className="flex items-center gap-3">
@@ -162,7 +162,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
             </div>
 
             <div className="mb-8">
-              <div className="text-3xl font-bold text-brown mb-2">€{workshop.price}</div>
+              <div className="text-3xl font-bold text-primary-600 mb-2">€{workshop.price}</div>
               <p className="text-sm text-olive">Inclusief BTW</p>
             </div>
 
@@ -184,7 +184,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
       {/* Related Workshops */}
       {relatedWorkshops.length > 0 && (
         <div className="mt-16">
-          <h2 className="text-3xl font-bold text-brown mb-8">Andere workshops die je misschien interesseren</h2>
+          <h2 className="text-3xl font-bold text-primary-600 mb-8">Andere workshops die je misschien interesseren</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {relatedWorkshops.map((relatedWorkshop) => (
               <div key={relatedWorkshop.id} className="overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg flex flex-col h-full" style={{ backgroundColor: 'rgba(227, 183, 165, 0.25)' }}>
@@ -208,7 +208,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
                   
                   <div className="p-6 bg-white/70 backdrop-blur-sm flex-grow flex flex-col">
                     <div>
-                      <h3 className="text-xl font-semibold mb-2 text-brown">{relatedWorkshop.title}</h3>
+                      <h3 className="text-xl font-semibold mb-2 text-primary-600">{relatedWorkshop.title}</h3>
                       <p className="text-olive mb-4">
                         {relatedWorkshop.teacher && typeof relatedWorkshop.teacher !== 'string' && relatedWorkshop.teacher.name ? 
                           `door ${relatedWorkshop.teacher.name}` : ''}
@@ -219,7 +219,7 @@ export default async function WorkshopPage({ params }: WorkshopPageProps) {
                     </div>
                     
                     <div className="flex justify-between items-center mt-auto">
-                      <span className="font-semibold text-brown">€{relatedWorkshop.price}</span>
+                      <span className="font-semibold text-primary-600">€{relatedWorkshop.price}</span>
                       <Button 
                         variant="outline" 
                         size="sm"
