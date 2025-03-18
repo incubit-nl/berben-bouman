@@ -134,9 +134,9 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
     <>
       <header className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full',
-        isScrolled 
-          ? 'bg-white shadow-lg py-3' 
-          : 'bg-primary-900 py-4'
+        isScrolled || isMobileMenuOpen
+          ? 'bg-white shadow-lg py-2' 
+          : 'bg-primary-900 py-3'
       )}>
         {/* Main Header */}
         <div className="container mx-auto px-6">
@@ -149,7 +149,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                   alt="Tandartsenpraktijk Berben & Bouman" 
                   className="object-contain"
                   width={140}
-                  height={75}
+                  height={70}
                 />
               </div>
             </Link>
@@ -163,7 +163,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                       <button 
                         className={cn(
                           "flex items-center font-medium transition-colors text-base",
-                          isScrolled ? "text-primary-900 hover:text-accent-600" : "text-white hover:text-accent-500"
+                          isScrolled || isMobileMenuOpen ? "text-primary-900 hover:text-accent-600" : "text-white hover:text-accent-500"
                         )}
                         onClick={(e) => e.preventDefault()}
                       >
@@ -189,7 +189,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                       href={item.href}
                       className={cn(
                         "font-medium transition-colors text-base relative",
-                        isScrolled ? "text-primary-900 hover:text-accent-600" : "text-white hover:text-accent-500",
+                        isScrolled || isMobileMenuOpen ? "text-primary-900 hover:text-accent-600" : "text-white hover:text-accent-500",
                         "after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:w-0 after:bg-accent-500 after:transition-all hover:after:w-full"
                       )}
                     >
@@ -206,8 +206,8 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                 href="/contact"
                 className={cn(
                   "group px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px] flex items-center",
-                  isScrolled 
-                    ? "bg-primary-900 hover:bg-primary-800 text-primary-900" 
+                  isScrolled || isMobileMenuOpen
+                    ? "bg-primary-900 hover:bg-primary-800 text-white" 
                     : "bg-accent-600 hover:bg-accent-700 text-white"
                 )}
               >
@@ -223,7 +223,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
-                <X className={cn("h-6 w-6 transition-all duration-300", isScrolled ? "text-primary-900" : "text-white")} />
+                <X className="h-6 w-6 text-primary-900 transition-all duration-300" />
               ) : (
                 <Menu className={cn("h-6 w-6 transition-all duration-300", isScrolled ? "text-primary-900" : "text-white")} />
               )}
@@ -237,7 +237,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
             "fixed inset-0 bg-white z-40 transition-transform duration-300 transform lg:hidden",
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           )}
-          style={{ top: '70px' }}
+          style={{ top: '58px' }}
         >
           <div className="container mx-auto px-6 py-8 h-full overflow-y-auto">
             <nav className="flex flex-col space-y-5">
@@ -334,8 +334,11 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
           </div>
         </div>
       </header>
-      {/* Spacer element with standard height */}
-      <div className="w-full h-20"></div>
+      {/* Spacer element with optimized height - exact match to header height */}
+      <div className={cn(
+        "w-full", 
+        isScrolled || isMobileMenuOpen ? "h-[58px]" : "h-[62px]"
+      )} style={{ marginBottom: '-1px' }}></div>
     </>
   );
 } 

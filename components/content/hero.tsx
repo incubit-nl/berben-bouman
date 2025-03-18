@@ -66,9 +66,6 @@ export async function Hero() {
         <div className="relative z-10 pb-16 sm:pb-20 md:pb-28 lg:max-w-2xl lg:w-full lg:pb-32 xl:pb-36">
           <main className="mx-auto max-w-7xl px-6 sm:px-8 md:mt-10 lg:mt-12 lg:px-8 xl:mt-16">
             <div className="sm:text-center lg:text-left">
-              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-accent-600/20 text-accent-400 text-sm font-medium mb-6">
-                <span className="mr-2">✓</span> Nieuwe patiënten welkom
-              </div>
               
               <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
                 <span className="block mb-1">{heroData.title}</span>
