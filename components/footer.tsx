@@ -1,174 +1,123 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
-type FooterProps = {
-  contactInfo?: any;
-};
+export function Footer() {
+  const navigation = {
+    main: [
+      { name: 'Home', href: '/' },
+      { name: 'De Praktijk', href: '/de-praktijk' },
+      { name: 'Behandelingen', href: '/behandelingen' },
+      { name: 'Team', href: '/team' },
+      { name: 'Contact', href: '/contact' },
+    ],
+    legal: [
+      { name: 'Privacy', href: '/privacy' },
+      { name: 'Algemene voorwaarden', href: '/terms' },
+      { name: 'FAQ', href: '/faq' },
+    ],
+  };
 
-export function Footer({ contactInfo }: FooterProps) {
-  const currentYear = new Date().getFullYear();
-  
   return (
-    <footer className="bg-primary-900 text-white">
-      {/* Main footer content */}
-      <div className="container mx-auto px-4 py-12">
+    <footer className="bg-primary-900 text-white py-16">
+      <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Column 1: Logo and about */}
+          {/* About Section */}
           <div>
-            <div className="flex items-center mt-11">
-              <div className="mr-3">
-                <Image 
-                  src="/images/logo_large.png" 
-                  alt="Tandartsenpraktijk Berben & Bouman" 
-                  width={40} 
-                  height={40}
-                  className="h-10 w-auto"
-                />
-              </div>
-            </div>
-            <p className="text-white/80 mb-6">
-              Tandartsenpraktijk Berben & Bouman staat voor kwaliteit. Wij kiezen ervoor om enkel met de beste materialen te werken in een moderne en goed uitgeruste praktijk.
+            <Image
+              src="/images/logo-white.png"
+              alt="Tandartsenpraktijk Berben & Bouman"
+              width={200}
+              height={60}
+              className="mb-4"
+            />
+            <p className="text-sm text-white/80">
+              Tandartsenpraktijk Berben & Bouman in Utrecht Terwijde staat voor kwaliteit. 
+              Wij kiezen ervoor om enkel met de beste materialen te werken in een moderne 
+              en goed uitgeruste praktijk.
             </p>
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-white/80 hover:text-white transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white/80 hover:text-white transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-white/80 hover:text-white transition-colors">
-                <Linkedin className="h-5 w-5" />
-              </a>
-            </div>
           </div>
 
-          {/* Column 2: Contact Information */}
+          {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-accent-300">Contact</h3>
-            <ul className="space-y-4">
-              <li className="flex">
-                <MapPin className="h-5 w-5 text-accent-400 mr-3 flex-shrink-0" />
-                <span>
-                  Louis Armstronglaan 1<br />
-                  3543 EB Utrecht<br />
-                  (Terwijde)
-                </span>
+            <h3 className="text-lg font-semibold mb-4">Snelle links</h3>
+            <ul className="space-y-2">
+              {navigation.main.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-white/80 hover:text-white transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Contact</h3>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-2 text-sm text-white/80">
+                <MapPin className="h-4 w-4" />
+                <span>Terwijde 1, 3543 DM Utrecht</span>
               </li>
-              <li className="flex">
-                <Phone className="h-5 w-5 text-accent-400 mr-3 flex-shrink-0" />
-                <a href="tel:+31306701221" className="hover:text-accent-300 transition-colors">
-                  +31 30 670 12 21
-                </a>
+              <li className="flex items-center gap-2 text-sm text-white/80">
+                <Phone className="h-4 w-4" />
+                <span>030 - 123 4567</span>
               </li>
-              <li className="flex">
-                <Mail className="h-5 w-5 text-accent-400 mr-3 flex-shrink-0" />
-                <a href="mailto:info@berben-bouman.nl" className="hover:text-accent-300 transition-colors">
-                  info@berben-bouman.nl
-                </a>
-              </li>
-              <li className="flex">
-                <Clock className="h-5 w-5 text-accent-400 mr-3 flex-shrink-0" />
-                <span>
-                  Maandag t/m Vrijdag:<br />
-                  08:00 - 17:00 uur
-                </span>
+              <li className="flex items-center gap-2 text-sm text-white/80">
+                <Mail className="h-4 w-4" />
+                <span>info@berbenbouman.nl</span>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Quick Links */}
+          {/* Opening Hours */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-accent-300">De Praktijk</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/de-praktijk/ons-team" className="text-white/80 hover:text-white transition-colors">
-                  Ons team
-                </Link>
-              </li>
-              <li>
-                <Link href="/de-praktijk/praktijkrondleiding" className="text-white/80 hover:text-white transition-colors">
-                  Praktijkrondleiding
-                </Link>
-              </li>
-              <li>
-                <Link href="/de-praktijk/praktijkregels" className="text-white/80 hover:text-white transition-colors">
-                  Praktijkregels
-                </Link>
-              </li>
-              <li>
-                <Link href="/de-praktijk/begroting" className="text-white/80 hover:text-white transition-colors">
-                  Begroting
-                </Link>
-              </li>
-              <li>
-                <Link href="/de-praktijk/tarieven" className="text-white/80 hover:text-white transition-colors">
-                  Tarieven
-                </Link>
-              </li>
-              <li>
-                <Link href="/de-praktijk/facturen" className="text-white/80 hover:text-white transition-colors">
-                  Facturen
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Behandelingen */}
-          <div>
-            <h3 className="text-lg font-bold mb-6 text-accent-300">Behandelingen</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/behandelingen/intake-afspraak" className="text-white/80 hover:text-white transition-colors">
-                  Intake afspraak
-                </Link>
-              </li>
-              <li>
-                <Link href="/behandelingen/periodieke-controle" className="text-white/80 hover:text-white transition-colors">
-                  Periodieke controle
-                </Link>
-              </li>
-              <li>
-                <Link href="/behandelingen/vullingen" className="text-white/80 hover:text-white transition-colors">
-                  Vullingen
-                </Link>
-              </li>
-              <li>
-                <Link href="/behandelingen/kronen-en-bruggen" className="text-white/80 hover:text-white transition-colors">
-                  Kronen en Bruggen
-                </Link>
-              </li>
-              <li>
-                <Link href="/behandelingen/implantaten" className="text-white/80 hover:text-white transition-colors">
-                  Implantaten
-                </Link>
-              </li>
-              <li>
-                <Link href="/behandelingen" className="text-accent-400 hover:text-accent-300 font-medium transition-colors">
-                  Alle behandelingen
-                </Link>
-              </li>
+            <h3 className="text-lg font-semibold mb-4">Openingstijden</h3>
+            <ul className="space-y-2 text-sm text-white/80">
+              <li>Maandag - Vrijdag: 8:00 - 17:00</li>
+              <li>Zaterdag: Gesloten</li>
+              <li>Zondag: Gesloten</li>
             </ul>
           </div>
         </div>
-      </div>
 
-      {/* Bottom bar with copyright */}
-      <div className="border-t border-white/10 py-6">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-white/60 text-sm mb-4 md:mb-0">
-            © {currentYear} Tandartsenpraktijk Berben & Bouman. Alle rechten voorbehouden.
-          </div>
-          <div className="flex space-x-6">
-            <Link href="/privacy" className="text-white/60 hover:text-white text-sm transition-colors">
-              Privacybeleid
-            </Link>
-            <Link href="/cookies" className="text-white/60 hover:text-white text-sm transition-colors">
-              Cookiebeleid
-            </Link>
-            <Link href="/sitemap" className="text-white/60 hover:text-white text-sm transition-colors">
-              Sitemap
-            </Link>
+        {/* Bottom Bar */}
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-white/60">
+              © {new Date().getFullYear()} Tandartsenpraktijk Berben & Bouman. 
+              Alle rechten voorbehouden.
+            </p>
+            <div className="flex items-center gap-4">
+              <Link
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                <Facebook className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                <Instagram className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                <Linkedin className="h-5 w-5" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>

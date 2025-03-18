@@ -20,7 +20,7 @@ export default function AboutPage() {
                 <h1 className="text-4xl font-bold mb-6">About title</h1>
                 
                 <section className="mb-12">
-                    <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
+                    <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>    
                     <p className="mb-4">
                         At title, we're dedicated to making yoga accessible to everyone, everywhere. 
                         We believe in the transformative power of yoga to improve physical health, 
