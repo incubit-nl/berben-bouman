@@ -80,6 +80,7 @@ export interface Config {
     'team-members': TeamMember;
     'practice-info': PracticeInfo;
     'contact-info': ContactInfo;
+    alerts: Alert;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -100,6 +101,7 @@ export interface Config {
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     'practice-info': PracticeInfoSelect<false> | PracticeInfoSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
+    alerts: AlertsSelect<false> | AlertsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -906,6 +908,57 @@ export interface ContactInfo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alerts".
+ */
+export interface Alert {
+  id: string;
+  /**
+   * Internal name for this alert (not displayed to users)
+   */
+  title: string;
+  /**
+   * Toggle to show or hide this alert
+   */
+  isActive?: boolean | null;
+  /**
+   * Type of alert which determines the color scheme
+   */
+  alertType: 'info' | 'warning' | 'error' | 'success';
+  /**
+   * Alert message content
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Where this alert should appear
+   */
+  position?: ('global' | 'home') | null;
+  /**
+   * Allow users to dismiss this alert
+   */
+  dismissible?: boolean | null;
+  /**
+   * Optional: Date when this alert should automatically deactivate
+   */
+  expiresAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -966,6 +1019,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-info';
         value: string | ContactInfo;
+      } | null)
+    | ({
+        relationTo: 'alerts';
+        value: string | Alert;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1421,6 +1478,21 @@ export interface ContactInfoSelect<T extends boolean = true> {
         id?: T;
       };
   mapEmbed?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alerts_select".
+ */
+export interface AlertsSelect<T extends boolean = true> {
+  title?: T;
+  isActive?: T;
+  alertType?: T;
+  content?: T;
+  position?: T;
+  dismissible?: T;
+  expiresAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

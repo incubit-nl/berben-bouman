@@ -138,45 +138,8 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
           ? 'bg-white shadow-lg py-3' 
           : 'bg-primary-900 py-4'
       )}>
-        {/* Top Bar - Only visible on desktop and when not scrolled */}
-        {!isScrolled && (
-          <div className="hidden lg:block text-white absolute top-0 left-0 right-0 w-full border-b border-white/10 transition-transform duration-300">
-            <div className="container mx-auto px-6 py-2">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-8 text-sm">
-                  <div className="flex items-center group">
-                    <Phone className="h-4 w-4 mr-2 group-hover:text-accent-400 transition-colors" />
-                    <a href={`tel:${phone.replace(/\s/g, '')}`} className="text-white hover:text-white transition-colors">
-                      {phone}
-                    </a>
-                  </div>
-                  <div className="flex items-center group">
-                    <Mail className="h-4 w-4 mr-2 text-white transition-colors" />
-                    <a href={`mailto:${email}`} className="text-white hover:text-white transition-colors">
-                      {email}
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-8 text-sm">
-                  <div className="flex items-center group">
-                    <Clock className="h-4 w-4 mr-2 group-hover:text-accent-500 transition-colors" />
-                    <span>Ma-Vr: 08:00 - 17:00</span>
-                  </div>
-                  <div className="flex items-center group">
-                    <MapPin className="h-4 w-4 mr-2 group-hover:text-accent-500 transition-colors" />
-                    <span>Louis Armstronglaan 1, Utrecht</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        
         {/* Main Header */}
-        <div className={cn(
-          'container mx-auto px-6',
-          isScrolled ? 'pt-0' : 'pt-14 lg:pt-8'
-        )}>
+        <div className="container mx-auto px-6">
           <div className="flex justify-between items-center">
             {/* Logo */}
             <Link href="/" className="flex items-center" onClick={handleCloseMenu}>
@@ -371,11 +334,8 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
           </div>
         </div>
       </header>
-      {/* Improved spacer element with more accurate height calculation */}
-      <div className={cn(
-        "w-full", 
-        isScrolled ? "h-24" : "h-24"
-      )}></div>
+      {/* Spacer element with standard height */}
+      <div className="w-full h-20"></div>
     </>
   );
 } 

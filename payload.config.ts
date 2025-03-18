@@ -21,6 +21,7 @@ import { Treatments } from './collections/Treatments';
 import { TeamMembers } from './collections/TeamMembers';
 import { PracticeInfo } from './collections/PracticeInfo';
 import { ContactInfo } from './collections/ContactInfo';
+import { Alerts } from './collections/Alerts';
 
 // Import the new treatment categories global
 import { TreatmentCategories } from './globals/TreatmentCategories';
@@ -50,6 +51,7 @@ export default buildConfig({
     TeamMembers,
     PracticeInfo,
     ContactInfo,
+    Alerts,
   ],
   globals: [
     TreatmentCategories,

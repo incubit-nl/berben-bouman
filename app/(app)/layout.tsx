@@ -5,6 +5,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { ActiveAlerts } from '@/components/ui/active-alerts';
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
@@ -124,6 +125,7 @@ export default async function RootLayout({
           practicePages={practicePages}
           treatmentCategories={treatmentCategories}
         />
+        <ActiveAlerts position="global" />
         {children}
         <Footer 
           contactInfo={contactInfo}

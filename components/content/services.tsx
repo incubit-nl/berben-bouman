@@ -1,43 +1,57 @@
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Smile, Shield, Stethoscope, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import { getPayload } from 'payload';
+import config from '@payload-config';
+
 // Add a props type for the component
 type ServicesProps = {
   isFirstSection?: boolean;
 };
 
-const services = [
-  {
-    icon: Stethoscope,
-    title: 'Algemene tandheelkunde',
-    description: 'Reguliere controles, vullingen, wortelkanaalbehandelingen en preventieve zorg voor uw mondgezondheid.',
-    link: '/behandelingen/algemene-tandheelkunde',
-    image: '/images/general-dentistry.jpg'
-  },
-  {
-    icon: Smile,
-    title: 'Esthetische tandheelkunde',
-    description: 'Facings, kronen, bruggen en bleken voor een mooiere glimlach en meer zelfvertrouwen.',
-    link: '/behandelingen/esthetische-tandheelkunde',
-    image: '/images/cosmetic-dentistry.jpg'
-  },
-  {
-    icon: Shield,
-    title: 'Implantologie',
-    description: 'Tandimplantaten als duurzame oplossing voor het vervangen van ontbrekende tanden en kiezen.',
-    link: '/behandelingen/implantologie',
-    image: '/images/implantology.jpg'
-  },
-  {
-    icon: Sparkles,
-    title: 'Kindertandheelkunde',
-    description: 'Specialistische zorg voor kinderen in een kindvriendelijke omgeving met extra aandacht en geduld.',
-    link: '/behandelingen/kindertandheelkunde',
-    image: '/images/pediatric-dentistry.jpg'
-  },
-];
+// Treatment interface matching the Payload CMS schema
+interface Treatment {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  featuredImage?: {
+    id: string;
+    url: string;
+    alt?: string;
+  };
+  shortDescription: string;
+  displayOrder?: number;
+  status: 'draft' | 'published';
+}
 
-export function Services({ isFirstSection = false }: ServicesProps) {
+// Fetch featured treatments from Payload CMS
+async function getFeaturedTreatments(): Promise<Treatment[]> {
+  try {
+    const payload = await getPayload({ config });
+    
+    const treatments = await payload.find({
+      collection: 'treatments',
+      where: {
+        status: {
+          equals: 'published',
+        },
+      },
+      sort: 'displayOrder',
+      limit: 4, // Get top 4 treatments by display order
+    }).then(res => res.docs as Treatment[]);
+    
+    return treatments;
+  } catch (error) {
+    console.error('Error fetching featured treatments:', error);
+    return [];
+  }
+}
+
+export async function Services({ isFirstSection = false }: ServicesProps) {
+  // Get treatments from Payload CMS
+  const treatments = await getFeaturedTreatments();
+  
   return (
     <div className="bg-neutral-50 py-24 relative overflow-hidden">
       {/* Decorative elements */}
@@ -59,34 +73,39 @@ export function Services({ isFirstSection = false }: ServicesProps) {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-          {services.map((service, index) => (
+          {treatments.map((treatment) => (
             <Link 
-              key={service.title} 
-              href={service.link}
+              key={treatment.id} 
+              href={`/behandelingen/${treatment.slug}`}
               className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group flex flex-col h-full border border-neutral-100 hover:border-primary-200"
             >
               <div className="relative h-64 overflow-hidden">
-                <Image 
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
+                {treatment.featuredImage ? (
+                  <Image 
+                    src={treatment.featuredImage.url}
+                    alt={treatment.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                ) : (
+                  <Image 
+                    src="/images/treatments/default-treatment-thumb.jpg"
+                    alt={treatment.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-900/80 via-primary-900/50 to-transparent"></div>
                 
-                {/* Service icon with floating card effect */}
-                <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg">
-                  <service.icon className="h-6 w-6 text-accent-600" />
-                </div>
-                
                 <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <h3 className="text-2xl font-bold">{service.title}</h3>
+                  <h3 className="text-2xl font-bold">{treatment.title}</h3>
                 </div>
               </div>
               
               <div className="p-6 flex flex-col flex-grow">
-                <p className="text-gray-600 mb-6 flex-grow">{service.description}</p>
+                <p className="text-gray-600 mb-6 flex-grow">{treatment.shortDescription}</p>
                 <div className="mt-auto flex items-center text-accent-600 hover:text-accent-700 font-medium">
                   Meer informatie
                   <ChevronRight className="ml-1 h-5 w-5 group-hover:ml-2 transition-all" />
