@@ -4,6 +4,7 @@ import { Montserrat, Playfair_Display } from 'next/font/google';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
@@ -124,6 +125,9 @@ export default async function RootLayout({
           treatmentCategories={treatmentCategories}
         />
         {children}
+        <Footer 
+          contactInfo={contactInfo}
+        />
       </body>
     </html>
   );

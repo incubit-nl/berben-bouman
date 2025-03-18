@@ -241,7 +241,12 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
             <div className="hidden lg:block">
               <a
                 href="/contact"
-                className="group bg-accent-600 hover:bg-accent-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px] flex items-center"
+                className={cn(
+                  "group px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px] flex items-center",
+                  isScrolled 
+                    ? "bg-primary-900 hover:bg-primary-800 text-primary-900" 
+                    : "bg-accent-600 hover:bg-accent-700 text-white"
+                )}
               >
                 <Calendar className="mr-2 h-5 w-5 group-hover:animate-pulse" />
                 Afspraak maken

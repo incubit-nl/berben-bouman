@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, Phone } from 'lucide-react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 
@@ -58,41 +58,62 @@ export async function Hero() {
   const heroData = await getHeroData();
   
   return (
-    <div className="relative bg-primary-900 overflow-hidden">
+    <div className="relative bg-gradient-to-r from-primary-900 to-primary-800 overflow-hidden">
+      {/* Pattern overlay */}
+      <div className="absolute inset-0 bg-[url('/images/pattern-bg.png')] opacity-10"></div>
+      
       <div className="max-w-7xl mx-auto">
-        <div className="relative z-10 pb-12 sm:pb-16 md:pb-24 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-          <main className="mx-auto max-w-7xl px-6 sm:px-8 md:mt-8 lg:mt-10 lg:px-8 xl:mt-12">
+        <div className="relative z-10 pb-16 sm:pb-20 md:pb-28 lg:max-w-2xl lg:w-full lg:pb-32 xl:pb-36">
+          <main className="mx-auto max-w-7xl px-6 sm:px-8 md:mt-10 lg:mt-12 lg:px-8 xl:mt-16">
             <div className="sm:text-center lg:text-left">
+              <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-accent-600/20 text-accent-400 text-sm font-medium mb-6">
+                <span className="mr-2">✓</span> Nieuwe patiënten welkom
+              </div>
+              
               <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
                 <span className="block mb-1">{heroData.title}</span>
                 <span className="block text-accent-500">{heroData.subtitle}</span>
               </h1>
-              <p className="mt-5 text-base text-white/90 sm:mt-6 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-6 md:text-xl lg:mx-0">
+              
+              <div className="w-20 h-1 bg-accent-500 mt-6 mb-6 lg:mx-0 mx-auto lg:ml-0"></div>
+              
+              <p className="text-base text-white/90 sm:text-lg sm:max-w-xl sm:mx-auto md:text-xl lg:mx-0">
                 {heroData.description}
               </p>
-              <div className="mt-8 sm:mt-10 sm:flex sm:justify-center lg:justify-start">
-                <div className="rounded-md shadow">
-                  <Link
-                    href={heroData.primaryButtonUrl}
-                    className="w-full flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-lg text-white bg-accent-600 hover:bg-accent-700 transition-all duration-300 transform hover:translate-y-[-2px] shadow-lg hover:shadow-xl"
-                  >
-                    {heroData.primaryButtonText}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
+              
+              <div className="mt-8 sm:mt-10 sm:flex sm:justify-center lg:justify-start gap-4">
+                <Link
+                  href={heroData.primaryButtonUrl}
+                  className="w-full flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-lg text-white bg-accent-600 hover:bg-accent-700 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl"
+                >
+                  <Calendar className="mr-2 h-5 w-5" />
+                  {heroData.primaryButtonText}
+                </Link>
+                
+                <Link
+                  href={heroData.secondaryButtonUrl}
+                  className="w-full mt-4 sm:mt-0 flex items-center justify-center px-8 py-4 border-2 border-white/20 text-base font-medium rounded-lg text-white hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm"
+                >
+                  {heroData.secondaryButtonText}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </div>
+              
+              {/* Quick contact info */}
+              <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4 sm:gap-8 text-white text-sm sm:justify-center lg:justify-start">
+                <div className="flex items-center">
+                  <Phone className="h-4 w-4 mr-2 text-accent-400" />
+                  <a href="tel:+31306701221" className="text-accent-500 hover:text-white">+31 30 670 12 21</a>
                 </div>
-                <div className="mt-4 sm:mt-0 sm:ml-4">
-                  <Link
-                    href={heroData.secondaryButtonUrl}
-                    className="w-full flex items-center justify-center px-8 py-4 border-2 border-white text-base font-medium rounded-lg text-white hover:bg-white/10 transition-all duration-300 transform hover:translate-y-[-2px]"
-                  >
-                    {heroData.secondaryButtonText}
-                  </Link>
+                <div className="hidden sm:block">
+                  Ma-Vr: 08:00 - 17:00
                 </div>
               </div>
             </div>
           </main>
         </div>
       </div>
+      
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <div className="relative h-64 sm:h-72 md:h-96 lg:h-full">
           <Image
@@ -104,6 +125,7 @@ export async function Hero() {
             sizes="(max-width: 768px) 100vw, 50vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/80 to-transparent lg:from-primary-900 lg:via-primary-900/70 lg:to-transparent" />
+        
         </div>
       </div>
       

@@ -103,22 +103,29 @@ export async function Testimonials({ isFirstSection = false }: TestimonialsProps
   const data = await getTestimonialsData();
   
   return (
-    <div className="bg-primary-50 py-24 relative overflow-hidden">
+    <div className="bg-gradient-to-br from-primary-50 to-primary-100/60 py-24 relative overflow-hidden">
+      {/* Decorative pattern overlay */}
+      <div className="absolute inset-0 bg-[url('/images/pattern-bg.png')] opacity-5"></div>
+      
       {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-40">
-        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent-500/20"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-primary-500/20"></div>
+      <div className="absolute inset-0">
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent-500/10"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-primary-500/10"></div>
       </div>
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-accent-50 text-accent-600 text-sm font-medium mb-4">
+            Patiëntervaringen
+          </span>
           <h2 className="text-3xl font-extrabold text-primary-900 sm:text-4xl text-center">
             {data.title}
           </h2>
-          <p className="mt-4 text-lg text-gray-600">
+          <div className="w-16 h-1 bg-accent-500 mx-auto my-6"></div>
+          <p className="text-lg text-gray-600 mb-6">
             {data.subtitle}
           </p>
-          <div className="mt-4 flex justify-center">
+          <div className="inline-flex items-center px-6 py-3 bg-white rounded-lg shadow-md">
             <div className="flex items-center space-x-1">
               {[...Array(5)].map((_, i) => (
                 <Star
@@ -128,17 +135,19 @@ export async function Testimonials({ isFirstSection = false }: TestimonialsProps
                 />
               ))}
             </div>
+            <div className="ml-3 pl-3 border-l border-gray-200">
+              <p className="text-lg font-bold text-primary-900">{data.averageRating}/5</p>
+              <p className="text-xs text-gray-500">{data.totalReviews}+ reviews</p>
+            </div>
           </div>
-          <p className="mt-2 text-sm font-medium text-gray-500">
-            Gemiddelde beoordeling: {data.averageRating}/5 op basis van {data.totalReviews}+ reviews
-          </p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {data.testimonials.map((testimonial, index) => (
             <div 
               key={index} 
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow p-8 relative overflow-hidden group"
+              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 relative overflow-hidden group transform hover:-translate-y-1 border border-neutral-100"
+              style={{ animationDelay: `${index * 150}ms` }}
             >
               <Quote className="absolute top-4 right-4 h-16 w-16 text-accent-500/10 group-hover:text-accent-500/20 transition-colors" />
               
@@ -156,14 +165,16 @@ export async function Testimonials({ isFirstSection = false }: TestimonialsProps
                   <p className="text-gray-700 italic leading-relaxed">&ldquo;{testimonial.content}&rdquo;</p>
                 </blockquote>
                 
-                <div className="flex items-center mt-auto">
+                <div className="flex items-center mt-auto pt-4 border-t border-neutral-100">
                   <div className="flex-shrink-0">
-                    <div className="h-12 w-12 rounded-full bg-accent-500/10 overflow-hidden">
+                    <div className="h-12 w-12 rounded-full bg-accent-500/10 overflow-hidden shadow-sm">
                       {testimonial.imgSrc ? (
-                        <img
+                        <Image
                           src={testimonial.imgSrc}
                           alt={testimonial.author}
                           className="h-full w-full object-cover"
+                          width={48}
+                          height={48}
                         />
                       ) : (
                         <span className="flex items-center justify-center h-full w-full text-lg font-medium text-accent-500">
@@ -182,7 +193,7 @@ export async function Testimonials({ isFirstSection = false }: TestimonialsProps
               </div>
               
               {/* Decorative bottom bar */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-accent-500"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 to-accent-500 opacity-80"></div>
             </div>
           ))}
         </div>
@@ -192,7 +203,7 @@ export async function Testimonials({ isFirstSection = false }: TestimonialsProps
             href="https://www.google.com/search?q=tandartsenpraktijk+berben+bouman"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center text-accent-600 hover:text-accent-700 transition-colors font-medium group"
+            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
           >
             Bekijk alle reviews op Google
             <svg

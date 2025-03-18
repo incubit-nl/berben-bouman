@@ -187,7 +187,10 @@ export async function CTA({ isFirstSection = false }: CTAProps) {
   
   return (
     <div className="bg-white py-24 relative overflow-hidden">
-      <div className="container mx-auto px-6">
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-[url('/images/pattern-bg.png')] opacity-5"></div>
+      
+      <div className="container mx-auto px-6 relative z-10">
         <div className="relative rounded-2xl shadow-2xl overflow-hidden">
           {/* Background with overlay gradient */}
           <div className="absolute inset-0 z-0">
@@ -196,23 +199,31 @@ export async function CTA({ isFirstSection = false }: CTAProps) {
               alt="Moderne tandartspraktijk" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-900 to-primary-900/90"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/95 to-primary-800/90"></div>
           </div>
           
           <div className="relative z-10 px-6 py-16 sm:px-12 sm:py-24 lg:flex lg:items-center lg:gap-x-12">
             <div className="lg:w-3/5 xl:w-1/2">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-accent-500/20 text-accent-300 text-sm font-medium mb-6">
+                Maak een afspraak
+              </span>
               <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
                 {ctaData.title}
               </h2>
-              <p className="mt-4 text-lg text-white/90">
+              
+              <div className="w-20 h-1 bg-accent-500 mt-6 mb-6"></div>
+              
+              <p className="text-lg text-white/90">
                 {ctaData.description}
               </p>
               
-              <div className="mt-8 space-y-3">
+              <div className="mt-8 space-y-4">
                 {ctaData.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start text-white">
-                    <CheckCircle2 className="h-5 w-5 text-accent-400 mr-3 mt-5" />
-                    <p className="text-white">{benefit}</p>
+                  <div key={index} className="flex items-start text-white group">
+                    <div className="flex-shrink-0 bg-accent-500/20 rounded-full p-1.5 mt-0.5 group-hover:bg-accent-500/30 transition-colors">
+                      <CheckCircle2 className="h-4 w-4 text-accent-300" />
+                    </div>
+                    <p className="text-white ml-3">{benefit}</p>
                   </div>
                 ))}
               </div>
@@ -220,37 +231,44 @@ export async function CTA({ isFirstSection = false }: CTAProps) {
               <div className="mt-10 flex flex-col sm:flex-row gap-5">
                 <Link
                   href={ctaData.ctaButtonUrl}
-                  className="flex-1 inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-lg text-white bg-accent-600 hover:bg-accent-700 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                  className="flex-1 inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-lg text-white bg-accent-600 hover:bg-accent-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                 >
-                  <Calendar className="mr-2 h-5 w-5 text-accent-100" />
+                  <Calendar className="mr-2 h-5 w-5 text-white" />
                   <span className="font-semibold">{ctaData.ctaButtonText}</span>
                 </Link>
                 <a
                   href={`tel:${ctaData.phone.replace(/\s/g, '')}`}
-                  className="flex-1 inline-flex items-center justify-center px-8 py-4 border-2 border-white text-base font-medium rounded-lg text-white hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1"
+                  className="flex-1 inline-flex items-center justify-center px-8 py-4 border-2 border-white/30 text-base font-medium rounded-lg text-white hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm"
                 >
-                  <Phone className="mr-2 h-5 w-5 text-accent-400" />
+                  <Phone className="mr-2 h-5 w-5 text-accent-300" />
                   <span className="font-semibold">{ctaData.phone}</span>
                 </a>
               </div>
             </div>
             
             <div className="hidden lg:block lg:w-2/5 xl:w-1/2 mt-12 lg:mt-0">
-              <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg border border-white/20">
-                <h3 className="text-xl font-bold text-white mb-5">Openingstijden</h3>
+              <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg border border-white/20 shadow-lg">
+                <h3 className="text-xl font-bold text-white mb-5 flex items-center">
+                  <Clock className="h-5 w-5 text-accent-400 mr-2" />
+                  Openingstijden
+                </h3>
                 <div className="space-y-4">
                   {ctaData.openingHours.map((hours, index) => (
-                    <div key={index} className="flex justify-between items-center pb-2 border-b border-white/10">
-                      <div className="flex items-center">
-                        <Clock className="h-4 w-4 text-accent-500 mr-2" />
-                        <span className="text-white">{hours.day}</span>
-                      </div>
-                      <span className="text-white">{hours.time}</span>
+                    <div key={index} className="flex justify-between items-center pb-3 border-b border-white/10">
+                      <span className="text-white font-medium">{hours.day}</span>
+                      <span className={`text-white px-3 py-1 rounded-full ${hours.isClosed ? 'bg-red-500/20' : 'bg-green-500/20'} text-sm`}>
+                        {hours.time}
+                      </span>
                     </div>
                   ))}
                 </div>
-                <div className="mt-6 text-white/80 text-sm">
-                  {ctaData.emergencyText}
+                
+                {/* Emergency information */}
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <div className="bg-accent-700/30 p-4 rounded-lg">
+                    <h4 className="font-bold text-white mb-2">Spoed?</h4>
+                    <p className="text-white/90 text-sm">{ctaData.emergencyText}</p>
+                  </div>
                 </div>
               </div>
             </div>

@@ -40,7 +40,7 @@ export function Footer({ contactInfo }: FooterProps) {
               height={60}
               className="mb-4"
             />
-            <p className="text-sm text-white/80">
+            <p className="text-sm text-white/80 mb-4">
               Tandartsenpraktijk Berben & Bouman in Utrecht Terwijde staat voor kwaliteit. 
               Wij kiezen ervoor om enkel met de beste materialen te werken in een moderne 
               en goed uitgeruste praktijk.
@@ -101,31 +101,23 @@ export function Footer({ contactInfo }: FooterProps) {
               © {new Date().getFullYear()} Tandartsenpraktijk Berben & Bouman. 
               Alle rechten voorbehouden.
             </p>
-            <div className="flex items-center gap-4">
-              <Link
-                href="https://facebook.com"
-                target="_blank"
+            {/* African Dental Aid Support in right corner */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-white/60">Wij steunen:</span>
+              <a 
+                href="https://africandental.org" 
+                target="_blank" 
                 rel="noopener noreferrer"
-                className="text-white/60 hover:text-white transition-colors"
+                className="hover:opacity-90 transition-opacity"
               >
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                <Instagram className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                <Linkedin className="h-5 w-5" />
-              </Link>
+                <Image 
+                  src="/images/african-dental-aid.jpg" 
+                  alt="African Dental Aid" 
+                  width={70} 
+                  height={40} 
+                  className="rounded-sm" 
+                />
+              </a>
             </div>
           </div>
         </div>
