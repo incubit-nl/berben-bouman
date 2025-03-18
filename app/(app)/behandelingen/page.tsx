@@ -125,14 +125,14 @@ async function getCategoryDetails(): Promise<CategoryMap> {
 }
 
 interface PageProps {
-  searchParams?: Record<string, string | string[]>;
+  searchParams?: Promise<Record<string, string | string[]>>;
 }
 
 export default async function TreatmentsPage({ 
   searchParams 
 }: PageProps) {
   // Get category filter from URL params - using await to resolve searchParams
-  const resolvedParams = await Promise.resolve(searchParams || {});
+  const resolvedParams = await (searchParams || Promise.resolve<Record<string, string | string[]>>({}));
   const categoryFilter = typeof resolvedParams.category === 'string' ? resolvedParams.category : undefined;
   
   // Fetch treatments from Payload CMS

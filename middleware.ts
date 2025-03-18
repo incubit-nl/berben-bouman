@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
       const buffer = Buffer.from(encoded, 'base64')
       const [username, password] = buffer.toString().split(':')
 
-      if (username === 'title' && password === 'title-demo') {
+      if (username === 'bb' && password === 'bb-demo') {
         return NextResponse.next()
       }
     }

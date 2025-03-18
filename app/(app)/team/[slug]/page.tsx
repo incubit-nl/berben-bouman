@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, GraduationCap, Star } from 'lucide-react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 
 // Define types for our data
 interface TeamMember {
@@ -24,17 +25,28 @@ interface TeamMember {
   isActive: boolean;
 }
 
+// Define the params interface
+interface Params {
+  slug: string;
+}
+
+// Define the page props interface with params as a Promise
+interface TeamMemberPageProps {
+  params: Promise<Params>;
+}
+
 // Generate metadata for the page
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const teamMember = await getTeamMember(params.slug);
-  
+export async function generateMetadata({ params }: TeamMemberPageProps): Promise<Metadata> {
+  const resolvedParams = await params; // Await the params Promise
+  const teamMember = await getTeamMember(resolvedParams.slug);
+
   if (!teamMember) {
     return {
       title: 'Teamlid niet gevonden',
       description: 'Het opgevraagde teamlid kon niet worden gevonden.',
     };
   }
-  
+
   return {
     title: `${teamMember.name} | ${teamMember.role} | Tandartsenpraktijk Berben & Bouman`,
     description: `Maak kennis met ${teamMember.name}, ${teamMember.role} bij Tandartsenpraktijk Berben & Bouman in Utrecht Terwijde.`,
@@ -45,20 +57,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 async function getTeamMember(slug: string): Promise<TeamMember | null> {
   try {
     const payload = await getPayload({ config });
-    
+
     const teamMember = await payload.find({
       collection: 'team-members',
       where: {
-        slug: {
-          equals: slug,
-        },
-        isActive: {
-          equals: true,
-        },
+        slug: { equals: slug },
+        isActive: { equals: true },
       },
       limit: 1,
     }).then(res => res.docs[0] as unknown as TeamMember | undefined);
-    
+
     return teamMember || null;
   } catch (error) {
     console.error('Error fetching team member data:', error);
@@ -70,21 +78,17 @@ async function getTeamMember(slug: string): Promise<TeamMember | null> {
 async function getOtherTeamMembers(currentSlug: string): Promise<TeamMember[]> {
   try {
     const payload = await getPayload({ config });
-    
+
     const teamMembers = await payload.find({
       collection: 'team-members',
       where: {
-        slug: {
-          not_equals: currentSlug,
-        },
-        isActive: {
-          equals: true,
-        },
+        slug: { not_equals: currentSlug },
+        isActive: { equals: true },
       },
       limit: 4,
       sort: 'displayOrder',
     }).then(res => res.docs as unknown as TeamMember[]);
-    
+
     return teamMembers;
   } catch (error) {
     console.error('Error fetching other team members:', error);
@@ -101,24 +105,26 @@ const dayLabels: Record<string, string> = {
   'friday': 'Vrijdag',
 };
 
-export default async function TeamMemberPage({ params }: { params: { slug: string } }) {
-  const teamMember = await getTeamMember(params.slug);
-  
+export default async function TeamMemberPage({ params }: TeamMemberPageProps) {
+  // Await the params Promise to resolve the dynamic segment value
+  const resolvedParams = await params;
+  const teamMember = await getTeamMember(resolvedParams.slug);
+
   // If team member not found, show 404 page
   if (!teamMember) {
     notFound();
   }
-  
+
   const otherTeamMembers = await getOtherTeamMembers(teamMember.slug);
-  
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative bg-primary-900 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
-          <Image 
-            src="/images/team-hero-bg.jpg" 
-            alt="Team background" 
+          <Image
+            src="/images/team-hero-bg.jpg"
+            alt="Team background"
             fill
             className="object-cover"
             priority
@@ -126,8 +132,8 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
         </div>
         <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
           <div className="max-w-3xl">
-            <Link 
-              href="/team" 
+            <Link
+              href="/team"
               className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -136,9 +142,7 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-2 text-accent-50">
               {teamMember.name}
             </h1>
-            <p className="text-xl text-white/90">
-              {teamMember.role}
-            </p>
+            <p className="text-xl text-white/90">{teamMember.role}</p>
           </div>
         </div>
       </section>
@@ -150,15 +154,15 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
             {/* Sidebar with Photo and Info */}
             <div className="lg:col-span-1">
               <div className="rounded-lg overflow-hidden mb-6">
-                <Image 
-                  src={teamMember.photo.url} 
-                  alt={teamMember.name} 
+                <Image
+                  src={teamMember.photo.url}
+                  alt={teamMember.name}
                   width={400}
                   height={500}
                   className="w-full h-auto object-cover"
                 />
               </div>
-              
+
               {/* Work Days */}
               {teamMember.workDays && teamMember.workDays.length > 0 && (
                 <div className="bg-primary-50 rounded-lg p-6 mb-6">
@@ -175,7 +179,7 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
                   </div>
                 </div>
               )}
-              
+
               {/* Specializations */}
               {teamMember.specializations && teamMember.specializations.length > 0 && (
                 <div className="bg-neutral-50 rounded-lg p-6 mb-6">
@@ -192,7 +196,7 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
                   </div>
                 </div>
               )}
-              
+
               {/* Education */}
               {teamMember.education && teamMember.education.length > 0 && (
                 <div className="bg-neutral-50 rounded-lg p-6">
@@ -214,28 +218,32 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
                 </div>
               )}
             </div>
-            
+
             {/* Main Content */}
             <div className="lg:col-span-2">
               <div className="prose prose-lg max-w-none">
                 <h2>Over {teamMember.name}</h2>
-                
+
                 {/* Render rich text content from Payload CMS */}
-                {/* This is a simplified version - you may need to implement a proper rich text renderer */}
-                <div dangerouslySetInnerHTML={{ __html: typeof teamMember.bio === 'string' 
-                  ? teamMember.bio 
-                  : JSON.stringify(teamMember.bio) }} />
-                
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      typeof teamMember.bio === 'string'
+                        ? teamMember.bio
+                        : JSON.stringify(teamMember.bio),
+                  }}
+                />
+
                 <div className="mt-12">
-                  <Link 
-                    href="/contact" 
+                  <Link
+                    href="/contact"
                     className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
                   >
                     Maak een afspraak
                   </Link>
                 </div>
               </div>
-              
+
               {/* Other Team Members */}
               {otherTeamMembers.length > 0 && (
                 <div className="mt-16">
@@ -244,15 +252,15 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {otherTeamMembers.map((member) => (
-                      <Link 
+                      <Link
                         key={member.id}
                         href={`/team/${member.slug}`}
                         className="flex items-center p-4 rounded-lg border border-neutral-200 hover:border-primary-200 hover:shadow-sm transition-all group"
                       >
                         <div className="relative h-16 w-16 rounded-full overflow-hidden flex-shrink-0 mr-4">
-                          <Image 
-                            src={member.photo.url} 
-                            alt={member.name} 
+                          <Image
+                            src={member.photo.url}
+                            alt={member.name}
                             fill
                             className="object-cover"
                           />
@@ -283,14 +291,14 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
             Neem contact met ons op om een afspraak te maken met {teamMember.name} of een van onze andere specialisten.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
             >
               Contact opnemen
             </Link>
-            <Link 
-              href="/team" 
+            <Link
+              href="/team"
               className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
             >
               Bekijk het hele team
@@ -300,4 +308,4 @@ export default async function TeamMemberPage({ params }: { params: { slug: strin
       </section>
     </div>
   );
-} 
+}

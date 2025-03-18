@@ -58,15 +58,22 @@ export function RichText({ content }: { content: LexicalContent | string }) {
   if (!content) return null;
   
   // Handle string input (convert from JSON string if needed)
+  let parsedContent: LexicalContent | string;
   if (typeof content === 'string') {
     try {
-      content = JSON.parse(content);
+      parsedContent = JSON.parse(content);
     } catch (e) {
       return <div className="prose max-w-none">{content}</div>;
     }
+  } else {
+    parsedContent = content;
   }
   
-  if (!content.root?.children) {
+  if (typeof parsedContent === 'string') {
+    return <div className="prose max-w-none">{parsedContent}</div>;
+  }
+  
+  if (!parsedContent.root?.children) {
     return null;
   }
 
@@ -140,7 +147,7 @@ export function RichText({ content }: { content: LexicalContent | string }) {
 
   return (
     <div className="prose max-w-none">
-      {content.root.children.map(renderNode)}
+      {parsedContent.root.children.map(renderNode)}
     </div>
   );
 } 

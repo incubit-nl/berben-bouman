@@ -5,6 +5,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import { RichText } from '@/components/ui/RichText';
+import type { Metadata } from 'next';
 
 // Define types for our data
 interface Treatment {
@@ -25,18 +26,28 @@ interface Treatment {
   status: 'draft' | 'published';
 }
 
+// Define the params interface
+interface Params {
+  slug: string;
+}
+
+// Define the page props interface with params as a Promise
+interface TreatmentPageProps {
+  params: Promise<Params>;
+}
+
 // Generate metadata for the page
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const slug = (await params).slug;
-  const treatment = await getTreatment(slug);
-  
+export async function generateMetadata({ params }: TreatmentPageProps): Promise<Metadata> {
+  const resolvedParams = await params; // Await the params Promise
+  const treatment = await getTreatment(resolvedParams.slug);
+
   if (!treatment) {
     return {
       title: 'Behandeling niet gevonden',
       description: 'De opgevraagde behandeling kon niet worden gevonden.',
     };
   }
-  
+
   return {
     title: treatment.metaTitle || `${treatment.title} | Tandartsenpraktijk Berben & Bouman`,
     description: treatment.metaDescription || treatment.shortDescription,
@@ -47,20 +58,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 async function getTreatment(slug: string): Promise<Treatment | null> {
   try {
     const payload = await getPayload({ config });
-    
+
     const treatment = await payload.find({
       collection: 'treatments',
       where: {
-        slug: {
-          equals: slug,
-        },
-        status: {
-          equals: 'published',
-        },
+        slug: { equals: slug },
+        status: { equals: 'published' },
       },
       limit: 1,
     }).then(res => res.docs[0] as Treatment | undefined);
-    
+
     return treatment || null;
   } catch (error) {
     console.error('Error fetching treatment data:', error);
@@ -72,24 +79,18 @@ async function getTreatment(slug: string): Promise<Treatment | null> {
 async function getRelatedTreatments(category: string, currentSlug: string): Promise<Treatment[]> {
   try {
     const payload = await getPayload({ config });
-    
+
     const treatments = await payload.find({
       collection: 'treatments',
       where: {
-        category: {
-          equals: category,
-        },
-        slug: {
-          not_equals: currentSlug,
-        },
-        status: {
-          equals: 'published',
-        },
+        category: { equals: category },
+        slug: { not_equals: currentSlug },
+        status: { equals: 'published' },
       },
       limit: 3,
       sort: 'displayOrder',
     }).then(res => res.docs as Treatment[]);
-    
+
     return treatments;
   } catch (error) {
     console.error('Error fetching related treatments:', error);
@@ -101,12 +102,12 @@ async function getRelatedTreatments(category: string, currentSlug: string): Prom
 async function getContactInfo() {
   try {
     const payload = await getPayload({ config });
-    
+
     const contactInfo = await payload.find({
       collection: 'contact-info',
       limit: 1,
     }).then(res => res.docs[0]);
-    
+
     return contactInfo;
   } catch (error) {
     console.error('Error fetching contact info:', error);
@@ -126,31 +127,31 @@ const categoryLabels: Record<string, string> = {
   'overig': 'Overig',
 };
 
-export default async function TreatmentPage({ params }: { params: { slug: string } }) {
-  const slug = (await params).slug;
-  const treatment = await getTreatment(slug);
-  
+export default async function TreatmentPage({ params }: TreatmentPageProps) {
+  // Await the params Promise to resolve the dynamic segment value
+  const resolvedParams = await params;
+  const treatment = await getTreatment(resolvedParams.slug);
+
   // If treatment not found, show 404 page
   if (!treatment) {
     notFound();
   }
-  
+
   const relatedTreatments = await getRelatedTreatments(treatment.category, treatment.slug);
   const contactInfo = await getContactInfo();
-  
+
   // Default contact values if CMS data is not available
   const phone = contactInfo?.contactDetails?.phone || '+31 30 670 12 21';
-  
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative bg-primary-900 text-white">
-        <div className="absolute inset-0 z-0 opacity-20">
-        </div>
+        <div className="absolute inset-0 z-0 opacity-20"></div>
         <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
           <div className="max-w-3xl">
-            <Link 
-              href="/behandelingen" 
+            <Link
+              href="/behandelingen"
               className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -176,13 +177,13 @@ export default async function TreatmentPage({ params }: { params: { slug: string
                 <div className="mb-6 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
                   {categoryLabels[treatment.category] || treatment.category}
                 </div>
-                
+
                 {/* Use the RichText component to render the content */}
                 <RichText content={treatment.content} />
-                
+
                 <div className="mt-12">
-                  <Link 
-                    href="/contact" 
+                  <Link
+                    href="/contact"
                     className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
                   >
                     Maak een afspraak
@@ -200,7 +201,7 @@ export default async function TreatmentPage({ params }: { params: { slug: string
                   <Phone className="h-5 w-5 text-primary-600 mr-3 mt-1" />
                   <div>
                     <p className="text-neutral-700 mb-1">Bel ons direct:</p>
-                    <a 
+                    <a
                       href={`tel:${phone.replace(/\s/g, '')}`}
                       className="text-primary-600 hover:text-primary-700 font-bold transition-colors"
                     >
@@ -218,7 +219,7 @@ export default async function TreatmentPage({ params }: { params: { slug: string
                   </div>
                 </div>
               </div>
-              
+
               {/* Related Treatments */}
               {relatedTreatments.length > 0 && (
                 <div className="bg-neutral-50 rounded-lg p-6">
@@ -226,29 +227,29 @@ export default async function TreatmentPage({ params }: { params: { slug: string
                   <ul className="space-y-4">
                     {relatedTreatments.map((relatedTreatment) => (
                       <li key={relatedTreatment.id}>
-                        <Link 
+                        <Link
                           href={`/behandelingen/${relatedTreatment.slug}`}
                           className="flex items-start group"
                         >
                           <div className="relative h-16 w-16 rounded overflow-hidden flex-shrink-0 mr-3">
                             {relatedTreatment.featuredImage ? (
-                              <Image 
-                                src={relatedTreatment.featuredImage.url} 
-                                alt={relatedTreatment.title} 
+                              <Image
+                                src={relatedTreatment.featuredImage.url}
+                                alt={relatedTreatment.title}
                                 fill
                                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                               />
                             ) : (
-                              <Image 
-                                src="/images/treatments/default-treatment-thumb.jpg" 
-                                alt={relatedTreatment.title} 
+                              <Image
+                                src="/images/treatments/default-treatment-thumb.jpg"
+                                alt={relatedTreatment.title}
                                 fill
                                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                               />
                             )}
                           </div>
                           <div>
-                            <h4 className="text-primary-900 group-hover:text-primary-600 font-medium transition-colors">
+                            <h4 className="text-primary-900 group-hover:text-primary-700 font-medium transition-colors">
                               {relatedTreatment.title}
                             </h4>
                             <p className="text-sm text-neutral-600 line-clamp-2">
@@ -276,13 +277,13 @@ export default async function TreatmentPage({ params }: { params: { slug: string
             Neem gerust contact met ons op voor meer informatie of om een afspraak te maken.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="bg-blue hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex"
             >
               Contact opnemen
             </Link>
-            <a 
+            <a
               href={`tel:${phone.replace(/\s/g, '')}`}
               className="bg-blue hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
             >
@@ -294,4 +295,4 @@ export default async function TreatmentPage({ params }: { params: { slug: string
       </section>
     </div>
   );
-} 
+}

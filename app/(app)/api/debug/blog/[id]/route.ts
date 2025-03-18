@@ -11,13 +11,7 @@ export async function GET(
     const id = resolvedParams.id;
     
     const payload = await getPayload({ config });
-    const post = await payload.findByID({
-      collection: 'blog-posts',
-      id,
-      depth: 2,
-    });
     
-    return NextResponse.json(post);
   } catch (error) {
     console.error('Error fetching blog post:', error);
     return NextResponse.json({ error: 'Failed to fetch blog post' }, { status: 500 });
