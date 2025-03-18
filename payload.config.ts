@@ -10,22 +10,20 @@ import sharp from 'sharp';
 import { Users } from './collections/Users';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
-import { BlogPosts } from './collections/BlogPosts';
-import { Workshops } from './collections/Workshops';
-import { Categories } from './collections/Categories';
 import { FAQ } from './collections/Faq';
 import { Pricing } from './collections/Pricing';
 import { Locations } from './collections/Locations';
 import { Testimonials } from './collections/Testimonials';
 import { Settings } from './collections/Settings';
-import { Navigation } from './collections/Navigation';
 import { TermsAndConditions } from './collections/TermsAndConditions';
 import { Privacy } from './collections/Privacy';
-import { SpecialOffers } from './collections/SpecialOffers';
 import { Treatments } from './collections/Treatments';
 import { TeamMembers } from './collections/TeamMembers';
 import { PracticeInfo } from './collections/PracticeInfo';
 import { ContactInfo } from './collections/ContactInfo';
+
+// Import the new treatment categories global
+import { TreatmentCategories } from './globals/TreatmentCategories';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -41,22 +39,20 @@ export default buildConfig({
     Users,
     Media,
     Pages,
-    BlogPosts,
-    Workshops,
-    Categories,
     FAQ,
     Pricing,
     Locations,
     Testimonials,
     Settings,
-    Navigation,
     TermsAndConditions,
     Privacy,
-    SpecialOffers,
     Treatments,
     TeamMembers,
     PracticeInfo,
     ContactInfo,
+  ],
+  globals: [
+    TreatmentCategories,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

@@ -4,6 +4,7 @@ import { ArrowLeft, Clock, Phone } from 'lucide-react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
+import { RichText } from '@/components/ui/RichText';
 
 // Define types for our data
 interface Treatment {
@@ -26,7 +27,8 @@ interface Treatment {
 
 // Generate metadata for the page
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const treatment = await getTreatment(params.slug);
+  const slug = (await params).slug;
+  const treatment = await getTreatment(slug);
   
   if (!treatment) {
     return {
@@ -125,7 +127,8 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default async function TreatmentPage({ params }: { params: { slug: string } }) {
-  const treatment = await getTreatment(params.slug);
+  const slug = (await params).slug;
+  const treatment = await getTreatment(slug);
   
   // If treatment not found, show 404 page
   if (!treatment) {
@@ -143,23 +146,6 @@ export default async function TreatmentPage({ params }: { params: { slug: string
       {/* Hero Section */}
       <section className="relative bg-primary-900 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
-          {treatment.featuredImage ? (
-            <Image 
-              src={treatment.featuredImage.url} 
-              alt={treatment.featuredImage.alt || treatment.title} 
-              fill
-              className="object-cover"
-              priority
-            />
-          ) : (
-            <Image 
-              src="/images/treatments/default-treatment.jpg" 
-              alt={treatment.title} 
-              fill
-              className="object-cover"
-              priority
-            />
-          )}
         </div>
         <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
           <div className="max-w-3xl">
@@ -191,11 +177,8 @@ export default async function TreatmentPage({ params }: { params: { slug: string
                   {categoryLabels[treatment.category] || treatment.category}
                 </div>
                 
-                {/* Render rich text content from Payload CMS */}
-                {/* This is a simplified version - you may need to implement a proper rich text renderer */}
-                <div dangerouslySetInnerHTML={{ __html: typeof treatment.content === 'string' 
-                  ? treatment.content 
-                  : JSON.stringify(treatment.content) }} />
+                {/* Use the RichText component to render the content */}
+                <RichText content={treatment.content} />
                 
                 <div className="mt-12">
                   <Link 
@@ -286,7 +269,7 @@ export default async function TreatmentPage({ params }: { params: { slug: string
       {/* CTA Section */}
       <section className="py-12 md:py-16 bg-primary-50">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center">
             Heeft u vragen over deze behandeling?
           </h2>
           <p className="text-lg text-neutral-700 mb-8 max-w-2xl mx-auto">
@@ -295,13 +278,13 @@ export default async function TreatmentPage({ params }: { params: { slug: string
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="/contact" 
-              className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+              className="bg-blue hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex"
             >
               Contact opnemen
             </Link>
             <a 
               href={`tel:${phone.replace(/\s/g, '')}`}
-              className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+              className="bg-blue hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
             >
               <Phone className="mr-2 h-5 w-5" />
               <span>Bel direct: {phone}</span>

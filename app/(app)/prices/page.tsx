@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { Pricing } from '@/payload-types'; // Generated type for Pricing collection
-import { SpecialOffer } from '@/components/special-offer';
+import { SpecialOffer } from '@/components/ui/special-offer';
 import { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
@@ -87,7 +87,7 @@ export default async function PrijzenPage() {
 
       {page && (
         <div className="prose max-w-none mb-8">
-          <div dangerouslySetInnerHTML={{ __html: serializeLexicalToHTML(page.content as any) }} />
+          <div dangerouslySetInnerHTML={{ __html: serializeLexicalToHTML(page.layout as any) }} />
         </div>
       )}
 

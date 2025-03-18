@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { getPayload } from 'payload';
 import config from '@payload-config';
-import { ContactForm } from '@/components/contact-form';
+import { ContactForm } from '@/components/ui/contact-form';
 import { MapPin, Mail, Building, CreditCard, ExternalLink, ChevronRight, Phone, Clock, Calendar, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
@@ -49,7 +49,7 @@ export default async function ContactPage() {
           />
         </div>
         <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-accent-50">
               Contact
             </h1>
@@ -65,10 +65,10 @@ export default async function ContactPage() {
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900">
+              <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center">
                 Stuur ons een bericht
               </h2>
-              <p className="text-neutral-700 mb-8">
+              <p className="text-neutral-700 mb-8 text-center">
                 Heeft u een vraag of wilt u meer informatie? Vul het onderstaande formulier in en wij nemen zo snel mogelijk contact met u op.
               </p>
 
@@ -183,17 +183,18 @@ export default async function ContactPage() {
 
             {/* Map Section */}
             <div className="mt-12">
-              <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900">
+              <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center">
                 Onze locatie
               </h2>
               <div className="aspect-video relative rounded-lg overflow-hidden border border-neutral-200">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2451.9554380763366!2d5.0123!3d52.0987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDA1JzU1LjMiTiA1wrAwMCc0NC4zIkU!5e0!3m2!1snl!2snl!4v1620000000000!5m2!1snl!2snl" 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2450.643924410514!2d5.041193312804578!3d52.104411671838314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c66fe78f2fa5cb%3A0x1244314e5623322a!2sMusicallaan%20413%2C%203543%20EE%20Utrecht!5e0!3m2!1snl!2snl!4v1742291492607!5m2!1snl!2snl" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 
-                  allowFullScreen={false} 
+                  allowFullScreen={true} 
                   loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
                   className="absolute inset-0"
                 ></iframe>
               </div>
@@ -203,7 +204,7 @@ export default async function ContactPage() {
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-primary-50 rounded-lg p-6 sticky top-24">
-              <h3 className="text-xl font-bold mb-6 text-primary-900">
+              <h3 className="text-xl font-bold mb-6 text-primary-900 text-center">
                 Contactgegevens
               </h3>
 
@@ -214,7 +215,7 @@ export default async function ContactPage() {
                     <h4 className="font-bold text-primary-800 mb-1">Adres</h4>
                     <p className="text-neutral-700">
                       Musicallaan 413<br />
-                      3543 BZ Utrecht<br />
+                      3543 EE Utrecht<br />
                       Wijk Terwijde
                     </p>
                   </div>
@@ -288,8 +289,8 @@ export default async function ContactPage() {
               </div>
 
               <div className="mt-8 pt-6 border-t border-primary-100">
-                <h4 className="font-bold text-primary-800 mb-4">Spoedgevallen</h4>
-                <p className="text-neutral-700 mb-4">
+                <h4 className="font-bold text-primary-800 mb-4 text-center">Spoedgevallen</h4>
+                <p className="text-neutral-700 mb-4 text-center">
                   Heeft u buiten openingstijden dringend een tandarts nodig? Bel dan de spoedlijn.
                 </p>
                 <a 
@@ -308,16 +309,16 @@ export default async function ContactPage() {
       {/* CTA Section */}
       <section className="py-12 md:py-16 bg-primary-50 mt-12">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center">
             Liever direct een afspraak maken?
           </h2>
-          <p className="text-lg text-neutral-700 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-neutral-700 mb-8 max-w-2xl mx-auto text-center">
             U kunt eenvoudig online een afspraak maken of telefonisch contact met ons opnemen.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="/afspraak-maken" 
-              className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+              className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
             >
               <Calendar className="h-5 w-5 mr-2" />
               <span>Online afspraak maken</span>

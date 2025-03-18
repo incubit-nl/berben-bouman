@@ -69,18 +69,13 @@ export interface Config {
     users: User;
     media: Media;
     pages: Page;
-    'blog-posts': BlogPost;
-    workshops: Workshop;
-    categories: Category;
     faq: Faq;
     pricing: Pricing;
     locations: Location;
     testimonials: Testimonial;
     settings: Setting;
-    navigation: Navigation;
     'terms-and-conditions': TermsAndCondition;
     privacy: Privacy;
-    'special-offers': SpecialOffer;
     treatments: Treatment;
     'team-members': TeamMember;
     'practice-info': PracticeInfo;
@@ -94,18 +89,13 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
-    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
-    workshops: WorkshopsSelect<false> | WorkshopsSelect<true>;
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     faq: FaqSelect<false> | FaqSelect<true>;
     pricing: PricingSelect<false> | PricingSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
-    navigation: NavigationSelect<false> | NavigationSelect<true>;
     'terms-and-conditions': TermsAndConditionsSelect<false> | TermsAndConditionsSelect<true>;
     privacy: PrivacySelect<false> | PrivacySelect<true>;
-    'special-offers': SpecialOffersSelect<false> | SpecialOffersSelect<true>;
     treatments: TreatmentsSelect<false> | TreatmentsSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     'practice-info': PracticeInfoSelect<false> | PracticeInfoSelect<true>;
@@ -117,8 +107,12 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'treatment-categories': TreatmentCategory;
+  };
+  globalsSelect: {
+    'treatment-categories': TreatmentCategoriesSelect<false> | TreatmentCategoriesSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -309,63 +303,6 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-posts".
- */
-export interface BlogPost {
-  id: string;
-  title: string;
-  author: string | User;
-  publishedDate: string;
-  excerpt?: string | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  featuredImage: string | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "workshops".
- */
-export interface Workshop {
-  id: string;
-  title: string;
-  date: string;
-  time: string;
-  teacher: string | User;
-  type: 'Workshop' | 'Training' | 'Event';
-  price: number;
-  description: string;
-  image: string | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: string;
-  name: string;
-  description?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faq".
  */
 export interface Faq {
@@ -549,63 +486,6 @@ export interface Setting {
   createdAt: string;
 }
 /**
- * Manage the site navigation menus
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "navigation".
- */
-export interface Navigation {
-  id: string;
-  title: string;
-  /**
-   * Select where this menu should appear
-   */
-  location: 'main' | 'footer';
-  items?:
-    | {
-        label: string;
-        /**
-         * Path or URL (e.g., /about, https://example.com)
-         */
-        href: string;
-        /**
-         * Optional icon to display with the menu item
-         */
-        icon?: ('' | 'User' | 'Calendar' | 'Info' | 'Mail' | 'Book' | 'Heart' | 'Home') | null;
-        isExternal?: boolean | null;
-        /**
-         * Lower numbers appear first
-         */
-        order?: number | null;
-        /**
-         * Add child menu items to create a dropdown
-         */
-        children?:
-          | {
-              label: string;
-              /**
-               * Path or URL (e.g., /about, https://example.com)
-               */
-              href: string;
-              /**
-               * Optional icon to display with the menu item
-               */
-              icon?: ('' | 'User' | 'Calendar' | 'Info' | 'Mail' | 'Book' | 'Heart' | 'Home') | null;
-              isExternal?: boolean | null;
-              /**
-               * Lower numbers appear first
-               */
-              order?: number | null;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Algemene voorwaarden van title
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -693,27 +573,6 @@ export interface Privacy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "special-offers".
- */
-export interface SpecialOffer {
-  id: string;
-  title: string;
-  subtitle?: string | null;
-  description: string;
-  buttonText: string;
-  buttonLink: string;
-  backgroundColor?: string | null;
-  price?: number | null;
-  originalPrice?: number | null;
-  /**
-   * Enable or disable this special offer
-   */
-  isActive?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "treatments".
  */
 export interface Treatment {
@@ -723,6 +582,9 @@ export interface Treatment {
    * This is the URL-friendly identifier for the treatment (e.g., "vullingen" for a page at /behandelingen/vullingen)
    */
   slug: string;
+  /**
+   * Choose a category for this treatment. Options are loaded from the global treatment categories. If not seeing updated options, try refreshing the page.
+   */
   category:
     | 'preventie'
     | 'diagnostiek'
@@ -834,13 +696,56 @@ export interface TeamMember {
  */
 export interface PracticeInfo {
   id: string;
+  /**
+   * This is just a label for the CMS and won't be displayed on the website.
+   */
   title: string;
   /**
    * This is the URL-friendly identifier for the page (e.g., "praktijkregels")
    */
   slug: string;
   infoType: 'tour' | 'rules' | 'budget' | 'pricing' | 'invoices' | 'other';
-  content: {
+  /**
+   * General description of the practice
+   */
+  description?: string | null;
+  whyUsSection?: {
+    whyUsTitle?: string | null;
+    whyUsDescription?: string | null;
+  };
+  qualitySection?: {
+    qualityTitle?: string | null;
+    qualityDescription?: string | null;
+    qualityImage?: (string | null) | Media;
+  };
+  /**
+   * Features or benefits of the practice
+   */
+  features?:
+    | {
+        title: string;
+        description?: string | null;
+        icon?: ('sparkles' | 'heart' | 'clock' | 'users' | 'shield' | 'check-circle') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Benefits or key points about the practice to highlight
+   */
+  benefits?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  mission?: {
+    missionStatement?: string | null;
+    visionStatement?: string | null;
+  };
+  /**
+   * History of the practice
+   */
+  history?: {
     root: {
       type: string;
       children: {
@@ -854,7 +759,14 @@ export interface PracticeInfo {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
+  values?:
+    | {
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   featuredImage?: (string | null) | Media;
   /**
    * Image gallery (especially useful for Praktijkrondleiding)
@@ -1012,18 +924,6 @@ export interface PayloadLockedDocument {
         value: string | Page;
       } | null)
     | ({
-        relationTo: 'blog-posts';
-        value: string | BlogPost;
-      } | null)
-    | ({
-        relationTo: 'workshops';
-        value: string | Workshop;
-      } | null)
-    | ({
-        relationTo: 'categories';
-        value: string | Category;
-      } | null)
-    | ({
         relationTo: 'faq';
         value: string | Faq;
       } | null)
@@ -1044,20 +944,12 @@ export interface PayloadLockedDocument {
         value: string | Setting;
       } | null)
     | ({
-        relationTo: 'navigation';
-        value: string | Navigation;
-      } | null)
-    | ({
         relationTo: 'terms-and-conditions';
         value: string | TermsAndCondition;
       } | null)
     | ({
         relationTo: 'privacy';
         value: string | Privacy;
-      } | null)
-    | ({
-        relationTo: 'special-offers';
-        value: string | SpecialOffer;
       } | null)
     | ({
         relationTo: 'treatments';
@@ -1207,46 +1099,6 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-posts_select".
- */
-export interface BlogPostsSelect<T extends boolean = true> {
-  title?: T;
-  author?: T;
-  publishedDate?: T;
-  excerpt?: T;
-  content?: T;
-  featuredImage?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "workshops_select".
- */
-export interface WorkshopsSelect<T extends boolean = true> {
-  title?: T;
-  date?: T;
-  time?: T;
-  teacher?: T;
-  type?: T;
-  price?: T;
-  description?: T;
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
- */
-export interface CategoriesSelect<T extends boolean = true> {
-  name?: T;
-  description?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faq_select".
  */
 export interface FaqSelect<T extends boolean = true> {
@@ -1365,36 +1217,6 @@ export interface SettingsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "navigation_select".
- */
-export interface NavigationSelect<T extends boolean = true> {
-  title?: T;
-  location?: T;
-  items?:
-    | T
-    | {
-        label?: T;
-        href?: T;
-        icon?: T;
-        isExternal?: T;
-        order?: T;
-        children?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              icon?: T;
-              isExternal?: T;
-              order?: T;
-              id?: T;
-            };
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "terms-and-conditions_select".
  */
 export interface TermsAndConditionsSelect<T extends boolean = true> {
@@ -1420,23 +1242,6 @@ export interface PrivacySelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "special-offers_select".
- */
-export interface SpecialOffersSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  description?: T;
-  buttonText?: T;
-  buttonLink?: T;
-  backgroundColor?: T;
-  price?: T;
-  originalPrice?: T;
-  isActive?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1494,7 +1299,48 @@ export interface PracticeInfoSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   infoType?: T;
-  content?: T;
+  description?: T;
+  whyUsSection?:
+    | T
+    | {
+        whyUsTitle?: T;
+        whyUsDescription?: T;
+      };
+  qualitySection?:
+    | T
+    | {
+        qualityTitle?: T;
+        qualityDescription?: T;
+        qualityImage?: T;
+      };
+  features?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  benefits?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  mission?:
+    | T
+    | {
+        missionStatement?: T;
+        visionStatement?: T;
+      };
+  history?: T;
+  values?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   featuredImage?: T;
   gallery?:
     | T
@@ -1609,6 +1455,57 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Manage categories for dental treatments. Note: After making changes, you need to restart the server for the changes to be reflected in the treatment editor.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatment-categories".
+ */
+export interface TreatmentCategory {
+  id: string;
+  /**
+   * Define the categories available for dental treatments
+   */
+  categories: {
+    /**
+     * Unique identifier (e.g., "preventie")
+     */
+    value: string;
+    /**
+     * Display name (e.g., "Preventie")
+     */
+    label: string;
+    /**
+     * Description of this category of treatments
+     */
+    description?: string | null;
+    /**
+     * Order in which to display this category (lower numbers appear first)
+     */
+    displayOrder?: number | null;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatment-categories_select".
+ */
+export interface TreatmentCategoriesSelect<T extends boolean = true> {
+  categories?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        description?: T;
+        displayOrder?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

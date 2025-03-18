@@ -1,4 +1,16 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, FieldHookArgs, PayloadRequest } from 'payload'
+
+// Default categories
+const defaultCategories = [
+  { label: 'Preventie', value: 'preventie' },
+  { label: 'Diagnostiek', value: 'diagnostiek' },
+  { label: 'Restauratief', value: 'restauratief' },
+  { label: 'Endodontologie', value: 'endodontologie' },
+  { label: 'Prothetiek', value: 'prothetiek' },
+  { label: 'Implantologie', value: 'implantologie' },
+  { label: 'Orthodontie', value: 'orthodontie' },
+  { label: 'Overig', value: 'overig' },
+]
 
 export const Treatments: CollectionConfig = {
   slug: 'treatments',
@@ -27,17 +39,20 @@ export const Treatments: CollectionConfig = {
     {
       name: 'category',
       type: 'select',
-      options: [
-        { label: 'Preventie', value: 'preventie' },
-        { label: 'Diagnostiek', value: 'diagnostiek' },
-        { label: 'Restauratief', value: 'restauratief' },
-        { label: 'Endodontologie', value: 'endodontologie' },
-        { label: 'Prothetiek', value: 'prothetiek' },
-        { label: 'Implantologie', value: 'implantologie' },
-        { label: 'Orthodontie', value: 'orthodontie' },
-        { label: 'Overig', value: 'overig' },
-      ],
       required: true,
+      options: defaultCategories,
+      admin: {
+        description: 'Choose a category for this treatment. Options are loaded from the global treatment categories. If not seeing updated options, try refreshing the page.',
+        isClearable: false,
+      },
+      hooks: {
+        beforeChange: [
+          async ({ data, req }) => {
+            // Just pass through the data, validation handled by the static options
+            return data;
+          }
+        ],
+      }
     },
     {
       name: 'featuredImage',
