@@ -207,7 +207,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                 className={cn(
                   "group px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px] flex items-center",
                   isScrolled || isMobileMenuOpen
-                    ? "bg-primary-900 hover:bg-primary-800 text-white" 
+                    ? "bg-primary-900 hover:bg-primary-800 text-primary-900" 
                     : "bg-accent-600 hover:bg-accent-700 text-white"
                 )}
               >

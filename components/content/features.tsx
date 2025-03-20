@@ -133,16 +133,6 @@ export async function Features({ isFirstSection = false }: FeaturesProps) {
   
   return (
     <div className="bg-white py-24 relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 right-0 h-8 md:h-12 overflow-hidden rotate-180">
-        <svg className="absolute top-0 w-full text-primary-900" viewBox="0 0 1440 48" preserveAspectRatio="none">
-          <path 
-            fill="currentColor" 
-            d="M0,32L80,26.7C160,21,320,11,480,16C640,21,800,43,960,42.7C1120,43,1280,21,1360,10.7L1440,0L1440,48L1360,48C1280,48,1120,48,960,48C800,48,640,48,480,48C320,48,160,48,80,48L0,48Z">
-          </path>
-        </svg>
-      </div>
-      
       {/* Decorative circles */}
       <div className="absolute right-0 top-20 w-64 h-64 bg-accent-500/5 rounded-full -translate-y-1/2 translate-x-1/3"></div>
       <div className="absolute left-0 bottom-20 w-96 h-96 bg-primary-500/5 rounded-full translate-y-1/3 -translate-x-1/3"></div>
@@ -161,7 +151,7 @@ export async function Features({ isFirstSection = false }: FeaturesProps) {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-y-10 gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-y-10 gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
           {data.features.map((feature, index) => (
             <div 
               key={feature.name} 
@@ -221,4 +211,4 @@ export async function Features({ isFirstSection = false }: FeaturesProps) {
       </div>
     </div>
   );
-} 
+}

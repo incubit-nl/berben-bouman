@@ -12,7 +12,7 @@ export function CTAButtons({ phone }: CTAButtonsProps) {
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
       <Link 
         href="/contact" 
-        className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+        className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
       >
         Contact opnemen
       </Link>

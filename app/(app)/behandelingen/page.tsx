@@ -309,7 +309,7 @@ export default async function TreatmentsPage({
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="/contact" 
-                className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center shadow-md hover:shadow-lg"
+                className="bg-white hover:bg-neutral-100 text-primary-800 border border-primary-300 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center shadow-sm hover:shadow-md"
               >
                 Contact opnemen
               </Link>

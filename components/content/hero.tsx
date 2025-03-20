@@ -133,19 +133,18 @@ export async function Hero() {
             sizes="(max-width: 768px) 100vw, 50vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/80 to-transparent lg:from-primary-900 lg:via-primary-900/70 lg:to-transparent" />
-        
         </div>
       </div>
       
-      {/* Decorative wave element */}
+      {/* Straight line element */}
       <div className="absolute bottom-0 left-0 right-0 h-8 md:h-12 overflow-hidden">
         <svg className="absolute bottom-0 w-full text-white" viewBox="0 0 1440 48" preserveAspectRatio="none">
           <path 
             fill="currentColor" 
-            d="M0,32L80,26.7C160,21,320,11,480,16C640,21,800,43,960,42.7C1120,43,1280,21,1360,10.7L1440,0L1440,48L1360,48C1280,48,1120,48,960,48C800,48,640,48,480,48C320,48,160,48,80,48L0,48Z">
-          </path>
+            d="M0,48 H1440 V48 H1440 V0 H0 Z"
+          />
         </svg>
       </div>
     </div>
   );
-} 
+}
