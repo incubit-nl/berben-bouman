@@ -2,94 +2,66 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Mail, Phone, ArrowRight, User, ArrowLeft } from 'lucide-react';
 import { Metadata } from 'next';
+import { getPayloadClient } from '@/lib/payload';
 
 export const metadata: Metadata = {
   title: 'Ons Team | Tandartsenpraktijk Berben & Bouman',
   description: 'Maak kennis met ons ervaren team van tandartsen, mondhygiënisten en assistenten bij Tandartsenpraktijk Berben & Bouman in Utrecht Terwijde.',
 };
 
-// Mock data for team members
-const teamMembers = [
-  {
-    id: 'dr-berben',
-    name: 'Dr. Marieke Berben',
-    role: 'Tandarts',
-    specialty: 'Algemene tandheelkunde, Esthetische tandheelkunde',
-    bio: 'Dr. Marieke Berben is afgestudeerd aan de Radboud Universiteit Nijmegen en heeft meer dan 15 jaar ervaring in de tandheelkunde. Ze is gespecialiseerd in esthetische tandheelkunde en staat bekend om haar nauwkeurige en zorgvuldige aanpak.',
-    education: 'Radboud Universiteit Nijmegen',
-    languages: ['Nederlands', 'Engels', 'Duits'],
-    image: '/images/team/dr-berben.jpg',
-    email: 'berben@berben-bouman.nl',
-  },
-  {
-    id: 'dr-bouman',
-    name: 'Dr. Thomas Bouman',
-    role: 'Tandarts',
-    specialty: 'Algemene tandheelkunde, Endodontologie',
-    bio: 'Dr. Thomas Bouman heeft zijn opleiding genoten aan de Universiteit van Amsterdam en is gespecialiseerd in endodontologie (wortelkanaalbehandelingen). Met zijn rustige en geduldige benadering stelt hij zelfs de meest angstige patiënten op hun gemak.',
-    education: 'Universiteit van Amsterdam',
-    languages: ['Nederlands', 'Engels', 'Frans'],
-    image: '/images/team/dr-bouman.jpg',
-    email: 'bouman@berben-bouman.nl',
-  },
-  {
-    id: 'lisa-jansen',
-    name: 'Lisa Jansen',
-    role: 'Mondhygiënist',
-    specialty: 'Preventieve tandheelkunde, Parodontologie',
-    bio: 'Lisa Jansen is een ervaren mondhygiënist met een passie voor preventieve tandheelkunde. Ze helpt patiënten bij het verbeteren van hun mondgezondheid door grondige reinigingen en persoonlijk advies over mondhygiëne.',
-    education: 'Hogeschool Utrecht',
-    languages: ['Nederlands', 'Engels'],
-    image: '/images/team/lisa-jansen.jpg',
-    email: 'jansen@berben-bouman.nl',
-  },
-  {
-    id: 'kim-de-vries',
-    name: 'Kim de Vries',
-    role: 'Tandartsassistent',
-    specialty: 'Patiëntenzorg, Administratie',
-    bio: 'Kim de Vries is een vriendelijke en behulpzame tandartsassistent die zorgt voor een soepel verloop van alle behandelingen. Ze staat bekend om haar warme persoonlijkheid en vermogen om patiënten op hun gemak te stellen.',
-    education: 'ROC Midden Nederland',
-    languages: ['Nederlands', 'Engels'],
-    image: '/images/team/kim-de-vries.jpg',
-    email: 'devries@berben-bouman.nl',
-  },
-  {
-    id: 'mark-bakker',
-    role: 'Tandartsassistent',
-    name: 'Mark Bakker',
-    specialty: 'Röntgenfotografie, Sterilisatie',
-    bio: 'Mark Bakker is gespecialiseerd in röntgenfotografie en zorgt ervoor dat alle instrumenten perfect gesteriliseerd zijn. Zijn nauwkeurigheid en oog voor detail maken hem een waardevolle aanvulling op ons team.',
-    education: 'ROC Amsterdam',
-    languages: ['Nederlands', 'Engels'],
-    image: '/images/team/mark-bakker.jpg',
-    email: 'bakker@berben-bouman.nl',
-  },
-  {
-    id: 'sophie-vermeer',
-    name: 'Sophie Vermeer',
-    role: 'Praktijkmanager',
-    specialty: 'Praktijkorganisatie, Patiëntcommunicatie',
-    bio: 'Sophie Vermeer zorgt als praktijkmanager voor de dagelijkse gang van zaken in onze praktijk. Ze coördineert afspraken, beantwoordt vragen van patiënten en zorgt ervoor dat alles soepel verloopt.',
-    education: 'Hogeschool van Amsterdam',
-    languages: ['Nederlands', 'Engels', 'Spaans'],
-    image: '/images/team/sophie-vermeer.jpg',
-    email: 'vermeer@berben-bouman.nl',
-  },
-];
+interface Media {
+  url: string;
+  alt: string;
+}
 
-// Group team members by role
-const roles = {
-  'Tandarts': teamMembers.filter(member => member.role === 'Tandarts'),
-  'Mondhygiënist': teamMembers.filter(member => member.role === 'Mondhygiënist'),
-  'Tandartsassistent': teamMembers.filter(member => member.role === 'Tandartsassistent'),
-  'Praktijkmanager': teamMembers.filter(member => member.role === 'Praktijkmanager'),
-};
+interface TeamMember {
+  id: string;
+  name: string;
+  slug: string;
+  role: string;
+  photo: Media;
+  specializations: Array<{ specialization: string }>;
+  bio: any; // richText field from Payload
+  education: Array<{
+    degree: string;
+    institution: string;
+    year?: string;
+  }>;
+  workDays: string[];
+  displayOrder: number;
+  isActive: boolean;
+}
 
-export default function TeamPage() {
+async function getTeamMembers() {
+  const payload = await getPayloadClient();
+  const { docs: teamMembers } = await payload.find({
+    collection: 'team-members',
+    sort: 'displayOrder',
+    where: {
+      isActive: {
+        equals: true,
+      },
+    },
+  });
+  return teamMembers as TeamMember[];
+}
+
+export default async function TeamPage() {
+  const teamMembers = await getTeamMembers();
+
+  // Group team members by role
+  const roles = teamMembers.reduce((acc, member) => {
+    const role = member.role;
+    if (!acc[role]) {
+      acc[role] = [];
+    }
+    acc[role].push(member);
+    return acc;
+  }, {} as Record<string, typeof teamMembers>);
+
   return (
     <div className="flex flex-col">
-      {/* Hero Section (Exact Copy from TreatmentPage) */}
+      {/* Hero Section */}
       <section className="relative bg-primary-900 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
           <Image 
@@ -153,9 +125,9 @@ export default function TeamPage() {
                   className="bg-white rounded-lg overflow-hidden border border-neutral-200 hover:border-primary-200 hover:shadow-md transition-all"
                 >
                   <div className="relative h-64 overflow-hidden">
-                    {member.image ? (
+                    {member.photo ? (
                       <Image 
-                        src={member.image} 
+                        src={member.photo.url} 
                         alt={member.name}
                         fill
                         className="object-cover"
@@ -174,16 +146,9 @@ export default function TeamPage() {
                       {member.role}
                     </p>
                     <p className="text-neutral-700 mb-4">
-                      {member.specialty}
+                      {member.specializations?.map(spec => spec.specialization).join(', ')}
                     </p>
                     <div className="flex flex-col space-y-2 mb-4">
-                      <a 
-                        href={`mailto:${member.email}`} 
-                        className="inline-flex items-center text-neutral-700 hover:text-primary-600 transition-colors"
-                      >
-                        <Mail className="h-4 w-4 mr-2" />
-                        <span>{member.email}</span>
-                      </a>
                       <a 
                         href="tel:+31302940150" 
                         className="inline-flex items-center text-neutral-700 hover:text-primary-600 transition-colors"
@@ -193,7 +158,7 @@ export default function TeamPage() {
                       </a>
                     </div>
                     <Link 
-                      href={`/team/${member.id}`}
+                      href={`/team/${member.slug}`}
                       className="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors"
                     >
                       <span>Meer informatie</span>
