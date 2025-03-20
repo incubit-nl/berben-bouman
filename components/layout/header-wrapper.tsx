@@ -8,7 +8,7 @@ async function getHeaderData() {
     
     // Fetch practice pages
     const practicePages = await payload.find({
-      collection: 'pages',
+      collection: 'pages' as any,
       where: {
         pageType: {
           equals: 'practice',

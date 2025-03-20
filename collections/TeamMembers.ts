@@ -1,9 +1,19 @@
-import type { CollectionConfig } from 'payload'
+import { CollectionConfig, CollectionSlug } from 'payload'
+import { Roles } from './Roles'
 
-export const TeamMembers: CollectionConfig = {
+// Default roles
+const defaultRoles = [
+  { label: 'Tandarts', value: 'Tandarts' },
+  { label: 'Mondhygiënist', value: 'Mondhygiënist' },
+  { label: 'Assistent', value: 'Assistent' },
+  { label: 'Receptionist', value: 'Receptionist' },
+]
+
+const TeamMembers: CollectionConfig = {
   slug: 'team-members',
   admin: {
     useAsTitle: 'name',
+    group: 'Content',
     defaultColumns: ['name', 'role', 'updatedAt'],
   },
   access: {
@@ -14,6 +24,7 @@ export const TeamMembers: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      label: 'Naam',
     },
     {
       name: 'slug',
@@ -21,91 +32,186 @@ export const TeamMembers: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        description: 'This is the URL-friendly identifier for the team member',
+        description: 'URL-vriendelijke identifier voor het teamlid (bijv. "wouter-bouman")',
       },
     },
     {
       name: 'role',
-      type: 'text',
+      type: 'relationship',
       required: true,
+      label: 'Functie',
+      relationTo: 'roles' as CollectionSlug,
+      hasMany: false,
       admin: {
-        description: 'Job title or role (e.g., "Tandarts", "Mondhygiënist")',
+        description: 'Kies een rol uit de beschikbare opties.',
       },
     },
     {
-      name: 'photo',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
+      name: 'bigNummer',
+      type: 'text',
+      required: false,
+      label: 'BIG-nummer',
+      admin: {
+        description: 'BIG-registratienummer (optioneel, alleen voor tandartsen en mondhygiënisten)',
+      },
+    },
+    {
+      name: 'specialties',
+      type: 'array',
+      label: 'Specialisaties',
+      required: false,
+      fields: [
+        {
+          name: 'specialty',
+          type: 'text',
+          label: 'Specialisatie',
+          required: true,
+        },
+      ],
+      admin: {
+        description: 'Voeg een of meerdere specialisaties toe (bijv. orthodontie, implantologie)',
+      },
     },
     {
       name: 'bio',
       type: 'richText',
       required: true,
-    },
-    {
-      name: 'specializations',
-      type: 'array',
-      fields: [
-        {
-          name: 'specialization',
-          type: 'text',
-          required: true,
-        },
-      ],
+      label: 'Biografie',
       admin: {
-        description: 'Areas of specialization or expertise',
+        description: 'Vertel iets over dit teamlid: achtergrond, passies, ervaring, etc.',
       },
     },
     {
       name: 'education',
-      type: 'array',
-      fields: [
-        {
-          name: 'degree',
-          type: 'text',
-          required: true,
-        },
-        {
-          name: 'institution',
-          type: 'text',
-          required: true,
-        },
-        {
-          name: 'year',
-          type: 'text',
-        },
-      ],
+      type: 'text',
+      required: false,
+      label: 'Opleiding',
+      admin: {
+        description: 'Bijv. "Tandartsopleiding, Radboud Universiteit Nijmegen (2006)"',
+      },
     },
     {
-      name: 'workDays',
-      type: 'select',
-      hasMany: true,
-      options: [
-        { label: 'Maandag', value: 'monday' },
-        { label: 'Dinsdag', value: 'tuesday' },
-        { label: 'Woensdag', value: 'wednesday' },
-        { label: 'Donderdag', value: 'thursday' },
-        { label: 'Vrijdag', value: 'friday' },
+      name: 'workdays',
+      type: 'array',
+      required: false,
+      label: 'Werkdagen',
+      fields: [
+        {
+          name: 'day',
+          type: 'select',
+          label: 'Dag',
+          required: true,
+          options: [
+            { label: 'Maandag', value: 'Maandag' },
+            { label: 'Dinsdag', value: 'Dinsdag' },
+            { label: 'Woensdag', value: 'Woensdag' },
+            { label: 'Donderdag', value: 'Donderdag' },
+            { label: 'Vrijdag', value: 'Vrijdag' },
+            { label: 'Zaterdag', value: 'Zaterdag' },
+            { label: 'Zondag', value: 'Zondag' },
+          ],
+        },
+        {
+          name: 'hours',
+          type: 'text',
+          label: 'Werktijden',
+          required: false,
+          defaultValue: '08:00 - 17:00',
+          admin: {
+            description: 'Bijv. "08:00 - 17:00" of "ochtend"',
+          },
+        },
       ],
       admin: {
-        description: 'Days when this team member is available at the practice',
+        description: 'Voeg de werkdagen en tijden van dit teamlid toe.',
       },
+    },
+    {
+      name: 'externalLink',
+      type: 'group',
+      label: 'Externe link',
+      fields: [
+        {
+          name: 'url',
+          type: 'text',
+          label: 'URL',
+          required: true,
+        },
+        {
+          name: 'label',
+          type: 'text',
+          label: 'Label',
+          required: true,
+          defaultValue: 'Meer informatie',
+          admin: {
+            description: 'De tekst die wordt getoond (bijv. "Bezoek African Dental Aid")',
+          },
+        },
+      ],
+      admin: {
+        description: 'Optionele link naar een externe site (bijv. stichting of portfolio)',
+      },
+    },
+    {
+      name: 'languages',
+      type: 'array',
+      required: false,
+      label: 'Talen',
+      fields: [
+        {
+          name: 'language',
+          type: 'text',
+          required: true,
+          label: 'Taal',
+        },
+      ],
+      admin: {
+        description: 'Talen die het teamlid spreekt (bijv. Nederlands, Engels)',
+      },
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Foto',
+    },
+    {
+      name: 'email',
+      type: 'email',
+      required: false,
+      label: 'E-mailadres',
     },
     {
       name: 'displayOrder',
       type: 'number',
+      required: true,
+      label: 'Weergavevolgorde',
       admin: {
-        description: 'Order in which to display this team member (lower numbers appear first)',
+        description: 'Volgorde waarin het teamlid wordt getoond (lager = eerder)',
       },
+    },
+    {
+      name: 'status',
+      type: 'select',
+      required: true,
+      defaultValue: 'draft',
+      options: [
+        { label: 'Concept', value: 'draft' },
+        { label: 'Gepubliceerd', value: 'published' },
+      ],
+      label: 'Status',
     },
     {
       name: 'isActive',
       type: 'checkbox',
       defaultValue: true,
+      label: 'Actief',
       admin: {
-        description: 'Is this team member currently active?',
+        description: 'Is dit teamlid momenteel actief in de praktijk?',
       },
     },
   ],
-} 
+}
+
+export default TeamMembers

@@ -49,15 +49,16 @@ async function getPracticePages() {
     const payload = await getPayload({ config });
     
     const pages = await payload.find({
-      collection: 'pages',
+      collection: 'practice-pages',
       where: {
-        pageType: {
-          equals: 'practice',
-        },
         status: {
           equals: 'published',
         },
+        showInNavigation: {
+          equals: true,
+        },
       },
+      sort: 'navigationOrder',
     }).then(res => res.docs);
     
     return pages;
