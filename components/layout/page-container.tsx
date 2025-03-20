@@ -23,8 +23,9 @@ export function PageContainer({
   return (
     <div
       className={cn(
-        withHeaderOffset && "pt-24 lg:pt-32",
-        withNotificationBar && "pt-8",
+        "w-full",
+        withHeaderOffset && "mt-4",
+        withNotificationBar && "mt-8",
         className
       )}
     >

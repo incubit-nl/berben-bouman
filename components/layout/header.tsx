@@ -317,11 +317,11 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
           </div>
         </div>
       </header>
-      {/* Spacer element with optimized height - exact match to header height */}
+      {/* Spacer element to prevent content from being hidden under fixed header */}
       <div className={cn(
-        "w-full", 
-        isScrolled || isMobileMenuOpen ? "h-[58px]" : "h-[62px]"
-      )} style={{ marginBottom: '-1px' }}></div>
+        "w-full transition-all duration-300",
+        isScrolled || isMobileMenuOpen ? "h-[74px]" : "h-[74px]"
+      )} aria-hidden="true" />
     </>
   );
 } 
