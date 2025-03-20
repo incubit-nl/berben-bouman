@@ -19,10 +19,10 @@ export async function Hero() {
   return (
     <div className="relative h-[80vh] min-h-[600px] w-full bg-gradient-to-b from-primary-900/10 to-gray-900/10">
       {/* Hero Image */}
-      {settings.hero?.image && (
+      {settings.docs[0]?.hero?.image && (
         <Image
-          src={settings.hero.image.url}
-          alt={settings.hero.image.alt || "Hero image"}
+          src={typeof settings.docs[0].hero.image === 'string' ? settings.docs[0].hero.image : settings.docs[0].hero.image?.url || ''}
+          alt={typeof settings.docs[0].hero.image === 'string' ? "Hero image" : settings.docs[0].hero.image.alt || "Hero image"}
           fill
           className="object-cover opacity-90"
           priority
@@ -35,10 +35,10 @@ export async function Hero() {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl space-y-6">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight animate-fade-in">
-              {settings.hero?.title || "Welkom bij Berben & Bouman"}
+              {settings.docs[0]?.hero?.title || "Welkom bij Berben & Bouman"}
             </h1>
             <p className="text-lg md:text-xl text-white/90 leading-relaxed animate-fade-in-delayed">
-              {settings.hero?.subtitle || "Uw tandartspraktijk voor complete mondzorg"}
+              {settings.docs[0]?.hero?.subtitle || "Uw tandartspraktijk voor complete mondzorg"}
             </p>
             <div className="flex flex-col gap-4 sm:flex-row animate-fade-in-delayed-more">
               <Button

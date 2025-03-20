@@ -38,7 +38,7 @@ export default async function FAQPage() {
   // Process FAQs with proper async handling
   const processedFaqsByCategory = faqData && faqData.faqItems
     ? await (async () => {
-        const sortedFaqs = [...faqData.faqItems].sort((a, b) => a.order - b.order);
+        const sortedFaqs = Array.isArray(faqData.faqItems) ? [...faqData.faqItems].sort((a, b) => a.order - b.order) : [];
         const faqsByCategory = sortedFaqs.reduce((acc, faq) => {
           const category = faq.category || 'general';
           if (!acc[category]) {
@@ -52,7 +52,7 @@ export default async function FAQPage() {
         for (const category of Object.keys(faqsByCategory)) {
           result[category] = await Promise.all(
             faqsByCategory[category].map(async (faq) => {
-              const answerHtml = await serialize(faq.answer); // Await the async serialization
+              const answerHtml = await serialize(faq.answer as any); // Type assertion to bypass strict typing temporarily
               const faqId = `${faq.question}-${faq.order}`;
               return {
                 id: faqId,

@@ -76,15 +76,21 @@ type ContactInfo = {
   };
 };
 
-type PageProps = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+// Define the params interface
+interface Params {
+  slug: string;
+}
+
+// Define the page props interface with params as a Promise
+interface PracticePageProps {
+  params: Promise<Params>;
+}
 
 // Generate metadata
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const page = await getPracticePage(params.slug);
-  
+export async function generateMetadata({ params }: PracticePageProps): Promise<Metadata> {
+  const resolvedParams = await params; // Await the params Promise
+  const page = await getPracticePage(resolvedParams.slug);
+
   if (!page) {
     return {
       title: 'Pagina niet gevonden | Tandartsenpraktijk Berben & Bouman',
@@ -152,8 +158,9 @@ async function getContactInfo(): Promise<ContactInfo | null> {
   }
 }
 
-export default async function PracticePage({ params }: PageProps) {
-  const page = await getPracticePage(params.slug);
+export default async function PracticePage({ params }: PracticePageProps) {
+  const resolvedParams = await params; // Await the params Promise
+  const page = await getPracticePage(resolvedParams.slug);
 
   if (!page) {
     notFound();

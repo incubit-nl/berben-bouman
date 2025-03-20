@@ -31,12 +31,12 @@ async function getHeaderData() {
     }).then(res => res.docs);
     
     // Get treatment categories directly from global
-    const treatmentCategories = await payload.findGlobal({
-      slug: 'treatment-categories',
+    const treatmentCategories = await payload.find({
+      collection: 'treatment-categories',
     }).then(result => {
-      if (result && result.categories && result.categories.length > 0) {
+      if (result && result.docs && result.docs.length > 0) {
         // Map and sort categories
-        return result.categories
+        return result.docs
           .sort((a: any, b: any) => (a.displayOrder || 0) - (b.displayOrder || 0))
           .map((cat: any) => cat.value);
       }

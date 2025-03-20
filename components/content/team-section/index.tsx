@@ -140,9 +140,9 @@ export async function TeamSection() {
           <Button
             asChild
             size="lg"
-            className="bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-full shadow-md hover:shadow-lg transition-all duration-300"
+            className="bg-primary-600 hover:bg-primary-700 text-primary-900 font-medium rounded-full shadow-md hover:shadow-lg transition-all duration-300"
           >
-            <Link href="/team" className="flex items-center">
+            <Link href="/team" className="flex items-center text-primary-900">
               Bekijk het hele team
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>

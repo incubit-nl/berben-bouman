@@ -103,11 +103,11 @@ async function getCategoryDetails(): Promise<CategoryMap> {
       collection: 'treatment-categories',
     });
     
-    if (!treatmentCategories || !treatmentCategories.categories || !treatmentCategories.categories.length) {
+    if (!treatmentCategories || !treatmentCategories.docs || !treatmentCategories.docs.length) {
       return categories;
     }
     
-    const categoriesFromGlobal = treatmentCategories.categories.reduce((acc: CategoryMap, cat: any) => {
+    const categoriesFromGlobal = treatmentCategories.docs.reduce((acc: CategoryMap, cat: any) => {
       acc[cat.value] = {
         title: cat.label,
         description: cat.description || `${cat.label} behandelingen bij Tandartsenpraktijk Berben & Bouman.`,

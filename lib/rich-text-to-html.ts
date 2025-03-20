@@ -1,7 +1,7 @@
 import { Faq } from '../payload-types';
 
 // Define our own RichTextType to match the structure in Payload
-export type RichTextType = Faq['answer'];
+export type RichTextType = Faq['faqItems'];
 
 // Define types for Lexical nodes
 interface LexicalNode {
@@ -31,6 +31,13 @@ interface LexicalTextNode extends LexicalNode {
 interface LexicalHeadingNode extends LexicalNode {
   type: 'heading';
   tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+}
+
+interface LexicalContent {
+  root: {
+    children: LexicalNode[];
+    [key: string]: any;
+  };
 }
 
 /**
@@ -141,7 +148,7 @@ function extractTextFromLexical(node: LexicalNode): string {
  * @param content The rich text content from Payload CMS
  * @returns HTML string representation of the rich text content
  */
-export async function serialize(content: RichTextType | undefined | null): Promise<string> {
+export async function serialize(content: LexicalContent | string | undefined | null): Promise<string> {
   try {
     // Handle empty content
     if (!content) return '';
