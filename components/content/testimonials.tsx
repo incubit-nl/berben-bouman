@@ -57,28 +57,28 @@ async function getTestimonialsData(): Promise<TestimonialsData> {
   const mapTestimonials = (): Testimonial[] => {
     if (!testimonials?.length) {
       return [
-        {
-          content: "Zeer professionele praktijk met een vriendelijk team. De behandeling was pijnloos en ik voelde me erg op mijn gemak.",
-          author: "Maria S.",
-          role: "Patiënt",
-          rating: 5,
-          imgSrc: "/images/patient-avatar-1.jpg",
-        },
-        {
-          content: "Uitstekende service en zeer kundig team. De moderne apparatuur en rustige omgeving maken het bezoek aangenaam.",
-          author: "Jan de V.",
-          role: "Patiënt",
-          rating: 5,
-          imgSrc: "/images/patient-avatar-2.jpg",
-        },
-        {
-          content: "Ik ben zeer tevreden over de behandeling. Het team is zeer deskundig en neemt de tijd om alles goed uit te leggen.",
-          author: "Sophie B.",
-          role: "Patiënt",
-          rating: 5,
-          imgSrc: "/images/patient-avatar-3.jpg",
-        },
-      ];
+          {
+            content: "Hele fijne praktijk met super vriendelijke en deskundige mensen. Ik kom graag bij Fea die heel secuur werkt waardoor mijn gebit weer top is én waar ik me fijn voel door haar persoonlijke aanpak. Een tandarts die net dat stapje extra zet voor de patiënt, zeer aan te bevelen!",
+            author: "Kyra",
+            role: "Patiënt",
+            rating: 5,
+            imgSrc: "/images/kyra.png",
+          },
+          {
+            content: "In 1 woord is Berben & Bouman een top praktijk. Duidelijke en heldere communicatie en vriendelijk in de omgang. Wij als gezin met 4 kinderen gaan allemaal met 'plezier' naar de tandarts, DANK!",
+            author: "Marijke",
+            role: "Patiënt",
+            rating: 5,
+            imgSrc: "/images/marijke.png",
+          },
+          {
+            content: "Fijne eerste bezoek met de tandarts!! Na nare ervaring bij vorige tandarts elders!",
+            author: "A.E.",
+            role: "Patiënt",
+            rating: 5,
+            imgSrc: "/images/ae.png",
+          },
+        ];
     }
     
     return testimonials.map(testimonial => ({
@@ -125,21 +125,6 @@ export async function Testimonials({ isFirstSection = false }: TestimonialsProps
           <p className="text-lg text-gray-600 mb-6">
             {data.subtitle}
           </p>
-          <div className="inline-flex items-center px-6 py-3 bg-white rounded-lg shadow-md">
-            <div className="flex items-center space-x-1">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`h-6 w-6 ${i < Math.round(data.averageRating) ? 'text-accent-500 fill-current' : 'text-gray-300'}`}
-                  aria-hidden="true"
-                />
-              ))}
-            </div>
-            <div className="ml-3 pl-3 border-l border-gray-200">
-              <p className="text-lg font-bold text-primary-900">{data.averageRating}/5</p>
-              <p className="text-xs text-gray-500">{data.totalReviews}+ reviews</p>
-            </div>
-          </div>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

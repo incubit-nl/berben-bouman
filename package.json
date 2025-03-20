@@ -57,6 +57,7 @@
     "escape-html": "^1.0.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.1.7",
+    "formidable": "^3.5.2",
     "graphql": "^16.8.1",
     "graphql-request": "^7.1.2",
     "input-otp": "^1.2.4",
@@ -81,6 +82,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/formidable": "^3.4.5",
     "@types/nodemailer": "^6.4.17",
     "ts-node": "^10.9.2"
   }

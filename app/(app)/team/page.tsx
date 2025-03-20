@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Mail, Phone, ArrowRight, User } from 'lucide-react';
+import { Mail, Phone, ArrowRight, User, ArrowLeft } from 'lucide-react';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Ons Team | Tandartsenpraktijk Berben & Bouman',
   description: 'Maak kennis met ons ervaren team van tandartsen, mondhygiënisten en assistenten bij Tandartsenpraktijk Berben & Bouman in Utrecht Terwijde.',
 };
@@ -88,7 +89,7 @@ const roles = {
 export default function TeamPage() {
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
+      {/* Hero Section (Exact Copy from TreatmentPage) */}
       <section className="relative bg-primary-900 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
           <Image 
@@ -101,7 +102,14 @@ export default function TeamPage() {
         </div>
         <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-accent-50">
+            <Link
+              href="/"
+              className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span>Terug naar home</span>
+            </Link>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
               Ons Team
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">
@@ -203,7 +211,7 @@ export default function TeamPage() {
       <section className="py-12 md:py-16 bg-primary-50">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900">
+            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center">
               Onze waarden
             </h2>
             <p className="text-lg text-neutral-700 mb-0">
@@ -246,7 +254,7 @@ export default function TeamPage() {
       {/* CTA Section */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center">
             Maak kennis met ons team
           </h2>
           <p className="text-lg text-neutral-700 mb-8 max-w-2xl mx-auto">
@@ -255,7 +263,7 @@ export default function TeamPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="/afspraak-maken" 
-              className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+              className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
             >
               Afspraak maken
             </Link>
@@ -270,4 +278,4 @@ export default function TeamPage() {
       </section>
     </div>
   );
-} 
+}

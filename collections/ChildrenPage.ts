@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload';
 
 export const ChildrenPage: CollectionConfig = {
   slug: 'children-page',
@@ -30,15 +30,33 @@ export const ChildrenPage: CollectionConfig = {
       name: 'intro',
       type: 'richText',
       required: true,
-      defaultValue: [
-        {
+      defaultValue: {
+        root: {
+          type: 'root',
+          format: '',
+          indent: 0,
+          version: 1,
           children: [
             {
-              text: 'Bij Berben & Bouman maken we van tandartsbezoeken een leuke ervaring voor kinderen. Onze specialisten zijn getraind om kinderen op hun gemak te stellen en hen te leren goed voor hun gebit te zorgen.'
-            }
-          ]
-        }
-      ]
+              type: 'paragraph',
+              format: '',
+              version: 1,
+              children: [
+                {
+                  type: 'text',
+                  text: 'Bij Berben & Bouman maken we van tandartsbezoeken een leuke ervaring voor kinderen. Onze specialisten zijn getraind om kinderen op hun gemak te stellen en hen te leren goed voor hun gebit te zorgen.',
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  version: 1,
+                },
+              ],
+            },
+          ],
+          direction: 'ltr',
+        },
+      },
     },
     {
       name: 'ageGroups',
@@ -70,43 +88,97 @@ export const ChildrenPage: CollectionConfig = {
         {
           title: 'Baby tandjes',
           ageRange: '0-2 jaar',
-          description: [
-            {
+          description: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
               children: [
                 {
-                  text: 'Tips voor de verzorging van het gebit vanaf de eerste tandjes.'
-                }
-              ]
-            }
-          ]
+                  type: 'paragraph',
+                  format: '',
+                  version: 1,
+                  children: [
+                    {
+                      type: 'text',
+                      text: 'Tips voor de verzorging van het gebit vanaf de eerste tandjes.',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+              direction: 'ltr',
+            },
+          },
         },
         {
           title: 'Melkgebit',
           ageRange: '2-6 jaar',
-          description: [
-            {
+          description: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
               children: [
                 {
-                  text: 'Preventieve zorg en de eerste bezoeken aan de tandarts.'
-                }
-              ]
-            }
-          ]
+                  type: 'paragraph',
+                  format: '',
+                  version: 1,
+                  children: [
+                    {
+                      type: 'text',
+                      text: 'Preventieve zorg en de eerste bezoeken aan de tandarts.',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+              direction: 'ltr',
+            },
+          },
         },
         {
           title: 'Wisselen',
           ageRange: '6-12 jaar',
-          description: [
-            {
+          description: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
               children: [
                 {
-                  text: 'Begeleiding tijdens de wisselperiode van melkgebit naar blijvend gebit.'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  type: 'paragraph',
+                  format: '',
+                  version: 1,
+                  children: [
+                    {
+                      type: 'text',
+                      text: 'Begeleiding tijdens de wisselperiode van melkgebit naar blijvend gebit.',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+              direction: 'ltr',
+            },
+          },
+        },
+      ],
     },
     {
       name: 'tips',
@@ -138,44 +210,98 @@ export const ChildrenPage: CollectionConfig = {
       defaultValue: [
         {
           title: 'Poetsen met plezier',
-          description: [
-            {
+          description: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
               children: [
                 {
-                  text: 'Tips om tandenpoetsen leuk te maken voor kinderen.'
-                }
-              ]
-            }
-          ],
-          icon: 'brush'
+                  type: 'paragraph',
+                  format: '',
+                  version: 1,
+                  children: [
+                    {
+                      type: 'text',
+                      text: 'Tips om tandenpoetsen leuk te maken voor kinderen.',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+              direction: 'ltr',
+            },
+          },
+          icon: 'brush',
         },
         {
           title: 'Gezonde voeding',
-          description: [
-            {
+          description: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
               children: [
                 {
-                  text: 'Adviezen over gezonde voeding voor een sterk gebit.'
-                }
-              ]
-            }
-          ],
-          icon: 'food'
+                  type: 'paragraph',
+                  format: '',
+                  version: 1,
+                  children: [
+                    {
+                      type: 'text',
+                      text: 'Adviezen over gezonde voeding voor een sterk gebit.',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+              direction: 'ltr',
+            },
+          },
+          icon: 'food',
         },
         {
           title: 'Regelmatige controles',
-          description: [
-            {
+          description: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
               children: [
                 {
-                  text: 'Waarom controles belangrijk zijn voor de ontwikkeling van het gebit.'
-                }
-              ]
-            }
-          ],
-          icon: 'calendar'
-        }
-      ]
+                  type: 'paragraph',
+                  format: '',
+                  version: 1,
+                  children: [
+                    {
+                      type: 'text',
+                      text: 'Waarom controles belangrijk zijn voor de ontwikkeling van het gebit.',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+              direction: 'ltr',
+            },
+          },
+          icon: 'calendar',
+        },
+      ],
     },
     {
       name: 'faq',
@@ -195,29 +321,65 @@ export const ChildrenPage: CollectionConfig = {
       defaultValue: [
         {
           question: 'Vanaf welke leeftijd moet mijn kind naar de tandarts?',
-          answer: [
-            {
+          answer: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
               children: [
                 {
-                  text: 'We adviseren om kinderen vanaf 2 jaar mee te nemen naar de tandarts voor gewenning en een eerste controle.'
-                }
-              ]
-            }
-          ]
+                  type: 'paragraph',
+                  format: '',
+                  version: 1,
+                  children: [
+                    {
+                      type: 'text',
+                      text: 'We adviseren om kinderen vanaf 2 jaar mee te nemen naar de tandarts voor gewenning en een eerste controle.',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+              direction: 'ltr',
+            },
+          },
         },
         {
           question: 'Hoe maak ik tandenpoetsen leuk voor mijn kind?',
-          answer: [
-            {
+          answer: {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
               children: [
                 {
-                  text: 'Maak er een spelletje van, gebruik een timer, poets samen of gebruik een leuke app of lied tijdens het poetsen.'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  type: 'paragraph',
+                  format: '',
+                  version: 1,
+                  children: [
+                    {
+                      type: 'text',
+                      text: 'Maak er een spelletje van, gebruik een timer, poets samen of gebruik een leuke app of lied tijdens het poetsen.',
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      version: 1,
+                    },
+                  ],
+                },
+              ],
+              direction: 'ltr',
+            },
+          },
+        },
+      ],
     },
     {
       name: 'metaDescription',
@@ -225,4 +387,4 @@ export const ChildrenPage: CollectionConfig = {
       defaultValue: 'Tandheelkundige zorg voor kinderen bij Berben & Bouman. Ontdek hoe wij kinderen op een prettige manier laten kennismaken met de tandarts.',
     },
   ],
-} 
+};

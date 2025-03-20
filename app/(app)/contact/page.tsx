@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { ContactForm } from '@/components/ui/contact-form';
-import { MapPin, Mail, Building, CreditCard, ExternalLink, ChevronRight, Phone, Clock, Calendar, ArrowRight } from 'lucide-react';
+import { MapPin, Mail, Building, CreditCard, ExternalLink, ChevronRight, Phone, Clock, Calendar, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { Metadata, Viewport } from 'next';
@@ -37,20 +37,20 @@ export default async function ContactPage() {
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
+      {/* Hero Section (Exact Copy from TreatmentPage) */}
       <section className="relative bg-primary-900 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
-          <Image 
-            src="/images/contact-hero.jpg" 
-            alt="Contact" 
-            fill
-            className="object-cover"
-            priority
-          />
         </div>
         <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-accent-50">
+          <div className="max-w-3xl">
+            <Link
+              href="/"
+              className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span>Terug naar home</span>
+            </Link>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
               Contact
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">

@@ -1,7 +1,7 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
 import path from 'path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
@@ -25,9 +25,8 @@ import { Alerts } from './collections/Alerts';
 import { ChildrenPage } from './collections/ChildrenPage';
 import { CareersPage } from './collections/CareersPage';
 import { EnglishPage } from './collections/EnglishPage';
-
-// Import the new treatment categories global
-import { TreatmentCategories } from './globals/TreatmentCategories';
+import { PracticePages } from './collections/PracticePages';
+import { TreatmentCategories } from './collections/TreatmentCategories'; // Import the new collection
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -58,9 +57,11 @@ export default buildConfig({
     ChildrenPage,
     CareersPage,
     EnglishPage,
+    PracticePages,
+    TreatmentCategories, // Add to collections
   ],
   globals: [
-    TreatmentCategories,
+    // TreatmentCategories removed from globals
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -71,19 +72,16 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
-  plugins: [
-    payloadCloudPlugin(),
-  ],
-  // Add SMTP email configuration
+  plugins: [payloadCloudPlugin()],
   email: nodemailerAdapter({
-    defaultFromAddress: 'info@berben-bouman.nl', // Updated to match the dental practice
-    defaultFromName: 'Tandartsenpraktijk Berben & Bouman', // Updated to match the dental practice
+    defaultFromAddress: 'info@berben-bouman.nl',
+    defaultFromName: 'Tandartsenpraktijk Berben & Bouman',
     transportOptions: {
-      host: process.env.SMTP_HOST, 
-      port: 587, 
+      host: process.env.SMTP_HOST,
+      port: 587,
       auth: {
-        user: process.env.SMTP_USER, 
-        pass: process.env.SMTP_PASS, 
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
     },
   }),

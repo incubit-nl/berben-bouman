@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -90,28 +91,34 @@ export default async function EnglishPage() {
   
   return (
     <main>
-      {/* Hero Section */}
-      <section className="relative h-[50vh] min-h-[400px] w-full">
-        {pageData.heroImage && (
-          <Image
-            src={pageData.heroImage.url}
-            alt={pageData.title}
-            fill
-            className="object-cover"
-            priority
-          />
-        )}
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-4">
-            <div className="max-w-2xl">
-              <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">
-                {pageData.title}
-              </h1>
-              <p className="text-lg text-white/90 md:text-xl">
-                {pageData.subtitle}
-              </p>
-            </div>
+      {/* Hero Section (Exact Copy from TreatmentPage) */}
+      <section className="relative bg-primary-900 text-white">
+        <div className="absolute inset-0 z-0 opacity-20">
+          {pageData.heroImage && (
+            <Image
+              src={pageData.heroImage.url}
+              alt={pageData.heroImage.alt || pageData.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          )}
+        </div>
+        <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
+          <div className="max-w-3xl">
+            <Link
+              href="/"
+              className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span>Back to home</span>
+            </Link>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+              {pageData.title}
+            </h1>
+            <p className="text-lg md:text-xl mb-0 text-white/90">
+              {pageData.subtitle}
+            </p>
           </div>
         </div>
       </section>
@@ -216,27 +223,31 @@ export default async function EnglishPage() {
         </section>
       )}
       
-      {/* Contact Information */}
-      <section className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="mb-6 text-3xl font-bold text-gray-900">
+      {/* CTA Section */}
+      <section className="py-12 md:py-16 bg-primary-50">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 flex justify-center">
+            Contact Us
+          </h2>
+          <p className="text-lg text-neutral-700 mb-8 max-w-2xl mx-auto">
+            Feel free to contact us if you have any questions or would like to schedule an appointment.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link 
+              href="/contact" 
+              className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+            >
+              Schedule an Appointment
+            </Link>
+            <Link 
+              href="/contact" 
+              className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+            >
               Contact Us
-            </h2>
-            <p className="mb-8 text-lg text-gray-600">
-              Feel free to contact us if you have any questions or would like to schedule an appointment.
-            </p>
-            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button asChild variant="outline" size="lg">
-                <Link href="/contact">Contact Information</Link>
-              </Button>
-              <Button asChild className="bg-primary hover:bg-primary/90" size="lg">
-                <Link href="/contact">Make an Appointment</Link>
-              </Button>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
     </main>
   );
-} 
+}

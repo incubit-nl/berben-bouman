@@ -10,7 +10,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { BadgeHelp, Calendar, LucideIcon, Utensils } from "lucide-react";
+import { BadgeHelp, Calendar, LucideIcon, Utensils, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -116,28 +117,34 @@ export default async function ChildrenPage() {
   
   return (
     <main>
-      {/* Hero Section */}
-      <section className="relative h-[50vh] min-h-[400px] w-full">
-        {pageData.heroImage && (
-          <Image
-            src={pageData.heroImage.url}
-            alt={pageData.title}
-            fill
-            className="object-cover"
-            priority
-          />
-        )}
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-4">
-            <div className="max-w-2xl">
-              <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">
-                {pageData.title}
-              </h1>
-              <p className="text-lg text-white/90 md:text-xl">
-                {pageData.subtitle}
-              </p>
-            </div>
+      {/* Hero Section (Exact Copy from TreatmentPage) */}
+      <section className="relative bg-primary-900 text-white">
+        <div className="absolute inset-0 z-0 opacity-20">
+          {pageData.heroImage && (
+            <Image
+              src={pageData.heroImage.url}
+              alt={pageData.heroImage.alt || pageData.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          )}
+        </div>
+        <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
+          <div className="max-w-3xl">
+            <Link
+              href="/"
+              className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span>Terug naar home</span>
+            </Link>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+              {pageData.title}
+            </h1>
+            <p className="text-lg md:text-xl mb-0 text-white/90">
+              {pageData.subtitle}
+            </p>
           </div>
         </div>
       </section>
@@ -242,4 +249,4 @@ export default async function ChildrenPage() {
       </section>
     </main>
   );
-} 
+}

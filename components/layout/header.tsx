@@ -55,31 +55,10 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
     {
       href: '/behandelingen',
       label: 'Behandelingen',
-      children: [
-        ...(treatmentCategories?.map(category => {
-          const categoryId = typeof category === 'string' ? category : category.value;
-          const categoryLabel = typeof category === 'string' 
-            ? categories[category as keyof typeof categories]?.title || category
-            : category.label;
-          
-          return {
-            href: `/behandelingen?category=${categoryId}`,
-            label: categoryLabel,
-          };
-        }) || []),
-        {
-          href: '/behandelingen',
-          label: 'Alle behandelingen',
-        },
-      ],
     },
     {
       href: '/team',
       label: 'Team',
-    },
-    {
-      href: '/werken-bij',
-      label: 'Werken bij',
     },
     {
       href: '/contact',
@@ -211,7 +190,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                 className={cn(
                   "group px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px] flex items-center",
                   isScrolled || isMobileMenuOpen
-                    ? "bg-primary-900 hover:bg-primary-800 text-white" 
+                    ? "bg-primary-900 hover:bg-primary-800 text-primary-900" 
                     : "bg-accent-600 hover:bg-accent-700 text-white"
                 )}
               >

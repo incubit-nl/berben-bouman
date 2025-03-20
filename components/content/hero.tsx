@@ -125,16 +125,6 @@ export async function Hero() {
         
         </div>
       </div>
-      
-      {/* Decorative wave element */}
-      <div className="absolute bottom-0 left-0 right-0 h-8 md:h-12 overflow-hidden">
-        <svg className="absolute bottom-0 w-full text-white" viewBox="0 0 1440 48" preserveAspectRatio="none">
-          <path 
-            fill="currentColor" 
-            d="M0,32L80,26.7C160,21,320,11,480,16C640,21,800,43,960,42.7C1120,43,1280,21,1360,10.7L1440,0L1440,48L1360,48C1280,48,1120,48,960,48C800,48,640,48,480,48C320,48,160,48,80,48L0,48Z">
-          </path>
-        </svg>
-      </div>
     </div>
   );
 } 

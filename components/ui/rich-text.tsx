@@ -4,16 +4,24 @@ interface RichTextProps {
   content: any;
 }
 
+type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
 export const RichText: React.FC<RichTextProps> = ({ content }) => {
   if (!content) {
     return null;
   }
 
-  // For now, a simple implementation that works with the default richText structure
-  // This can be expanded based on the actual richText structure and requirements
+  // Handle string content
+  if (typeof content === 'string') {
+    return <div className="prose prose-gray max-w-none">{content}</div>;
+  }
+
+  // Handle Lexical content structure
+  const nodes = content.root?.children || [];
+  
   return (
     <div className="prose prose-gray max-w-none">
-      {content.map((node: any, index: number) => {
+      {nodes.map((node: any, index: number) => {
         const children = node.children?.map((child: any, childIndex: number) => {
           if (child.bold) {
             return <strong key={childIndex}>{child.text}</strong>;
@@ -27,31 +35,16 @@ export const RichText: React.FC<RichTextProps> = ({ content }) => {
           return child.text;
         });
 
-        if (node.type === 'h1') {
-          return <h1 key={index}>{children}</h1>;
+        if (node.type === 'heading' && node.version === 1) {
+          const level = (node.tag?.toLowerCase() || 'p') as HeadingTag;
+          const Tag = level;
+          return <Tag key={index}>{children}</Tag>;
         }
-        if (node.type === 'h2') {
-          return <h2 key={index}>{children}</h2>;
+        if (node.type === 'list' && node.version === 1) {
+          const Tag = node.listType === 'bullet' ? 'ul' : 'ol';
+          return <Tag key={index}>{children}</Tag>;
         }
-        if (node.type === 'h3') {
-          return <h3 key={index}>{children}</h3>;
-        }
-        if (node.type === 'h4') {
-          return <h4 key={index}>{children}</h4>;
-        }
-        if (node.type === 'h5') {
-          return <h5 key={index}>{children}</h5>;
-        }
-        if (node.type === 'h6') {
-          return <h6 key={index}>{children}</h6>;
-        }
-        if (node.type === 'ul') {
-          return <ul key={index}>{children}</ul>;
-        }
-        if (node.type === 'ol') {
-          return <ol key={index}>{children}</ol>;
-        }
-        if (node.type === 'li') {
+        if (node.type === 'listitem' && node.version === 1) {
           return <li key={index}>{children}</li>;
         }
         

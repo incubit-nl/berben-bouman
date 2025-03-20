@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Filter } from 'lucide-react';
+import { ArrowRight, Filter, ArrowLeft } from 'lucide-react';
 import { Metadata } from 'next';
 import { getPayload } from 'payload';
 import config from '@payload-config';
@@ -99,16 +99,14 @@ async function getCategoryDetails(): Promise<CategoryMap> {
   try {
     const payload = await getPayload({ config });
     
-    const treatmentCategories = await payload.findGlobal({
-      slug: 'treatment-categories',
+    const treatmentCategories = await payload.find({
+      collection: 'treatment-categories',
     });
     
     if (!treatmentCategories || !treatmentCategories.categories || !treatmentCategories.categories.length) {
-      // Return the hardcoded categories if global data doesn't exist yet
       return categories;
     }
     
-    // Convert global categories to the format needed by the page
     const categoriesFromGlobal = treatmentCategories.categories.reduce((acc: CategoryMap, cat: any) => {
       acc[cat.value] = {
         title: cat.label,
@@ -131,17 +129,12 @@ interface PageProps {
 export default async function TreatmentsPage({ 
   searchParams 
 }: PageProps) {
-  // Get category filter from URL params - using await to resolve searchParams
   const resolvedParams = await (searchParams || Promise.resolve<Record<string, string | string[]>>({}));
   const categoryFilter = typeof resolvedParams.category === 'string' ? resolvedParams.category : undefined;
   
-  // Fetch treatments from Payload CMS
   const treatments = await getTreatments();
-  
-  // Get category details from global
   const categoryDetails = await getCategoryDetails();
   
-  // Group treatments by category
   const treatmentsByCategory = treatments.reduce((acc, treatment) => {
     if (!acc[treatment.category]) {
       acc[treatment.category] = [];
@@ -150,45 +143,40 @@ export default async function TreatmentsPage({
     return acc;
   }, {} as Record<string, Treatment[]>);
 
-  // Filter categories based on URL parameter
   const filteredCategories = categoryFilter && categoryFilter in categoryDetails
     ? { [categoryFilter]: categoryDetails[categoryFilter] }
     : categoryDetails;
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50">
-      {/* Hero Section - Enhanced with pattern background */}
-      <section className="relative bg-gradient-to-r from-primary-900 to-primary-800 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/pattern-bg.png')] opacity-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/20 to-primary-900/80"></div>
-        <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
+      {/* Hero Section */}
+      <section className="relative bg-primary-900 text-white">
+        <div className="absolute inset-0 z-0 opacity-20"></div>
+        <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-white">
-              {categoryFilter 
-                ? `${categoryDetails[categoryFilter]?.title}` 
-                : 'Behandelingen'}
+            <Link
+              href="/"
+              className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span>Terug naar home</span>
+            </Link>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+              {categoryFilter ? `${categoryDetails[categoryFilter]?.title}` : 'Behandelingen'}
             </h1>
-            <div className="w-20 h-1 bg-accent-500 mb-6"></div>
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl">
+            <p className="text-lg md:text-xl mb-0 text-white/90">
               {categoryFilter 
                 ? categoryDetails[categoryFilter]?.description 
                 : 'Hoogwaardige tandheelkundige zorg voor het hele gezin. Bij Tandartsenpraktijk Berben & Bouman staat uw mondgezondheid centraal.'}
             </p>
           </div>
         </div>
-        {/* Decorative wave separator */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 48" fill="white" preserveAspectRatio="none">
-            <path d="M0,0 C480,48 960,48 1440,0 L1440,48 L0,48 Z"></path>
-          </svg>
-        </div>
       </section>
 
-      {/* Category Filter Bar - Redesigned */}
+      {/* Category Filter Bar */}
       <section className="py-6 bg-white border-b border-neutral-200 sticky top-20 z-30 shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex justify-center">
-            {/* Filter buttons in horizontal scrollable container on mobile */}
             <div className="w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
               <div className="flex gap-2 md:gap-3 min-w-max justify-center">
                 {!categoryFilter ? (
@@ -222,7 +210,7 @@ export default async function TreatmentsPage({
         </div>
       </section>
 
-      {/* Treatment Categories - Enhanced cards */}
+      {/* Treatment Categories */}
       <section className="py-8 md:py-12 bg-neutral-50">
         <div className="container mx-auto px-4">
           {Object.entries(filteredCategories).map(([categoryId, category], index) => {
@@ -233,7 +221,7 @@ export default async function TreatmentsPage({
               <div key={categoryId} className={`mb-16 ${index !== 0 && !categoryFilter ? 'pt-12 border-t border-neutral-200' : ''}`}>
                 {!categoryFilter && (
                   <div className="max-w-3xl mx-auto mb-8 text-center">
-                    <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4 text-primary-900">
+                    <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4 text-primary-900 text-center">
                       {category.title}
                     </h2>
                     <div className="w-16 h-1 bg-accent-500 mx-auto mb-6"></div>
@@ -292,7 +280,7 @@ export default async function TreatmentsPage({
         </div>
       </section>
 
-      {/* CTA Section - Enhanced with background and visuals */}
+      {/* CTA Section */}
       <section className="py-16 bg-gradient-to-br from-primary-100 to-primary-50 relative overflow-hidden">
         <div className="absolute right-0 top-0 w-64 h-64 bg-accent-500/10 rounded-full -translate-y-1/2 translate-x-1/3"></div>
         <div className="absolute left-0 bottom-0 w-96 h-96 bg-primary-300/10 rounded-full translate-y-1/2 -translate-x-1/3"></div>
@@ -309,7 +297,7 @@ export default async function TreatmentsPage({
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="/contact" 
-                className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center shadow-md hover:shadow-lg"
+                className="bg-white hover:bg-neutral-100 text-primary-800 border border-primary-300 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center shadow-sm hover:shadow-md"
               >
                 Contact opnemen
               </Link>
@@ -325,4 +313,4 @@ export default async function TreatmentsPage({
       </section>
     </div>
   );
-} 
+}

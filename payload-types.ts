@@ -84,6 +84,8 @@ export interface Config {
     'children-page': ChildrenPage;
     'careers-page': CareersPage;
     'english-page': EnglishPage;
+    'practice-pages': PracticePage;
+    'treatment-categories': TreatmentCategory;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -108,6 +110,8 @@ export interface Config {
     'children-page': ChildrenPageSelect<false> | ChildrenPageSelect<true>;
     'careers-page': CareersPageSelect<false> | CareersPageSelect<true>;
     'english-page': EnglishPageSelect<false> | EnglishPageSelect<true>;
+    'practice-pages': PracticePagesSelect<false> | PracticePagesSelect<true>;
+    'treatment-categories': TreatmentCategoriesSelect<false> | TreatmentCategoriesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -115,12 +119,8 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {
-    'treatment-categories': TreatmentCategory;
-  };
-  globalsSelect: {
-    'treatment-categories': TreatmentCategoriesSelect<false> | TreatmentCategoriesSelect<true>;
-  };
+  globals: {};
+  globalsSelect: {};
   locale: null;
   user: User & {
     collection: 'users';
@@ -315,31 +315,31 @@ export interface Page {
  */
 export interface Faq {
   id: string;
-  question: string;
-  answer: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  category: 'general' | 'classes' | 'membership' | 'facilities';
-  /**
-   * Enable this to show this FAQ on the homepage
-   */
-  homepage?: boolean | null;
-  /**
-   * Used to control the order of FAQs
-   */
-  order: number;
+  title: string;
+  faqItems?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        category: 'general' | 'treatments' | 'insurance' | 'practice';
+        homepage?: boolean | null;
+        order: number;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1175,6 +1175,184 @@ export interface EnglishPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-pages".
+ */
+export interface PracticePage {
+  id: string;
+  title: string;
+  /**
+   * Unieke URL-slug voor deze pagina (bijv. "over-ons")
+   */
+  slug: string;
+  status: 'published' | 'draft';
+  hero?: {
+    heroImage?: (string | null) | Media;
+    /**
+     * Optionele aangepaste titel voor de hero-sectie
+     */
+    heroTitle?: string | null;
+    heroContent?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  content?:
+    | (
+        | {
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textContent';
+          }
+        | {
+            image: string | Media;
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            imagePosition: 'left' | 'right';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageWithText';
+          }
+        | {
+            name: string;
+            role: string;
+            image?: (string | null) | Media;
+            bio: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            specialties?:
+              | {
+                  specialty: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'teamMember';
+          }
+        | {
+            title: string;
+            description: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            images?:
+              | {
+                  image: string | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'facilityHighlight';
+          }
+      )[]
+    | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  /**
+   * Schakel in om deze pagina in de zijbalknavigatie te tonen
+   */
+  showInNavigation?: boolean | null;
+  /**
+   * Volgorde in de navigatie (lager = hoger in de lijst)
+   */
+  navigationOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage categories for dental treatments. These categories can be assigned to treatments.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatment-categories".
+ */
+export interface TreatmentCategory {
+  id: string;
+  /**
+   * Unique identifier (e.g., "preventie")
+   */
+  value: string;
+  /**
+   * Display name (e.g., "Preventie")
+   */
+  label: string;
+  /**
+   * Description of this category of treatments
+   */
+  description?: string | null;
+  /**
+   * Order in which to display this category (lower numbers appear first)
+   */
+  displayOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -1251,6 +1429,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'english-page';
         value: string | EnglishPage;
+      } | null)
+    | ({
+        relationTo: 'practice-pages';
+        value: string | PracticePage;
+      } | null)
+    | ({
+        relationTo: 'treatment-categories';
+        value: string | TreatmentCategory;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1387,11 +1573,17 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "faq_select".
  */
 export interface FaqSelect<T extends boolean = true> {
-  question?: T;
-  answer?: T;
-  category?: T;
-  homepage?: T;
-  order?: T;
+  title?: T;
+  faqItems?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        category?: T;
+        homepage?: T;
+        order?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1784,6 +1976,94 @@ export interface EnglishPageSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-pages_select".
+ */
+export interface PracticePagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  status?: T;
+  hero?:
+    | T
+    | {
+        heroImage?: T;
+        heroTitle?: T;
+        heroContent?: T;
+      };
+  content?:
+    | T
+    | {
+        textContent?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageWithText?:
+          | T
+          | {
+              image?: T;
+              text?: T;
+              imagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        teamMember?:
+          | T
+          | {
+              name?: T;
+              role?: T;
+              image?: T;
+              bio?: T;
+              specialties?:
+                | T
+                | {
+                    specialty?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        facilityHighlight?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  showInNavigation?: T;
+  navigationOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatment-categories_select".
+ */
+export interface TreatmentCategoriesSelect<T extends boolean = true> {
+  value?: T;
+  label?: T;
+  description?: T;
+  displayOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -1813,57 +2093,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
-}
-/**
- * Manage categories for dental treatments. Note: After making changes, you need to restart the server for the changes to be reflected in the treatment editor.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "treatment-categories".
- */
-export interface TreatmentCategory {
-  id: string;
-  /**
-   * Define the categories available for dental treatments
-   */
-  categories: {
-    /**
-     * Unique identifier (e.g., "preventie")
-     */
-    value: string;
-    /**
-     * Display name (e.g., "Preventie")
-     */
-    label: string;
-    /**
-     * Description of this category of treatments
-     */
-    description?: string | null;
-    /**
-     * Order in which to display this category (lower numbers appear first)
-     */
-    displayOrder?: number | null;
-    id?: string | null;
-  }[];
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "treatment-categories_select".
- */
-export interface TreatmentCategoriesSelect<T extends boolean = true> {
-  categories?:
-    | T
-    | {
-        value?: T;
-        label?: T;
-        description?: T;
-        displayOrder?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

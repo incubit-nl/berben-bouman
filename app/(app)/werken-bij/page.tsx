@@ -6,6 +6,7 @@ import { RichText } from "@/components/ui/rich-text";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BadgeCheck, Heart, LucideIcon, Trophy, Users } from "lucide-react";
+import VacancyApplicationForm from "@/components/VacancyApplicationForm"; // Import the new Client Component
 
 export const dynamic = "force-dynamic";
 
@@ -216,11 +217,9 @@ export default async function CareersPage() {
                       <h3 className="text-2xl font-semibold">{vacancy.title}</h3>
                       <p className="text-gray-600">{vacancy.hours}</p>
                     </div>
-                    <Button className="bg-primary hover:bg-primary/90">
-                      Solliciteer nu
-                    </Button>
                   </div>
                   <RichText content={vacancy.description} />
+                  <VacancyApplicationForm vacancy={vacancy} /> {/* Replace button with form */}
                 </CardContent>
               </Card>
             ))}
@@ -248,7 +247,7 @@ export default async function CareersPage() {
                 Heb je vragen of wil je solliciteren? Neem contact op met:
               </p>
               {pageData.contactInfo.contactPerson && (
-                <p className="mb-4 font-medium">{pageData.contactInfo.contactPerson}</p>
+                <p className="mb- 꾸 font-medium">{pageData.contactInfo.contactPerson}</p>
               )}
               <p className="mb-2">
                 <a
@@ -274,4 +273,4 @@ export default async function CareersPage() {
       )}
     </main>
   );
-} 
+}
