@@ -68,7 +68,8 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    pages: Page;
+    'home-page': HomePage;
+    'practice-pages': PracticePage;
     faq: Faq;
     pricing: Pricing;
     locations: Location;
@@ -81,6 +82,7 @@ export interface Config {
     'practice-info': PracticeInfo;
     'contact-info': ContactInfo;
     alerts: Alert;
+    roles: Role;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -89,7 +91,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    pages: PagesSelect<false> | PagesSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'practice-pages': PracticePagesSelect<false> | PracticePagesSelect<true>;
     faq: FaqSelect<false> | FaqSelect<true>;
     pricing: PricingSelect<false> | PricingSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
@@ -102,6 +105,7 @@ export interface Config {
     'practice-info': PracticeInfoSelect<false> | PracticeInfoSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
     alerts: AlertsSelect<false> | AlertsSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -180,30 +184,160 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
+ * via the `definition` "home-page".
  */
-export interface Page {
+export interface HomePage {
+  id: string;
+  title: string;
+  hero: {
+    heroTitle: string;
+    heroSubtitle?: string | null;
+    heroImage: string | Media;
+    ctaText?: string | null;
+    ctaLink?: string | null;
+  };
+  introSection?: {
+    title?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    image?: (string | null) | Media;
+  };
+  featuredTreatments?:
+    | {
+        treatment: string | Treatment;
+        id?: string | null;
+      }[]
+    | null;
+  teamSection?: {
+    title?: string | null;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    teamMembers?:
+      | {
+          name: string;
+          role: string;
+          image?: (string | null) | Media;
+          bio?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  testimonialSection?: {
+    title?: string | null;
+    testimonials?:
+      | {
+          quote: string;
+          author: string;
+          rating?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatments".
+ */
+export interface Treatment {
   id: string;
   title: string;
   /**
-   * This is the URL-friendly identifier for the page (e.g., "over-ons" for a page at /over-ons)
+   * This is the URL-friendly identifier for the treatment (e.g., "vullingen" for a page at /behandelingen/vullingen)
    */
   slug: string;
-  pageType: 'home' | 'practice' | 'treatments' | 'contact' | 'other';
   /**
-   * If this is a subpage, select the parent page
+   * Choose a category for this treatment. Options are loaded from the global treatment categories. If not seeing updated options, try refreshing the page.
    */
-  parentPage?: (string | null) | Page;
+  category:
+    | 'preventie'
+    | 'diagnostiek'
+    | 'restauratief'
+    | 'endodontologie'
+    | 'prothetiek'
+    | 'implantologie'
+    | 'orthodontie'
+    | 'overig';
+  featuredImage?: (string | null) | Media;
+  shortDescription: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   /**
    * Title for SEO purposes. If left blank, the regular title will be used.
    */
   metaTitle?: string | null;
   /**
-   * Description for SEO purposes.
+   * Description for SEO purposes. If left blank, the short description will be used.
    */
   metaDescription?: string | null;
-  hero?: {
-    heroImage?: (string | null) | Media;
+  /**
+   * Order in which to display this treatment in listings (lower numbers appear first).
+   */
+  displayOrder?: number | null;
+  status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-pages".
+ */
+export interface PracticePage {
+  id: string;
+  title: string;
+  /**
+   * This will be the URL path after /de-praktijk/ (e.g., "ons-team" for /de-praktijk/ons-team)
+   */
+  slug: string;
+  pageType: 'team' | 'facilities' | 'about' | 'methodology' | 'other';
+  hero: {
+    heroImage: string | Media;
     heroTitle?: string | null;
     heroContent?: {
       root: {
@@ -221,7 +355,7 @@ export interface Page {
       [k: string]: unknown;
     } | null;
   };
-  layout?:
+  content?:
     | (
         | {
             content: {
@@ -241,7 +375,7 @@ export interface Page {
             };
             id?: string | null;
             blockName?: string | null;
-            blockType: 'content';
+            blockType: 'textContent';
           }
         | {
             image: string | Media;
@@ -263,11 +397,13 @@ export interface Page {
             imagePosition?: ('left' | 'right') | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'imageText';
+            blockType: 'imageWithText';
           }
         | {
-            title: string;
-            text?: {
+            name: string;
+            role: string;
+            image?: (string | null) | Media;
+            bio?: {
               root: {
                 type: string;
                 children: {
@@ -282,26 +418,62 @@ export interface Page {
               };
               [k: string]: unknown;
             } | null;
-            buttonText?: string | null;
-            buttonLink?: string | null;
-            backgroundColor?: ('primary' | 'secondary' | 'light') | null;
+            specialties?:
+              | {
+                  specialty?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'callToAction';
+            blockType: 'teamMember';
+          }
+        | {
+            title: string;
+            description?: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            images?:
+              | {
+                  image: string | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'facilityHighlight';
           }
       )[]
     | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (string | null) | Media;
+  };
+  status: 'draft' | 'published';
   /**
-   * Should this page be shown in the main navigation?
+   * Moet deze pagina getoond worden in het praktijk submenu?
    */
   showInNavigation?: boolean | null;
   /**
-   * Should this page be shown in the footer navigation?
+   * Volgorde in het navigatiemenu (lagere nummers komen eerst)
    */
-  showInFooter?: boolean | null;
-  status: 'draft' | 'published';
+  navigationOrder?: number | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -575,76 +747,35 @@ export interface Privacy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "treatments".
- */
-export interface Treatment {
-  id: string;
-  title: string;
-  /**
-   * This is the URL-friendly identifier for the treatment (e.g., "vullingen" for a page at /behandelingen/vullingen)
-   */
-  slug: string;
-  /**
-   * Choose a category for this treatment. Options are loaded from the global treatment categories. If not seeing updated options, try refreshing the page.
-   */
-  category:
-    | 'preventie'
-    | 'diagnostiek'
-    | 'restauratief'
-    | 'endodontologie'
-    | 'prothetiek'
-    | 'implantologie'
-    | 'orthodontie'
-    | 'overig';
-  featuredImage?: (string | null) | Media;
-  shortDescription: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Title for SEO purposes. If left blank, the regular title will be used.
-   */
-  metaTitle?: string | null;
-  /**
-   * Description for SEO purposes. If left blank, the short description will be used.
-   */
-  metaDescription?: string | null;
-  /**
-   * Order in which to display this treatment in listings (lower numbers appear first).
-   */
-  displayOrder?: number | null;
-  status: 'draft' | 'published';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-members".
  */
 export interface TeamMember {
   id: string;
   name: string;
   /**
-   * This is the URL-friendly identifier for the team member
+   * URL-vriendelijke identifier voor het teamlid (bijv. "wouter-bouman")
    */
   slug: string;
   /**
-   * Job title or role (e.g., "Tandarts", "Mondhygiënist")
+   * Kies een rol uit de beschikbare opties.
    */
-  role: string;
-  photo: string | Media;
+  role: string | Role;
+  /**
+   * BIG-registratienummer (optioneel, alleen voor tandartsen en mondhygiënisten)
+   */
+  bigNummer?: string | null;
+  /**
+   * Voeg een of meerdere specialisaties toe (bijv. orthodontie, implantologie)
+   */
+  specialties?:
+    | {
+        specialty: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Vertel iets over dit teamlid: achtergrond, passies, ervaring, etc.
+   */
   bio: {
     root: {
       type: string;
@@ -661,32 +792,72 @@ export interface TeamMember {
     [k: string]: unknown;
   };
   /**
-   * Areas of specialization or expertise
+   * Bijv. "Tandartsopleiding, Radboud Universiteit Nijmegen (2006)"
    */
-  specializations?:
+  education?: string | null;
+  /**
+   * Voeg de werkdagen en tijden van dit teamlid toe.
+   */
+  workdays?:
     | {
-        specialization: string;
+        day: 'Maandag' | 'Dinsdag' | 'Woensdag' | 'Donderdag' | 'Vrijdag' | 'Zaterdag' | 'Zondag';
+        /**
+         * Bijv. "08:00 - 17:00" of "ochtend"
+         */
+        hours?: string | null;
         id?: string | null;
       }[]
     | null;
-  education?:
+  /**
+   * Optionele link naar een externe site (bijv. stichting of portfolio)
+   */
+  externalLink: {
+    url: string;
+    /**
+     * De tekst die wordt getoond (bijv. "Bezoek African Dental Aid")
+     */
+    label: string;
+  };
+  /**
+   * Talen die het teamlid spreekt (bijv. Nederlands, Engels)
+   */
+  languages?:
     | {
-        degree: string;
-        institution: string;
-        year?: string | null;
+        language: string;
         id?: string | null;
       }[]
     | null;
+  image?: (string | null) | Media;
+  email?: string | null;
   /**
-   * Days when this team member is available at the practice
+   * Volgorde waarin het teamlid wordt getoond (lager = eerder)
    */
-  workDays?: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday')[] | null;
+  displayOrder: number;
+  status: 'draft' | 'published';
   /**
-   * Order in which to display this team member (lower numbers appear first)
+   * Is dit teamlid momenteel actief in de praktijk?
    */
-  displayOrder?: number | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  name: string;
   /**
-   * Is this team member currently active?
+   * Optionele beschrijving van deze rol
+   */
+  description?: string | null;
+  /**
+   * Volgorde waarin de rol wordt getoond (lager = eerder)
+   */
+  displayOrder: number;
+  /**
+   * Is deze rol momenteel beschikbaar voor teamleden?
    */
   isActive?: boolean | null;
   updatedAt: string;
@@ -973,8 +1144,12 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'pages';
-        value: string | Page;
+        relationTo: 'home-page';
+        value: string | HomePage;
+      } | null)
+    | ({
+        relationTo: 'practice-pages';
+        value: string | PracticePage;
       } | null)
     | ({
         relationTo: 'faq';
@@ -1023,6 +1198,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'alerts';
         value: string | Alert;
+      } | null)
+    | ({
+        relationTo: 'roles';
+        value: string | Role;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1101,15 +1280,79 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
+ * via the `definition` "home-page_select".
  */
-export interface PagesSelect<T extends boolean = true> {
+export interface HomePageSelect<T extends boolean = true> {
+  title?: T;
+  hero?:
+    | T
+    | {
+        heroTitle?: T;
+        heroSubtitle?: T;
+        heroImage?: T;
+        ctaText?: T;
+        ctaLink?: T;
+      };
+  introSection?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+        image?: T;
+      };
+  featuredTreatments?:
+    | T
+    | {
+        treatment?: T;
+        id?: T;
+      };
+  teamSection?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        teamMembers?:
+          | T
+          | {
+              name?: T;
+              role?: T;
+              image?: T;
+              bio?: T;
+              id?: T;
+            };
+      };
+  testimonialSection?:
+    | T
+    | {
+        title?: T;
+        testimonials?:
+          | T
+          | {
+              quote?: T;
+              author?: T;
+              rating?: T;
+              id?: T;
+            };
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-pages_select".
+ */
+export interface PracticePagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   pageType?: T;
-  parentPage?: T;
-  metaTitle?: T;
-  metaDescription?: T;
   hero?:
     | T
     | {
@@ -1117,17 +1360,17 @@ export interface PagesSelect<T extends boolean = true> {
         heroTitle?: T;
         heroContent?: T;
       };
-  layout?:
+  content?:
     | T
     | {
-        content?:
+        textContent?:
           | T
           | {
               content?: T;
               id?: T;
               blockName?: T;
             };
-        imageText?:
+        imageWithText?:
           | T
           | {
               image?: T;
@@ -1136,23 +1379,50 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        callToAction?:
+        teamMember?:
+          | T
+          | {
+              name?: T;
+              role?: T;
+              image?: T;
+              bio?: T;
+              specialties?:
+                | T
+                | {
+                    specialty?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        facilityHighlight?:
           | T
           | {
               title?: T;
-              text?: T;
-              buttonText?: T;
-              buttonLink?: T;
-              backgroundColor?: T;
+              description?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };
       };
-  showInNavigation?: T;
-  showInFooter?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
   status?: T;
+  showInNavigation?: T;
+  navigationOrder?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1326,24 +1596,38 @@ export interface TeamMembersSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   role?: T;
-  photo?: T;
+  bigNummer?: T;
+  specialties?:
+    | T
+    | {
+        specialty?: T;
+        id?: T;
+      };
   bio?: T;
-  specializations?:
+  education?: T;
+  workdays?:
     | T
     | {
-        specialization?: T;
+        day?: T;
+        hours?: T;
         id?: T;
       };
-  education?:
+  externalLink?:
     | T
     | {
-        degree?: T;
-        institution?: T;
-        year?: T;
+        url?: T;
+        label?: T;
+      };
+  languages?:
+    | T
+    | {
+        language?: T;
         id?: T;
       };
-  workDays?: T;
+  image?: T;
+  email?: T;
   displayOrder?: T;
+  status?: T;
   isActive?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1493,6 +1777,18 @@ export interface AlertsSelect<T extends boolean = true> {
   position?: T;
   dismissible?: T;
   expiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  displayOrder?: T;
+  isActive?: T;
   updatedAt?: T;
   createdAt?: T;
 }

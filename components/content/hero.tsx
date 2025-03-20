@@ -4,6 +4,16 @@ import { ArrowRight, Calendar, Phone } from 'lucide-react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 
+// Define Media type
+type Media = {
+  url: string;
+  filename: string;
+  mimeType: string;
+  filesize: number;
+  width: number;
+  height: number;
+};
+
 // Add types for the data
 type HeroData = {
   title?: string;
@@ -18,13 +28,9 @@ type HeroData = {
 
 async function getHeroData() {
   const payload = await getPayload({ config });
-  const page = await payload.find({
-    collection: 'pages',
-    where: {
-      slug: {
-        equals: 'home',
-      }
-    },
+  const homePage = await payload.find({
+    collection: 'home-page',
+    limit: 1,
   }).then(res => res.docs[0]);
   
   // Extract plain text from rich text if needed
@@ -41,16 +47,21 @@ async function getHeroData() {
     }
   };
   
-  // Return default data if CMS data isn't available
+  // Get the hero image URL
+  const heroImageUrl = typeof homePage?.hero?.heroImage === 'string' 
+    ? homePage.hero.heroImage 
+    : (homePage?.hero?.heroImage as Media | undefined)?.url;
+  
+  // Return data from CMS or fallback to defaults
   return {
-    title: page?.hero?.heroTitle?.split(' ')[0] || 'Uw glimlach',
-    subtitle: page?.hero?.heroTitle?.split(' ').slice(1).join(' ') || 'in goede handen',
-    description: extractPlainText(page?.hero?.heroContent) || 'Bij Tandartsenpraktijk Berben & Bouman staat uw mondgezondheid centraal. Wij bieden hoogwaardige tandheelkundige zorg in een moderne en comfortabele omgeving.',
-    primaryButtonText: 'Afspraak maken',
-    primaryButtonUrl: '/contact',
+    title: homePage?.hero?.heroTitle?.split(' ')[0] || 'Uw glimlach',
+    subtitle: homePage?.hero?.heroTitle?.split(' ').slice(1).join(' ') || 'in goede handen',
+    description: extractPlainText(homePage?.hero?.heroSubtitle) || 'Bij Tandartsenpraktijk Berben & Bouman staat uw mondgezondheid centraal. Wij bieden hoogwaardige tandheelkundige zorg in een moderne en comfortabele omgeving.',
+    primaryButtonText: homePage?.hero?.ctaText || 'Afspraak maken',
+    primaryButtonUrl: homePage?.hero?.ctaLink || '/contact',
     secondaryButtonText: 'Meer over ons',
     secondaryButtonUrl: '/de-praktijk',
-    backgroundImage: '/images/berben&bouman.jpg'
+    backgroundImage: heroImageUrl || '/images/berben&bouman.jpg'
   };
 }
 

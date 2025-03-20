@@ -1,7 +1,5 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import path from 'path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
@@ -9,7 +7,8 @@ import sharp from 'sharp';
 
 import { Users } from './collections/Users';
 import { Media } from './collections/Media';
-import { Pages } from './collections/Pages';
+import { HomePage } from './collections/HomePage';
+import { PracticePages } from './collections/PracticePages';
 import { FAQ } from './collections/Faq';
 import { Pricing } from './collections/Pricing';
 import { Locations } from './collections/Locations';
@@ -18,28 +17,26 @@ import { Settings } from './collections/Settings';
 import { TermsAndConditions } from './collections/TermsAndConditions';
 import { Privacy } from './collections/Privacy';
 import { Treatments } from './collections/Treatments';
-import { TeamMembers } from './collections/TeamMembers';
+import TeamMembers from './collections/TeamMembers';
 import { PracticeInfo } from './collections/PracticeInfo';
 import { ContactInfo } from './collections/ContactInfo';
 import { Alerts } from './collections/Alerts';
-
-// Import the new treatment categories global
 import { TreatmentCategories } from './globals/TreatmentCategories';
+import { Roles } from './collections/Roles';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
   admin: {
     user: Users.slug,
-    importMap: {
-      baseDir: path.resolve(dirname),
-    },
   },
   collections: [
     Users,
     Media,
-    Pages,
+    HomePage,
+    PracticePages,
     FAQ,
     Pricing,
     Locations,
@@ -52,6 +49,7 @@ export default buildConfig({
     PracticeInfo,
     ContactInfo,
     Alerts,
+    Roles,
   ],
   globals: [
     TreatmentCategories,
@@ -61,24 +59,17 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  graphQL: {
+    schemaOutputFile: path.resolve(dirname, 'generated-schema.graphql'),
+  },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
-  plugins: [
-    payloadCloudPlugin(),
-  ],
-  // Add SMTP email configuration
-  email: nodemailerAdapter({
-    defaultFromAddress: 'info@berben-bouman.nl', // Updated to match the dental practice
-    defaultFromName: 'Tandartsenpraktijk Berben & Bouman', // Updated to match the dental practice
-    transportOptions: {
-      host: process.env.SMTP_HOST, 
-      port: 587, 
-      auth: {
-        user: process.env.SMTP_USER, 
-        pass: process.env.SMTP_PASS, 
-      },
+  plugins: [],
+  upload: {
+    limits: {
+      fileSize: 5000000, // 5MB
     },
-  }),
+  },
 });

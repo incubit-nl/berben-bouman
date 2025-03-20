@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 async function getContactPage() {
   const payload = await getPayload({ config });
   const page = await payload.find({
-    collection: 'pages',
+    collection: 'practice-pages',
     where: {
       slug: {
         equals: 'contact',

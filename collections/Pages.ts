@@ -40,7 +40,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'parentPage',
       type: 'relationship',
-      relationTo: 'pages',
+      relationTo: 'pages' as any,
       admin: {
         description: 'If this is a subpage, select the parent page',
         condition: (data) => data.pageType !== 'home',
