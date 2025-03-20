@@ -75,7 +75,7 @@ export async function TeamSection() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-900 mb-4 animate-fade-in">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-900 mb-4 animate-fade-in flex items-center justify-center">
             Ons Team
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-700 leading-relaxed animate-fade-in-delayed">

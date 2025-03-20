@@ -146,7 +146,7 @@ export default function PracticeOverviewPage() {
 
             {/* Sidebar */}
             <aside className="lg:col-span-1">
-              <div className="bg-primary-50 rounded-xl p-6 mb-6 sticky top-6 shadow-md">
+              <div className="bg-primary-50 rounded-xl p-6 mb-6 top-6 shadow-md">
                 <h3 className="text-xl font-serif font-bold text-primary-900 mb-4">Praktijkinformatie</h3>
                 <ul className="space-y-6 text-neutral-700">
                   <li className="flex items-start">

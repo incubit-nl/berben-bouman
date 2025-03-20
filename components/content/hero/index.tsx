@@ -34,7 +34,7 @@ export async function Hero() {
       <div className="absolute inset-0 flex items-center">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight animate-fade-in">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white leading-tight animate-fade-in">
               {settings.docs[0]?.hero?.title || "Welkom bij Berben & Bouman"}
             </h1>
             <p className="text-lg md:text-xl text-white/90 leading-relaxed animate-fade-in-delayed">

@@ -221,8 +221,8 @@ export default async function TreatmentsPage({
               <div key={categoryId} className={`mb-16 ${index !== 0 && !categoryFilter ? 'pt-12 border-t border-neutral-200' : ''}`}>
                 {!categoryFilter && (
                   <div className="max-w-3xl mx-auto mb-8 text-center">
-                    <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4 text-primary-900 text-center">
-                      {category.title}
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-900 mb-4 animate-fade-in flex items-center justify-center">
+                    {category.title}
                     </h2>
                     <div className="w-16 h-1 bg-accent-500 mx-auto mb-6"></div>
                     <p className="text-lg text-neutral-700">

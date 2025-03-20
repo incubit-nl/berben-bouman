@@ -63,8 +63,8 @@ export async function Services({ isFirstSection = false }: ServicesProps) {
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary-50 text-primary-600 text-sm font-medium mb-4">
             Onze specialisaties
           </span>
-          <h2 className="text-3xl font-extrabold text-primary-900 sm:text-4xl text-center">
-            Onze tandheelkundige diensten
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-900 mb-4 animate-fade-in flex items-center justify-center">
+            Onze Behandelingen
           </h2>
           <div className="w-16 h-1 bg-accent-500 mx-auto my-6"></div>
           <p className="text-lg text-gray-600">
