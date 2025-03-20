@@ -81,6 +81,9 @@ export interface Config {
     'practice-info': PracticeInfo;
     'contact-info': ContactInfo;
     alerts: Alert;
+    'children-page': ChildrenPage;
+    'careers-page': CareersPage;
+    'english-page': EnglishPage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -102,6 +105,9 @@ export interface Config {
     'practice-info': PracticeInfoSelect<false> | PracticeInfoSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
     alerts: AlertsSelect<false> | AlertsSelect<true>;
+    'children-page': ChildrenPageSelect<false> | ChildrenPageSelect<true>;
+    'careers-page': CareersPageSelect<false> | CareersPageSelect<true>;
+    'english-page': EnglishPageSelect<false> | EnglishPageSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -433,6 +439,11 @@ export interface Setting {
   id: string;
   name: string;
   slug: string;
+  hero: {
+    title: string;
+    subtitle: string;
+    image: string | Media;
+  };
   /**
    * Important announcement to display at the top of the homepage
    */
@@ -698,112 +709,11 @@ export interface TeamMember {
  */
 export interface PracticeInfo {
   id: string;
-  /**
-   * This is just a label for the CMS and won't be displayed on the website.
-   */
-  title: string;
-  /**
-   * This is the URL-friendly identifier for the page (e.g., "praktijkregels")
-   */
-  slug: string;
-  infoType: 'tour' | 'rules' | 'budget' | 'pricing' | 'invoices' | 'other';
-  /**
-   * General description of the practice
-   */
-  description?: string | null;
-  whyUsSection?: {
-    whyUsTitle?: string | null;
-    whyUsDescription?: string | null;
-  };
-  qualitySection?: {
-    qualityTitle?: string | null;
-    qualityDescription?: string | null;
-    qualityImage?: (string | null) | Media;
-  };
-  /**
-   * Features or benefits of the practice
-   */
-  features?:
-    | {
-        title: string;
-        description?: string | null;
-        icon?: ('sparkles' | 'heart' | 'clock' | 'users' | 'shield' | 'check-circle') | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Benefits or key points about the practice to highlight
-   */
-  benefits?:
-    | {
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
-  mission?: {
-    missionStatement?: string | null;
-    visionStatement?: string | null;
-  };
-  /**
-   * History of the practice
-   */
-  history?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  values?:
-    | {
-        title: string;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  featuredImage?: (string | null) | Media;
-  /**
-   * Image gallery (especially useful for Praktijkrondleiding)
-   */
-  gallery?:
-    | {
-        image: string | Media;
-        caption?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Attachments like price lists, forms, etc.
-   */
-  attachments?:
-    | {
-        file: string | Media;
-        title: string;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Title for SEO purposes. If left blank, the regular title will be used.
-   */
-  metaTitle?: string | null;
-  /**
-   * Description for SEO purposes.
-   */
-  metaDescription?: string | null;
-  /**
-   * Order in which to display this info page in listings (lower numbers appear first).
-   */
-  displayOrder?: number | null;
-  status: 'draft' | 'published';
+  name: string;
+  description: string;
+  openingHours: string;
+  phoneNumber: string;
+  address: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -959,6 +869,312 @@ export interface Alert {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "children-page".
+ */
+export interface ChildrenPage {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  heroImage: string | Media;
+  intro: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  ageGroups: {
+    title: string;
+    ageRange: string;
+    description: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    image?: (string | null) | Media;
+    id?: string | null;
+  }[];
+  tips?:
+    | {
+        title: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        icon?: ('tooth' | 'brush' | 'food' | 'calendar' | 'star') | null;
+        id?: string | null;
+      }[]
+    | null;
+  faq?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers-page".
+ */
+export interface CareersPage {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  heroImage: string | Media;
+  intro: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  teamValues?:
+    | {
+        title: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        icon?: ('heart' | 'star' | 'trophy' | 'users' | 'lightbulb') | null;
+        id?: string | null;
+      }[]
+    | null;
+  benefits?:
+    | {
+        title: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  vacancies?:
+    | {
+        title: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        isActive?: boolean | null;
+        hours: string;
+        id?: string | null;
+      }[]
+    | null;
+  contactInfo: {
+    email: string;
+    phone?: string | null;
+    contactPerson?: string | null;
+  };
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "english-page".
+ */
+export interface EnglishPage {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  heroImage: string | Media;
+  intro: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  servicesIntro?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  services?:
+    | {
+        title: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  insuranceInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  appointmentInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  faq?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  metaDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -1023,6 +1239,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'alerts';
         value: string | Alert;
+      } | null)
+    | ({
+        relationTo: 'children-page';
+        value: string | ChildrenPage;
+      } | null)
+    | ({
+        relationTo: 'careers-page';
+        value: string | CareersPage;
+      } | null)
+    | ({
+        relationTo: 'english-page';
+        value: string | EnglishPage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1240,6 +1468,13 @@ export interface TestimonialsSelect<T extends boolean = true> {
 export interface SettingsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  hero?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        image?: T;
+      };
   importantAnnouncement?:
     | T
     | {
@@ -1353,71 +1588,11 @@ export interface TeamMembersSelect<T extends boolean = true> {
  * via the `definition` "practice-info_select".
  */
 export interface PracticeInfoSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  infoType?: T;
+  name?: T;
   description?: T;
-  whyUsSection?:
-    | T
-    | {
-        whyUsTitle?: T;
-        whyUsDescription?: T;
-      };
-  qualitySection?:
-    | T
-    | {
-        qualityTitle?: T;
-        qualityDescription?: T;
-        qualityImage?: T;
-      };
-  features?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        icon?: T;
-        id?: T;
-      };
-  benefits?:
-    | T
-    | {
-        text?: T;
-        id?: T;
-      };
-  mission?:
-    | T
-    | {
-        missionStatement?: T;
-        visionStatement?: T;
-      };
-  history?: T;
-  values?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  featuredImage?: T;
-  gallery?:
-    | T
-    | {
-        image?: T;
-        caption?: T;
-        id?: T;
-      };
-  attachments?:
-    | T
-    | {
-        file?: T;
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  metaTitle?: T;
-  metaDescription?: T;
-  displayOrder?: T;
-  status?: T;
+  openingHours?: T;
+  phoneNumber?: T;
+  address?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1493,6 +1668,117 @@ export interface AlertsSelect<T extends boolean = true> {
   position?: T;
   dismissible?: T;
   expiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "children-page_select".
+ */
+export interface ChildrenPageSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  heroImage?: T;
+  intro?: T;
+  ageGroups?:
+    | T
+    | {
+        title?: T;
+        ageRange?: T;
+        description?: T;
+        image?: T;
+        id?: T;
+      };
+  tips?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers-page_select".
+ */
+export interface CareersPageSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  heroImage?: T;
+  intro?: T;
+  teamValues?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  benefits?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  vacancies?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        isActive?: T;
+        hours?: T;
+        id?: T;
+      };
+  contactInfo?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+        contactPerson?: T;
+      };
+  metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "english-page_select".
+ */
+export interface EnglishPageSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  heroImage?: T;
+  intro?: T;
+  servicesIntro?: T;
+  services?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  insuranceInfo?: T;
+  appointmentInfo?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  metaDescription?: T;
   updatedAt?: T;
   createdAt?: T;
 }

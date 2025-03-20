@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 interface FooterProps {
   contactInfo?: any;
@@ -13,7 +13,13 @@ export function Footer({ contactInfo }: FooterProps) {
       { name: 'De Praktijk', href: '/de-praktijk' },
       { name: 'Behandelingen', href: '/behandelingen' },
       { name: 'Team', href: '/team' },
+      { name: 'Werken bij', href: '/werken-bij' },
       { name: 'Contact', href: '/contact' },
+    ],
+    patients: [
+      { name: 'Kinderen', href: '/kinderen' },
+      { name: 'Afspraak maken', href: '/contact#afspraak' },
+      { name: 'English', href: '/english' },
     ],
     legal: [
       { name: 'Privacy', href: '/privacy' },
@@ -45,52 +51,100 @@ export function Footer({ contactInfo }: FooterProps) {
               Wij kiezen ervoor om enkel met de beste materialen te werken in een moderne 
               en goed uitgeruste praktijk.
             </p>
+            {/* Social Media Links */}
+            <div className="flex space-x-4 mt-6">
+              <a href="#" className="text-white/80 hover:text-white transition-colors">
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-white/80 hover:text-white transition-colors">
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-white/80 hover:text-white transition-colors">
+                <Linkedin className="h-5 w-5" />
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Snelle links</h3>
-            <ul className="space-y-2">
+            <h3 className="text-lg text-white/80 font-semibold mb-4">Navigatie</h3>
+            <div className="grid grid-cols-1 gap-2">
               {navigation.main.map((item) => (
-                <li key={item.name}>
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Patient Links */}
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg text-white/80 font-semibold mb-4">Voor patiënten</h3>
+              <div className="grid grid-cols-1 gap-2">
+                {navigation.patients.map((item) => (
                   <Link
+                    key={item.name}
                     href={item.href}
                     className="text-sm text-white/80 hover:text-white transition-colors"
                   >
                     {item.name}
                   </Link>
-                </li>
-              ))}
-            </ul>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg text-white/80 font-semibold mb-4">Overige informatie</h3>
+              <div className="grid grid-cols-1 gap-2">
+                {navigation.legal.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-sm text-white/80 hover:text-white transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Contact Info */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Contact</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-sm text-white/80">
-                <MapPin className="h-4 w-4" />
-                <span>{address}</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-white/80">
-                <Phone className="h-4 w-4" />
-                <span>{phone}</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-white/80">
-                <Mail className="h-4 w-4" />
-                <span>{email}</span>
-              </li>
-            </ul>
-          </div>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg text-white/80 font-semibold mb-4">Contact</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-2 text-sm text-white/80">
+                  <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                  <span>{address}</span>
+                </li>
+                <li className="flex items-center gap-2 text-sm text-white/80">
+                  <Phone className="h-4 w-4 flex-shrink-0" />
+                  <span>{phone}</span>
+                </li>
+                <li className="flex items-center gap-2 text-sm text-white/80">
+                  <Mail className="h-4 w-4 flex-shrink-0" />
+                  <span>{email}</span>
+                </li>
+              </ul>
+            </div>
 
-          {/* Opening Hours */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Openingstijden</h3>
-            <ul className="space-y-2 text-sm text-white/80">
-              <li>Maandag - Vrijdag: 8:00 - 17:00</li>
-              <li>Zaterdag: Gesloten</li>
-              <li>Zondag: Gesloten</li>
-            </ul>
+            {/* Opening Hours */}
+            <div>
+              <h3 className="text-lg text-white/80 font-semibold mb-4">Openingstijden</h3>
+              <ul className="space-y-2 text-sm text-white/80">
+                <li className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 flex-shrink-0" />
+                  <span>Ma - Vr: 8:00 - 17:00</span>
+                </li>
+                <li className="pl-6">Za - Zo: Gesloten</li>
+              </ul>
+            </div>
           </div>
         </div>
 

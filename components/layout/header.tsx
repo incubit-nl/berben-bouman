@@ -78,6 +78,10 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
       label: 'Team',
     },
     {
+      href: '/werken-bij',
+      label: 'Werken bij',
+    },
+    {
       href: '/contact',
       label: 'Contact',
     },

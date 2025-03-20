@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Mail, Phone, ArrowRight } from 'lucide-react';
+import { Mail, Phone, ArrowRight, User } from 'lucide-react';
 
 export const metadata = {
   title: 'Ons Team | Tandartsenpraktijk Berben & Bouman',
@@ -145,12 +145,18 @@ export default function TeamPage() {
                   className="bg-white rounded-lg overflow-hidden border border-neutral-200 hover:border-primary-200 hover:shadow-md transition-all"
                 >
                   <div className="relative h-64 overflow-hidden">
-                    <Image 
-                      src={member.image} 
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                    />
+                    {member.image ? (
+                      <Image 
+                        src={member.image} 
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gray-100">
+                        <User className="h-16 w-16 text-gray-400" />
+                      </div>
+                    )}
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold mb-1 text-primary-900">

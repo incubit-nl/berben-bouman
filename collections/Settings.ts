@@ -21,6 +21,30 @@ export const Settings: CollectionConfig = {
       unique: true,
     },
     {
+      name: 'hero',
+      type: 'group',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          defaultValue: 'Welkom bij Berben & Bouman',
+        },
+        {
+          name: 'subtitle',
+          type: 'text',
+          required: true,
+          defaultValue: 'Uw tandartspraktijk voor complete mondzorg',
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+      ],
+    },
+    {
       name: 'importantAnnouncement',
       type: 'group',
       admin: {

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, GraduationCap, Star } from 'lucide-react';
+import { ArrowLeft, Calendar, GraduationCap, Star, User } from 'lucide-react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
@@ -12,7 +12,7 @@ interface TeamMember {
   name: string;
   slug: string;
   role: string;
-  photo: {
+  photo?: {
     id: string;
     url: string;
     alt?: string;
@@ -154,13 +154,19 @@ export default async function TeamMemberPage({ params }: TeamMemberPageProps) {
             {/* Sidebar with Photo and Info */}
             <div className="lg:col-span-1">
               <div className="rounded-lg overflow-hidden mb-6">
-                <Image
-                  src={teamMember.photo.url}
-                  alt={teamMember.name}
-                  width={400}
-                  height={500}
-                  className="w-full h-auto object-cover"
-                />
+                {teamMember.photo ? (
+                  <Image
+                    src={teamMember.photo.url}
+                    alt={teamMember.photo.alt || teamMember.name}
+                    width={400}
+                    height={500}
+                    className="w-full h-auto object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-[500px] flex items-center justify-center bg-gray-100">
+                    <User className="h-24 w-24 text-gray-400" />
+                  </div>
+                )}
               </div>
 
               {/* Work Days */}
@@ -259,7 +265,7 @@ export default async function TeamMemberPage({ params }: TeamMemberPageProps) {
                       >
                         <div className="relative h-16 w-16 rounded-full overflow-hidden flex-shrink-0 mr-4">
                           <Image
-                            src={member.photo.url}
+                            src={member.photo?.url || '/images/placeholder.jpg'}
                             alt={member.name}
                             fill
                             className="object-cover"

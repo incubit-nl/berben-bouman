@@ -1,8 +1,8 @@
 import { Hero } from '@/components/content/hero';
-import { Features } from '@/components/content/features';
+import { PracticeInfo } from '@/components/content/practice-info';
 import { Services } from '@/components/content/services';
+import { TeamSection } from '@/components/content/team-section';
 import { Testimonials } from '@/components/content/testimonials';
-import { CTA } from '@/components/content/cta';
 import { ActiveAlerts } from '@/components/ui/active-alerts';
 
 export default function Home() {
@@ -10,10 +10,10 @@ export default function Home() {
     <main>
       <ActiveAlerts position="home" />
       <Hero />
-      <Features />
+      <PracticeInfo />
       <Services />
+      <TeamSection />
       <Testimonials />
-      <CTA />
     </main>
   );
 }
