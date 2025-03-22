@@ -112,7 +112,7 @@ export default async function PracticeInfo() {
           <div className="lg:col-span-2 shadow-xl rounded-2xl overflow-hidden bg-white border border-neutral-100">
             <div className="h-64 relative bg-primary-50">
               <Image 
-                src="/images/voorgevel_bewerkt-1.jpg"
+                src="/images/Voorgevel_bewerkt-1.jpg"
                 alt="Praktijk interieur"
                 fill
                 className="object-cover"
