@@ -187,18 +187,11 @@ export async function CTA({ isFirstSection = false }: CTAProps) {
   
   return (
     <div className="bg-white py-24 relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 bg-[url('/images/pattern-bg.png')] opacity-5"></div>
-      
+      {/* Background pattern */}      
       <div className="container mx-auto px-6 relative z-10">
         <div className="relative rounded-2xl shadow-2xl overflow-hidden">
           {/* Background with overlay gradient */}
           <div className="absolute inset-0 z-0">
-            <img 
-              src={ctaData.backgroundImage} 
-              alt="Moderne tandartspraktijk" 
-              className="w-full h-full object-cover"
-            />
             <div className="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/95 to-primary-800/90"></div>
           </div>
           

@@ -161,7 +161,7 @@ export default async function TreatmentsPage({
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar home</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-white">
               {categoryFilter ? `${categoryDetails[categoryFilter]?.title}` : 'Behandelingen'}
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">
@@ -189,7 +189,7 @@ export default async function TreatmentsPage({
                       <Link
                         key={categoryId}
                         href={`/behandelingen?category=${categoryId}`}
-                        className="inline-flex px-4 py-2 rounded-full bg-primary-50 hover:bg-primary-100 text-primary-700 text-sm font-medium transition-all hover:shadow-sm"
+                        className="inline-flex px-4 py-2 rounded-full bg-primary-50 hover:bg-primary-100 text-primary-700 text-sm font-bold transition-all hover:shadow-sm"
                       >
                         {category.title}
                       </Link>
@@ -198,7 +198,7 @@ export default async function TreatmentsPage({
                 ) : (
                   <Link
                     href="/behandelingen"
-                    className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-medium transition-all hover:bg-primary-200"
+                    className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-bold transition-all hover:bg-primary-200"
                   >
                     <ArrowRight className="mr-1 h-4 w-4 rotate-180" />
                     Toon alle behandelingen
@@ -221,7 +221,7 @@ export default async function TreatmentsPage({
               <div key={categoryId} className={`mb-16 ${index !== 0 && !categoryFilter ? 'pt-12 border-t border-neutral-200' : ''}`}>
                 {!categoryFilter && (
                   <div className="max-w-3xl mx-auto mb-8 text-center">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-900 mb-4 animate-fade-in flex items-center justify-center">
+                    <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary-900 mb-4 animate-fade-in flex items-center justify-center">
                     {category.title}
                     </h2>
                     <div className="w-16 h-1 bg-accent-500 mx-auto mb-6"></div>
@@ -302,7 +302,7 @@ export default async function TreatmentsPage({
                 Contact opnemen
               </Link>
               <Link 
-                href="/inschrijven" 
+                href="https://www.anamneselijst.nl/Berben-Bouman/" 
                 className="bg-white hover:bg-neutral-100 text-primary-800 border border-primary-300 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center shadow-sm hover:shadow-md"
               >
                 Inschrijven als patiënt

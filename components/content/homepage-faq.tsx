@@ -25,15 +25,15 @@ export function HomepageFaq({
   subtitle = "Vind antwoorden op de meest voorkomende vragen over onze studio en yoga",
   showCategories = false
 }: HomepageFaqProps) {
+  // Sort FAQs by order
+  const sortedFaqs = useMemo(() => {
+    return [...(faqs || [])].sort((a, b) => a.order - b.order);
+  }, [faqs]);
+  
   // Safety check
   if (!faqs || faqs.length === 0) {
     return null;
   }
-  
-  // Sort FAQs by order
-  const sortedFaqs = useMemo(() => {
-    return [...faqs].sort((a, b) => a.order - b.order);
-  }, [faqs]);
   
   return (
     <section className="py-16">

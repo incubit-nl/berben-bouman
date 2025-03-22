@@ -7,29 +7,59 @@ import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
 
+// Core Collections
 import { Users } from './collections/Users';
 import { Media } from './collections/Media';
-import { Pages } from './collections/Pages';
-import { FAQ } from './collections/Faq';
-import { Pricing } from './collections/Pricing';
-import { Locations } from './collections/Locations';
-import { Testimonials } from './collections/Testimonials';
 import { Settings } from './collections/Settings';
-import { TermsAndConditions } from './collections/TermsAndConditions';
-import { Privacy } from './collections/Privacy';
+
+// Content Collections
+import { Pages } from './collections/Pages';
 import { Treatments } from './collections/Treatments';
+import { TreatmentCategories } from './collections/TreatmentCategories';
 import { TeamMembers } from './collections/TeamMembers';
-import { PracticeInfo } from './collections/PracticeInfo';
+import { PracticePages } from './collections/PracticePages';
+import { FAQ } from './collections/Faq';
+import { Testimonials } from './collections/Testimonials';
 import { ContactInfo } from './collections/ContactInfo';
-import { Alerts } from './collections/Alerts';
+import { PracticeInfo } from './collections/PracticeInfo';
+import { Locations } from './collections/Locations';
+
+// Special Pages
+import { EnglishPage } from './collections/EnglishPage';
 import { ChildrenPage } from './collections/ChildrenPage';
 import { CareersPage } from './collections/CareersPage';
-import { EnglishPage } from './collections/EnglishPage';
-import { PracticePages } from './collections/PracticePages';
-import { TreatmentCategories } from './collections/TreatmentCategories'; // Import the new collection
+import { Privacy } from './collections/Privacy';
+import { TermsAndConditions } from './collections/TermsAndConditions';
+
+// Utility Collections
+import { Alerts } from './collections/Alerts';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+// Add groupBy to collections for better admin organization
+Users.admin = { ...Users.admin, group: 'Admin' };
+Media.admin = { ...Media.admin, group: 'Admin' };
+Settings.admin = { ...Settings.admin, group: 'Admin' };
+
+Pages.admin = { ...Pages.admin, group: 'Content' };
+Treatments.admin = { ...Treatments.admin, group: 'Content' };
+TreatmentCategories.admin = { ...TreatmentCategories.admin, group: 'Content' };
+TeamMembers.admin = { ...TeamMembers.admin, group: 'Content' };
+PracticePages.admin = { ...PracticePages.admin, group: 'Content' };
+FAQ.admin = { ...FAQ.admin, group: 'Content' };
+Testimonials.admin = { ...Testimonials.admin, group: 'Content' };
+
+ContactInfo.admin = { ...ContactInfo.admin, group: 'Site Info' };
+PracticeInfo.admin = { ...PracticeInfo.admin, group: 'Site Info' };
+Locations.admin = { ...Locations.admin, group: 'Site Info' };
+Alerts.admin = { ...Alerts.admin, group: 'Site Info' };
+
+EnglishPage.admin = { ...EnglishPage.admin, group: 'Special Pages' };
+ChildrenPage.admin = { ...ChildrenPage.admin, group: 'Special Pages' };
+CareersPage.admin = { ...CareersPage.admin, group: 'Special Pages' };
+Privacy.admin = { ...Privacy.admin, group: 'Special Pages' };
+TermsAndConditions.admin = { ...TermsAndConditions.admin, group: 'Special Pages' };
 
 export default buildConfig({
   admin: {
@@ -37,31 +67,40 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    // Customizing the admin UI with better organization
+    components: {
+      beforeNavLinks: [
+        // You could add a custom component here if needed
+      ],
+    }
   },
   collections: [
+    // Core Collections
     Users,
     Media,
-    Pages,
-    FAQ,
-    Pricing,
-    Locations,
-    Testimonials,
     Settings,
-    TermsAndConditions,
-    Privacy,
+    
+    // Content Collections
+    Pages,
     Treatments,
+    TreatmentCategories,
     TeamMembers,
-    PracticeInfo,
+    PracticePages,
+    FAQ,
+    Testimonials,
     ContactInfo,
-    Alerts,
+    PracticeInfo,
+    Locations,
+    
+    // Special Pages
+    EnglishPage,
     ChildrenPage,
     CareersPage,
-    EnglishPage,
-    PracticePages,
-    TreatmentCategories, // Add to collections
-  ],
-  globals: [
-    // TreatmentCategories removed from globals
+    Privacy,
+    TermsAndConditions,
+    
+    // Utility Collections
+    Alerts,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

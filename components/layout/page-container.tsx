@@ -24,8 +24,8 @@ export function PageContainer({
     <div
       className={cn(
         "w-full",
-        withHeaderOffset && "mt-4",
-        withNotificationBar && "mt-8",
+        withHeaderOffset && "mt-2 sm:mt-4",
+        withNotificationBar && "mt-4 sm:mt-8",
         className
       )}
     >

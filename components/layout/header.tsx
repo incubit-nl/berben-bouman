@@ -186,7 +186,9 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
             {/* CTA Button */}
             <div className="hidden lg:block">
               <a
-                href="/contact"
+                href="https://www.anamneselijst.nl/Berben-Bouman"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={cn(
                   "group px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px] flex items-center",
                   isScrolled || isMobileMenuOpen
@@ -195,7 +197,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                 )}
               >
                 <Calendar className="mr-2 h-5 w-5 group-hover:animate-pulse" />
-                Afspraak maken
+                Inschrijven
               </a>
             </div>
             
@@ -268,17 +270,17 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
             
             <div className="mt-10 space-y-6">
               <Link
-                href="/contact"
-                className="block w-full bg-accent-600 hover:bg-accent-700 text-white px-4 py-4 rounded-lg font-medium transition-all duration-300 text-center shadow-md flex items-center justify-center"
+                href="https://www.anamneselijst.nl/Berben-Bouman"
+                className="block w-1/4 mx-auto bg-accent-600 hover:bg-accent-700 text-primary-900 px-5 py-3 rounded-lg font-medium transition-all duration-300 text-center shadow-md flex items-center justify-center"
                 onClick={handleCloseMenu}
               >
                 <Calendar className="mr-2 h-5 w-5" />
-                Afspraak maken
+                Inschrijven
               </Link>
               
               <div className="space-y-6 text-neutral-700 mt-8">
                 <div className="flex items-start">
-                  <Phone className="h-5 w-5 text-accent-600 mr-3 mt-1" />
+                  <Phone className="h-5 w-5 text-accent-600 mr-3 mt-7" />
                   <div>
                     <h3 className="font-medium">Telefoon</h3>
                     <a href={`tel:${phone.replace(/\s/g, '')}`} className="text-primary-600 hover:text-accent-600 transition-colors">
@@ -288,7 +290,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                 </div>
                 
                 <div className="flex items-start">
-                  <Mail className="h-5 w-5 text-accent-600 mr-3 mt-1" />
+                  <Mail className="h-5 w-5 text-accent-600 mr-3 mt-7" />
                   <div>
                     <h3 className="font-medium">E-mail</h3>
                     <a href={`mailto:${email}`} className="text-primary-600 hover:text-accent-600 transition-colors">
@@ -298,7 +300,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                 </div>
                 
                 <div className="flex items-start">
-                  <Clock className="h-5 w-5 text-accent-600 mr-3 mt-1" />
+                  <Clock className="h-5 w-5 text-accent-600 mr-3 mt-7" />
                   <div>
                     <h3 className="font-medium">Openingstijden</h3>
                     <p>Maandag t/m Vrijdag: 08:00 - 17:00</p>
@@ -306,7 +308,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                 </div>
                 
                 <div className="flex items-start">
-                  <MapPin className="h-5 w-5 text-accent-600 mr-3 mt-1" />
+                  <MapPin className="h-5 w-5 text-accent-600 mr-3 mt-7" />
                   <div>
                     <h3 className="font-medium">Adres</h3>
                     <p>Louis Armstronglaan 1<br />3543 EB Utrecht (Terwijde)</p>
@@ -320,7 +322,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
       {/* Spacer element to prevent content from being hidden under fixed header */}
       <div className={cn(
         "w-full transition-all duration-300",
-        isScrolled || isMobileMenuOpen ? "h-[74px]" : "h-[74px]"
+        isScrolled || isMobileMenuOpen ? "h-[60px] sm:h-[74px]" : "h-[60px] sm:h-[74px]"
       )} aria-hidden="true" />
     </>
   );

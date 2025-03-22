@@ -139,7 +139,7 @@ export default async function ChildrenPage() {
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar home</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-white">
               {pageData.title}
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">

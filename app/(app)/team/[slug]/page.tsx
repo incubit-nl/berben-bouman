@@ -5,6 +5,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { RichText } from '@/components/ui/rich-text';
 
 // Define types for our data
 interface TeamMember {
@@ -122,13 +123,6 @@ export default async function TeamMemberPage({ params }: TeamMemberPageProps) {
       {/* Hero Section */}
       <section className="relative bg-primary-900 text-white">
         <div className="absolute inset-0 z-0 opacity-20">
-          <Image
-            src="/images/team-hero-bg.jpg"
-            alt="Team background"
-            fill
-            className="object-cover"
-            priority
-          />
         </div>
         <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
           <div className="max-w-3xl">
@@ -139,7 +133,7 @@ export default async function TeamMemberPage({ params }: TeamMemberPageProps) {
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar het team</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-2 text-accent-50">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-2 text-white">
               {teamMember.name}
             </h1>
             <p className="text-xl text-white/90">{teamMember.role}</p>
@@ -231,14 +225,7 @@ export default async function TeamMemberPage({ params }: TeamMemberPageProps) {
                 <h2>Over {teamMember.name}</h2>
 
                 {/* Render rich text content from Payload CMS */}
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      typeof teamMember.bio === 'string'
-                        ? teamMember.bio
-                        : JSON.stringify(teamMember.bio),
-                  }}
-                />
+                <RichText content={teamMember.bio} />
 
                 <div className="mt-12">
                   <Link
@@ -290,7 +277,7 @@ export default async function TeamMemberPage({ params }: TeamMemberPageProps) {
       {/* CTA Section */}
       <section className="py-12 md:py-16 bg-primary-50">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center mx-auto">
             Wilt u een afspraak maken?
           </h2>
           <p className="text-lg text-neutral-700 mb-8 max-w-2xl mx-auto">

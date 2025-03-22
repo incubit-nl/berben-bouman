@@ -21,7 +21,7 @@ interface TeamMember {
   role: string;
   photo: Media;
   specializations: Array<{ specialization: string }>;
-  bio: any; // richText field from Payload
+  bio: any;
   education: Array<{
     degree: string;
     institution: string;
@@ -49,7 +49,6 @@ async function getTeamMembers() {
 export default async function TeamPage() {
   const teamMembers = await getTeamMembers();
 
-  // Group team members by role
   const roles = teamMembers.reduce((acc, member) => {
     const role = member.role;
     if (!acc[role]) {
@@ -81,7 +80,7 @@ export default async function TeamPage() {
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar home</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-white">
               Ons Team
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">
@@ -95,7 +94,7 @@ export default async function TeamPage() {
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900">
+            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center mx-auto">
               Een team van specialisten
             </h2>
             <p className="text-lg text-neutral-700 mb-0">
@@ -217,26 +216,28 @@ export default async function TeamPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-primary-900 text-center">
-            Maak kennis met ons team
+      <section className="py-16 bg-primary-50 text-center border-t border-white">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary-900 mb-6 flex items-center justify-center">
+            Word patiënt bij ons
           </h2>
-          <p className="text-lg text-neutral-700 mb-8 max-w-2xl mx-auto">
-            Wij verwelkomen u graag in onze praktijk. Maak een afspraak voor een kennismaking of intake.
+          <p className="text-lg text-neutral-700 max-w-2xl mx-auto mb-8">
+            Wij verwelkomen nieuwe patiënten en staan klaar om uw gebit gezond te houden. Schrijf u in of neem contact op voor meer informatie.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/afspraak-maken" 
-              className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+            <Link
+              href="https://www.anamneselijst.nl/Berben-Bouman/"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-900 border border-neutral-300 font-medium rounded-md hover:bg-neutral-100 transition-all duration-300 text-lg"
             >
-              Afspraak maken
+              Inschrijven
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
-            <Link 
-              href="/contact" 
-              className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-900 border border-neutral-300 font-medium rounded-md hover:bg-neutral-100 transition-all duration-300 text-lg"
             >
-              Contact opnemen
+              Contact
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </div>
         </div>

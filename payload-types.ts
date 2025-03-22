@@ -68,24 +68,23 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    pages: Page;
-    faq: Faq;
-    pricing: Pricing;
-    locations: Location;
-    testimonials: Testimonial;
     settings: Setting;
-    'terms-and-conditions': TermsAndCondition;
-    privacy: Privacy;
+    pages: Page;
     treatments: Treatment;
+    'treatment-categories': TreatmentCategory;
     'team-members': TeamMember;
-    'practice-info': PracticeInfo;
+    'practice-pages': PracticePage;
+    faq: Faq;
+    testimonials: Testimonial;
     'contact-info': ContactInfo;
-    alerts: Alert;
+    'practice-info': PracticeInfo;
+    locations: Location;
+    'english-page': EnglishPage;
     'children-page': ChildrenPage;
     'careers-page': CareersPage;
-    'english-page': EnglishPage;
-    'practice-pages': PracticePage;
-    'treatment-categories': TreatmentCategory;
+    privacy: Privacy;
+    'terms-and-conditions': TermsAndCondition;
+    alerts: Alert;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -94,24 +93,23 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    pages: PagesSelect<false> | PagesSelect<true>;
-    faq: FaqSelect<false> | FaqSelect<true>;
-    pricing: PricingSelect<false> | PricingSelect<true>;
-    locations: LocationsSelect<false> | LocationsSelect<true>;
-    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
-    'terms-and-conditions': TermsAndConditionsSelect<false> | TermsAndConditionsSelect<true>;
-    privacy: PrivacySelect<false> | PrivacySelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     treatments: TreatmentsSelect<false> | TreatmentsSelect<true>;
+    'treatment-categories': TreatmentCategoriesSelect<false> | TreatmentCategoriesSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
-    'practice-info': PracticeInfoSelect<false> | PracticeInfoSelect<true>;
+    'practice-pages': PracticePagesSelect<false> | PracticePagesSelect<true>;
+    faq: FaqSelect<false> | FaqSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
-    alerts: AlertsSelect<false> | AlertsSelect<true>;
+    'practice-info': PracticeInfoSelect<false> | PracticeInfoSelect<true>;
+    locations: LocationsSelect<false> | LocationsSelect<true>;
+    'english-page': EnglishPageSelect<false> | EnglishPageSelect<true>;
     'children-page': ChildrenPageSelect<false> | ChildrenPageSelect<true>;
     'careers-page': CareersPageSelect<false> | CareersPageSelect<true>;
-    'english-page': EnglishPageSelect<false> | EnglishPageSelect<true>;
-    'practice-pages': PracticePagesSelect<false> | PracticePagesSelect<true>;
-    'treatment-categories': TreatmentCategoriesSelect<false> | TreatmentCategoriesSelect<true>;
+    privacy: PrivacySelect<false> | PrivacySelect<true>;
+    'terms-and-conditions': TermsAndConditionsSelect<false> | TermsAndConditionsSelect<true>;
+    alerts: AlertsSelect<false> | AlertsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -183,6 +181,73 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings".
+ */
+export interface Setting {
+  id: string;
+  name: string;
+  slug: string;
+  hero: {
+    title: string;
+    subtitle: string;
+    image: string | Media;
+  };
+  /**
+   * Important announcement to display at the top of the homepage
+   */
+  importantAnnouncement?: {
+    /**
+     * Enable or disable the announcement
+     */
+    isActive?: boolean | null;
+    /**
+     * Title of the announcement (e.g., "BELANGRIJK !!")
+     */
+    title?: string | null;
+    /**
+     * Content of the announcement
+     */
+    content?: string | null;
+    /**
+     * Background color of the announcement banner
+     */
+    backgroundColor?: ('accent' | 'primary' | 'secondary' | 'warning') | null;
+  };
+  /**
+   * Social media links for the website
+   */
+  socialMedia?: {
+    /**
+     * Facebook URL
+     */
+    facebook?: string | null;
+    /**
+     * Instagram URL
+     */
+    instagram?: string | null;
+    /**
+     * LinkedIn URL
+     */
+    linkedin?: string | null;
+  };
+  contact: {
+    email: string;
+    phone: string;
+    address: string;
+  };
+  /**
+   * Default SEO settings
+   */
+  seo?: {
+    defaultTitle?: string | null;
+    defaultDescription?: string | null;
+    defaultKeywords?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -311,281 +376,6 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq".
- */
-export interface Faq {
-  id: string;
-  title: string;
-  faqItems?:
-    | {
-        question: string;
-        answer: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        };
-        category: 'general' | 'treatments' | 'insurance' | 'practice';
-        homepage?: boolean | null;
-        order: number;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pricing".
- */
-export interface Pricing {
-  id: string;
-  name: string;
-  /**
-   * A detailed description of what this pricing plan includes
-   */
-  description: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  price: number;
-  period: 'per_month' | 'per_year' | 'one_time';
-  features?:
-    | {
-        feature: string;
-        id?: string | null;
-      }[]
-    | null;
-  highlight?: boolean | null;
-  /**
-   * Used to control the order of pricing plans
-   */
-  order: number;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "locations".
- */
-export interface Location {
-  id: string;
-  name: string;
-  address: {
-    street: string;
-    city: string;
-    postalCode: string;
-  };
-  contact: {
-    email: string;
-    phone: string;
-  };
-  openingHours?:
-    | {
-        day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
-        openTime: string;
-        closeTime: string;
-        id?: string | null;
-      }[]
-    | null;
-  image: string | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials".
- */
-export interface Testimonial {
-  id: string;
-  name: string;
-  /**
-   * e.g., "Yoga Student", "Workshop Participant"
-   */
-  role?: string | null;
-  content: string;
-  rating: number;
-  image?: (string | null) | Media;
-  featured?: boolean | null;
-  order: number;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "settings".
- */
-export interface Setting {
-  id: string;
-  name: string;
-  slug: string;
-  hero: {
-    title: string;
-    subtitle: string;
-    image: string | Media;
-  };
-  /**
-   * Important announcement to display at the top of the homepage
-   */
-  importantAnnouncement?: {
-    /**
-     * Enable or disable the announcement
-     */
-    isActive?: boolean | null;
-    /**
-     * Title of the announcement (e.g., "BELANGRIJK !!")
-     */
-    title?: string | null;
-    /**
-     * Content of the announcement
-     */
-    content?: string | null;
-    /**
-     * Background color of the announcement banner
-     */
-    backgroundColor?: ('accent' | 'primary' | 'secondary' | 'warning') | null;
-  };
-  /**
-   * Social media links for the website
-   */
-  socialMedia?: {
-    /**
-     * Facebook URL
-     */
-    facebook?: string | null;
-    /**
-     * Instagram URL
-     */
-    instagram?: string | null;
-    /**
-     * LinkedIn URL
-     */
-    linkedin?: string | null;
-  };
-  contact: {
-    email: string;
-    phone: string;
-    address: string;
-  };
-  /**
-   * Default SEO settings
-   */
-  seo?: {
-    defaultTitle?: string | null;
-    defaultDescription?: string | null;
-    defaultKeywords?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Algemene voorwaarden van title
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "terms-and-conditions".
- */
-export interface TermsAndCondition {
-  id: string;
-  title: string;
-  /**
-   * Datum van laatste update
-   */
-  lastUpdated: string;
-  /**
-   * De inhoud van de algemene voorwaarden
-   */
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * SEO titel (optioneel)
-   */
-  metaTitle?: string | null;
-  /**
-   * SEO beschrijving (optioneel)
-   */
-  metaDescription?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Privacybeleid van title
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "privacy".
- */
-export interface Privacy {
-  id: string;
-  title: string;
-  /**
-   * Datum van laatste update
-   */
-  lastUpdated: string;
-  /**
-   * De inhoud van het privacybeleid
-   */
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * SEO titel (optioneel)
-   */
-  metaTitle?: string | null;
-  /**
-   * SEO beschrijving (optioneel)
-   */
-  metaDescription?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "treatments".
  */
 export interface Treatment {
@@ -637,6 +427,33 @@ export interface Treatment {
    */
   displayOrder?: number | null;
   status: 'draft' | 'published';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage categories for dental treatments. These categories can be assigned to treatments.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatment-categories".
+ */
+export interface TreatmentCategory {
+  id: string;
+  /**
+   * Unique identifier (e.g., "preventie")
+   */
+  value: string;
+  /**
+   * Display name (e.g., "Preventie")
+   */
+  label: string;
+  /**
+   * Description of this category of treatments
+   */
+  description?: string | null;
+  /**
+   * Order in which to display this category (lower numbers appear first)
+   */
+  displayOrder?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -705,15 +522,205 @@ export interface TeamMember {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "practice-info".
+ * via the `definition` "practice-pages".
  */
-export interface PracticeInfo {
+export interface PracticePage {
+  id: string;
+  title: string;
+  /**
+   * Unieke URL-slug voor deze pagina (bijv. "over-ons")
+   */
+  slug: string;
+  status: 'published' | 'draft';
+  hero?: {
+    heroImage?: (string | null) | Media;
+    /**
+     * Optionele aangepaste titel voor de hero-sectie
+     */
+    heroTitle?: string | null;
+    heroContent?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  content?:
+    | (
+        | {
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textContent';
+          }
+        | {
+            image: string | Media;
+            text: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            imagePosition: 'left' | 'right';
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageWithText';
+          }
+        | {
+            name: string;
+            role: string;
+            image?: (string | null) | Media;
+            bio: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            specialties?:
+              | {
+                  specialty: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'teamMember';
+          }
+        | {
+            title: string;
+            description: {
+              root: {
+                type: string;
+                children: {
+                  type: string;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            images?:
+              | {
+                  image: string | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'facilityHighlight';
+          }
+      )[]
+    | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  /**
+   * Schakel in om deze pagina in de zijbalknavigatie te tonen
+   */
+  showInNavigation?: boolean | null;
+  /**
+   * Volgorde in de navigatie (lager = hoger in de lijst)
+   */
+  navigationOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: string;
+  title: string;
+  faqItems?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        category: 'general' | 'treatments' | 'insurance' | 'practice';
+        homepage?: boolean | null;
+        order: number;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
   id: string;
   name: string;
-  description: string;
-  openingHours: string;
-  phoneNumber: string;
-  address: string;
+  /**
+   * e.g., "Yoga Student", "Workshop Participant"
+   */
+  role?: string | null;
+  content: string;
+  rating: number;
+  image?: (string | null) | Media;
+  featured?: boolean | null;
+  order: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -818,26 +825,56 @@ export interface ContactInfo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "alerts".
+ * via the `definition` "practice-info".
  */
-export interface Alert {
+export interface PracticeInfo {
   id: string;
-  /**
-   * Internal name for this alert (not displayed to users)
-   */
+  name: string;
+  description: string;
+  openingHours: string;
+  phoneNumber: string;
+  address: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations".
+ */
+export interface Location {
+  id: string;
+  name: string;
+  address: {
+    street: string;
+    city: string;
+    postalCode: string;
+  };
+  contact: {
+    email: string;
+    phone: string;
+  };
+  openingHours?:
+    | {
+        day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+        openTime: string;
+        closeTime: string;
+        id?: string | null;
+      }[]
+    | null;
+  image: string | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "english-page".
+ */
+export interface EnglishPage {
+  id: string;
   title: string;
-  /**
-   * Toggle to show or hide this alert
-   */
-  isActive?: boolean | null;
-  /**
-   * Type of alert which determines the color scheme
-   */
-  alertType: 'info' | 'warning' | 'error' | 'success';
-  /**
-   * Alert message content
-   */
-  content: {
+  subtitle?: string | null;
+  heroImage: string | Media;
+  intro: {
     root: {
       type: string;
       children: {
@@ -852,18 +889,94 @@ export interface Alert {
     };
     [k: string]: unknown;
   };
-  /**
-   * Where this alert should appear
-   */
-  position?: ('global' | 'home') | null;
-  /**
-   * Allow users to dismiss this alert
-   */
-  dismissible?: boolean | null;
-  /**
-   * Optional: Date when this alert should automatically deactivate
-   */
-  expiresAt?: string | null;
+  servicesIntro?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  services?:
+    | {
+        title: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  insuranceInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  appointmentInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  faq?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  metaDescription?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1059,15 +1172,22 @@ export interface CareersPage {
   createdAt: string;
 }
 /**
+ * Privacybeleid van title
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "english-page".
+ * via the `definition` "privacy".
  */
-export interface EnglishPage {
+export interface Privacy {
   id: string;
   title: string;
-  subtitle?: string | null;
-  heroImage: string | Media;
-  intro: {
+  /**
+   * Datum van laatste update
+   */
+  lastUpdated: string;
+  /**
+   * De inhoud van het privacybeleid
+   */
+  content: {
     root: {
       type: string;
       children: {
@@ -1082,272 +1202,109 @@ export interface EnglishPage {
     };
     [k: string]: unknown;
   };
-  servicesIntro?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  services?:
-    | {
-        title: string;
-        description: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  insuranceInfo?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  appointmentInfo?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  faq?:
-    | {
-        question: string;
-        answer: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * SEO titel (optioneel)
+   */
+  metaTitle?: string | null;
+  /**
+   * SEO beschrijving (optioneel)
+   */
   metaDescription?: string | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
+ * Algemene voorwaarden van title
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "practice-pages".
+ * via the `definition` "terms-and-conditions".
  */
-export interface PracticePage {
+export interface TermsAndCondition {
   id: string;
   title: string;
   /**
-   * Unieke URL-slug voor deze pagina (bijv. "over-ons")
+   * Datum van laatste update
    */
-  slug: string;
-  status: 'published' | 'draft';
-  hero?: {
-    heroImage?: (string | null) | Media;
-    /**
-     * Optionele aangepaste titel voor de hero-sectie
-     */
-    heroTitle?: string | null;
-    heroContent?: {
-      root: {
+  lastUpdated: string;
+  /**
+   * De inhoud van de algemene voorwaarden
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
         type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
         version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-  };
-  content?:
-    | (
-        | {
-            content: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textContent';
-          }
-        | {
-            image: string | Media;
-            text: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            imagePosition: 'left' | 'right';
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'imageWithText';
-          }
-        | {
-            name: string;
-            role: string;
-            image?: (string | null) | Media;
-            bio: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            specialties?:
-              | {
-                  specialty: string;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'teamMember';
-          }
-        | {
-            title: string;
-            description: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            };
-            images?:
-              | {
-                  image: string | Media;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'facilityHighlight';
-          }
-      )[]
-    | null;
-  seo?: {
-    metaTitle?: string | null;
-    metaDescription?: string | null;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
   };
   /**
-   * Schakel in om deze pagina in de zijbalknavigatie te tonen
+   * SEO titel (optioneel)
    */
-  showInNavigation?: boolean | null;
+  metaTitle?: string | null;
   /**
-   * Volgorde in de navigatie (lager = hoger in de lijst)
+   * SEO beschrijving (optioneel)
    */
-  navigationOrder?: number | null;
+  metaDescription?: string | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
- * Manage categories for dental treatments. These categories can be assigned to treatments.
- *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "treatment-categories".
+ * via the `definition` "alerts".
  */
-export interface TreatmentCategory {
+export interface Alert {
   id: string;
   /**
-   * Unique identifier (e.g., "preventie")
+   * Internal name for this alert (not displayed to users)
    */
-  value: string;
+  title: string;
   /**
-   * Display name (e.g., "Preventie")
+   * Toggle to show or hide this alert
    */
-  label: string;
+  isActive?: boolean | null;
   /**
-   * Description of this category of treatments
+   * Type of alert which determines the color scheme
    */
-  description?: string | null;
+  alertType: 'info' | 'warning' | 'error' | 'success';
   /**
-   * Order in which to display this category (lower numbers appear first)
+   * Alert message content
    */
-  displayOrder?: number | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Where this alert should appear
+   */
+  position?: ('global' | 'home') | null;
+  /**
+   * Allow users to dismiss this alert
+   */
+  dismissible?: boolean | null;
+  /**
+   * Optional: Date when this alert should automatically deactivate
+   */
+  expiresAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1367,56 +1324,52 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'pages';
-        value: string | Page;
-      } | null)
-    | ({
-        relationTo: 'faq';
-        value: string | Faq;
-      } | null)
-    | ({
-        relationTo: 'pricing';
-        value: string | Pricing;
-      } | null)
-    | ({
-        relationTo: 'locations';
-        value: string | Location;
-      } | null)
-    | ({
-        relationTo: 'testimonials';
-        value: string | Testimonial;
-      } | null)
-    | ({
         relationTo: 'settings';
         value: string | Setting;
       } | null)
     | ({
-        relationTo: 'terms-and-conditions';
-        value: string | TermsAndCondition;
-      } | null)
-    | ({
-        relationTo: 'privacy';
-        value: string | Privacy;
+        relationTo: 'pages';
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'treatments';
         value: string | Treatment;
       } | null)
     | ({
+        relationTo: 'treatment-categories';
+        value: string | TreatmentCategory;
+      } | null)
+    | ({
         relationTo: 'team-members';
         value: string | TeamMember;
       } | null)
     | ({
-        relationTo: 'practice-info';
-        value: string | PracticeInfo;
+        relationTo: 'practice-pages';
+        value: string | PracticePage;
+      } | null)
+    | ({
+        relationTo: 'faq';
+        value: string | Faq;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: string | Testimonial;
       } | null)
     | ({
         relationTo: 'contact-info';
         value: string | ContactInfo;
       } | null)
     | ({
-        relationTo: 'alerts';
-        value: string | Alert;
+        relationTo: 'practice-info';
+        value: string | PracticeInfo;
+      } | null)
+    | ({
+        relationTo: 'locations';
+        value: string | Location;
+      } | null)
+    | ({
+        relationTo: 'english-page';
+        value: string | EnglishPage;
       } | null)
     | ({
         relationTo: 'children-page';
@@ -1427,16 +1380,16 @@ export interface PayloadLockedDocument {
         value: string | CareersPage;
       } | null)
     | ({
-        relationTo: 'english-page';
-        value: string | EnglishPage;
+        relationTo: 'privacy';
+        value: string | Privacy;
       } | null)
     | ({
-        relationTo: 'practice-pages';
-        value: string | PracticePage;
+        relationTo: 'terms-and-conditions';
+        value: string | TermsAndCondition;
       } | null)
     | ({
-        relationTo: 'treatment-categories';
-        value: string | TreatmentCategory;
+        relationTo: 'alerts';
+        value: string | Alert;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1515,6 +1468,52 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings_select".
+ */
+export interface SettingsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  hero?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        image?: T;
+      };
+  importantAnnouncement?:
+    | T
+    | {
+        isActive?: T;
+        title?: T;
+        content?: T;
+        backgroundColor?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        facebook?: T;
+        instagram?: T;
+        linkedin?: T;
+      };
+  contact?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+        address?: T;
+      };
+  seo?:
+    | T
+    | {
+        defaultTitle?: T;
+        defaultDescription?: T;
+        defaultKeywords?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
@@ -1570,165 +1569,6 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq_select".
- */
-export interface FaqSelect<T extends boolean = true> {
-  title?: T;
-  faqItems?:
-    | T
-    | {
-        question?: T;
-        answer?: T;
-        category?: T;
-        homepage?: T;
-        order?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pricing_select".
- */
-export interface PricingSelect<T extends boolean = true> {
-  name?: T;
-  description?: T;
-  price?: T;
-  period?: T;
-  features?:
-    | T
-    | {
-        feature?: T;
-        id?: T;
-      };
-  highlight?: T;
-  order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "locations_select".
- */
-export interface LocationsSelect<T extends boolean = true> {
-  name?: T;
-  address?:
-    | T
-    | {
-        street?: T;
-        city?: T;
-        postalCode?: T;
-      };
-  contact?:
-    | T
-    | {
-        email?: T;
-        phone?: T;
-      };
-  openingHours?:
-    | T
-    | {
-        day?: T;
-        openTime?: T;
-        closeTime?: T;
-        id?: T;
-      };
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials_select".
- */
-export interface TestimonialsSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  content?: T;
-  rating?: T;
-  image?: T;
-  featured?: T;
-  order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "settings_select".
- */
-export interface SettingsSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  hero?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-        image?: T;
-      };
-  importantAnnouncement?:
-    | T
-    | {
-        isActive?: T;
-        title?: T;
-        content?: T;
-        backgroundColor?: T;
-      };
-  socialMedia?:
-    | T
-    | {
-        facebook?: T;
-        instagram?: T;
-        linkedin?: T;
-      };
-  contact?:
-    | T
-    | {
-        email?: T;
-        phone?: T;
-        address?: T;
-      };
-  seo?:
-    | T
-    | {
-        defaultTitle?: T;
-        defaultDescription?: T;
-        defaultKeywords?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "terms-and-conditions_select".
- */
-export interface TermsAndConditionsSelect<T extends boolean = true> {
-  title?: T;
-  lastUpdated?: T;
-  content?: T;
-  metaTitle?: T;
-  metaDescription?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "privacy_select".
- */
-export interface PrivacySelect<T extends boolean = true> {
-  title?: T;
-  lastUpdated?: T;
-  content?: T;
-  metaTitle?: T;
-  metaDescription?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "treatments_select".
  */
 export interface TreatmentsSelect<T extends boolean = true> {
@@ -1742,6 +1582,18 @@ export interface TreatmentsSelect<T extends boolean = true> {
   metaDescription?: T;
   displayOrder?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "treatment-categories_select".
+ */
+export interface TreatmentCategoriesSelect<T extends boolean = true> {
+  value?: T;
+  label?: T;
+  description?: T;
+  displayOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1777,14 +1629,111 @@ export interface TeamMembersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "practice-info_select".
+ * via the `definition` "practice-pages_select".
  */
-export interface PracticeInfoSelect<T extends boolean = true> {
+export interface PracticePagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  status?: T;
+  hero?:
+    | T
+    | {
+        heroImage?: T;
+        heroTitle?: T;
+        heroContent?: T;
+      };
+  content?:
+    | T
+    | {
+        textContent?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageWithText?:
+          | T
+          | {
+              image?: T;
+              text?: T;
+              imagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        teamMember?:
+          | T
+          | {
+              name?: T;
+              role?: T;
+              image?: T;
+              bio?: T;
+              specialties?:
+                | T
+                | {
+                    specialty?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        facilityHighlight?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  showInNavigation?: T;
+  navigationOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq_select".
+ */
+export interface FaqSelect<T extends boolean = true> {
+  title?: T;
+  faqItems?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        category?: T;
+        homepage?: T;
+        order?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
   name?: T;
-  description?: T;
-  openingHours?: T;
-  phoneNumber?: T;
-  address?: T;
+  role?: T;
+  content?: T;
+  rating?: T;
+  image?: T;
+  featured?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1850,16 +1799,75 @@ export interface ContactInfoSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "alerts_select".
+ * via the `definition` "practice-info_select".
  */
-export interface AlertsSelect<T extends boolean = true> {
+export interface PracticeInfoSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  openingHours?: T;
+  phoneNumber?: T;
+  address?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations_select".
+ */
+export interface LocationsSelect<T extends boolean = true> {
+  name?: T;
+  address?:
+    | T
+    | {
+        street?: T;
+        city?: T;
+        postalCode?: T;
+      };
+  contact?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+      };
+  openingHours?:
+    | T
+    | {
+        day?: T;
+        openTime?: T;
+        closeTime?: T;
+        id?: T;
+      };
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "english-page_select".
+ */
+export interface EnglishPageSelect<T extends boolean = true> {
   title?: T;
-  isActive?: T;
-  alertType?: T;
-  content?: T;
-  position?: T;
-  dismissible?: T;
-  expiresAt?: T;
+  subtitle?: T;
+  heroImage?: T;
+  intro?: T;
+  servicesIntro?: T;
+  services?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  insuranceInfo?: T;
+  appointmentInfo?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  metaDescription?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1946,119 +1954,44 @@ export interface CareersPageSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "english-page_select".
+ * via the `definition` "privacy_select".
  */
-export interface EnglishPageSelect<T extends boolean = true> {
+export interface PrivacySelect<T extends boolean = true> {
   title?: T;
-  subtitle?: T;
-  heroImage?: T;
-  intro?: T;
-  servicesIntro?: T;
-  services?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  insuranceInfo?: T;
-  appointmentInfo?: T;
-  faq?:
-    | T
-    | {
-        question?: T;
-        answer?: T;
-        id?: T;
-      };
+  lastUpdated?: T;
+  content?: T;
+  metaTitle?: T;
   metaDescription?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "practice-pages_select".
+ * via the `definition` "terms-and-conditions_select".
  */
-export interface PracticePagesSelect<T extends boolean = true> {
+export interface TermsAndConditionsSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
-  status?: T;
-  hero?:
-    | T
-    | {
-        heroImage?: T;
-        heroTitle?: T;
-        heroContent?: T;
-      };
-  content?:
-    | T
-    | {
-        textContent?:
-          | T
-          | {
-              content?: T;
-              id?: T;
-              blockName?: T;
-            };
-        imageWithText?:
-          | T
-          | {
-              image?: T;
-              text?: T;
-              imagePosition?: T;
-              id?: T;
-              blockName?: T;
-            };
-        teamMember?:
-          | T
-          | {
-              name?: T;
-              role?: T;
-              image?: T;
-              bio?: T;
-              specialties?:
-                | T
-                | {
-                    specialty?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        facilityHighlight?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              images?:
-                | T
-                | {
-                    image?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-      };
-  seo?:
-    | T
-    | {
-        metaTitle?: T;
-        metaDescription?: T;
-      };
-  showInNavigation?: T;
-  navigationOrder?: T;
+  lastUpdated?: T;
+  content?: T;
+  metaTitle?: T;
+  metaDescription?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "treatment-categories_select".
+ * via the `definition` "alerts_select".
  */
-export interface TreatmentCategoriesSelect<T extends boolean = true> {
-  value?: T;
-  label?: T;
-  description?: T;
-  displayOrder?: T;
+export interface AlertsSelect<T extends boolean = true> {
+  title?: T;
+  isActive?: T;
+  alertType?: T;
+  content?: T;
+  position?: T;
+  dismissible?: T;
+  expiresAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

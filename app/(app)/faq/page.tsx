@@ -88,7 +88,7 @@ export default async function FAQPage() {
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar home</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-white">
               {faqData?.title || 'Veelgestelde vragen'}
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">
@@ -164,7 +164,7 @@ export default async function FAQPage() {
                 </li>
                 <li>
                   <Link 
-                    href="/inschrijven" 
+                    href="https://www.anamneselijst.nl/Berben-Bouman/" 
                     className="text-olive/90 hover:text-coral flex items-center transition-colors"
                   >
                     <ArrowRight className="h-4 w-4 mr-2" />

@@ -27,10 +27,12 @@ type TestimonialsData = {
 
 // Define CMS types
 type CMSTestimonial = {
+  id: string;
   content?: string;
   author?: string;
   occupation?: string;
   rating?: number;
+  featured?: boolean;
   image?: {
     url?: string;
   };
@@ -39,74 +41,73 @@ type CMSTestimonial = {
 async function getTestimonialsData(): Promise<TestimonialsData> {
   const payload = await getPayload({ config });
   
-  // Get testimonials from CMS
-  const testimonials = await payload.find({
+  // Get testimonials from CMS - prioritize featured testimonials
+  const { docs: testimonials } = await payload.find({
     collection: 'testimonials',
+    where: {
+      // Filter testimonials marked as featured first, fall back to all if none are featured
+      featured: {
+        equals: true
+      }
+    },
     limit: 6
-  }).then(res => res.docs as CMSTestimonial[]);
+  });
+  
+  // If no featured testimonials found, get any testimonials
+  let testimonialsToUse = testimonials as CMSTestimonial[];
+  if (testimonialsToUse.length === 0) {
+    const { docs: allTestimonials } = await payload.find({
+      collection: 'testimonials',
+      limit: 6
+    });
+    testimonialsToUse = allTestimonials as CMSTestimonial[];
+  }
   
   // Calculate average rating
   const calculateAverageRating = () => {
-    if (!testimonials?.length) return "4.9";
+    if (!testimonialsToUse?.length) return 0;
     
-    const sum = testimonials.reduce((acc, testimonial) => acc + (testimonial.rating || 5), 0);
-    return (sum / testimonials.length).toFixed(1);
+    const sum = testimonialsToUse.reduce((acc, testimonial) => acc + (testimonial.rating || 5), 0);
+    return sum / testimonialsToUse.length;
   };
   
   // Transform CMS data to component data
   const mapTestimonials = (): Testimonial[] => {
-    if (!testimonials?.length) {
-      return [
-          {
-            content: "Hele fijne praktijk met super vriendelijke en deskundige mensen. Ik kom graag bij Fea die heel secuur werkt waardoor mijn gebit weer top is én waar ik me fijn voel door haar persoonlijke aanpak. Een tandarts die net dat stapje extra zet voor de patiënt, zeer aan te bevelen!",
-            author: "Kyra",
-            role: "Patiënt",
-            rating: 5,
-            imgSrc: "/images/kyra.png",
-          },
-          {
-            content: "In 1 woord is Berben & Bouman een top praktijk. Duidelijke en heldere communicatie en vriendelijk in de omgang. Wij als gezin met 4 kinderen gaan allemaal met 'plezier' naar de tandarts, DANK!",
-            author: "Marijke",
-            role: "Patiënt",
-            rating: 5,
-            imgSrc: "/images/marijke.png",
-          },
-          {
-            content: "Fijne eerste bezoek met de tandarts!! Na nare ervaring bij vorige tandarts elders!",
-            author: "A.E.",
-            role: "Patiënt",
-            rating: 5,
-            imgSrc: "/images/ae.png",
-          },
-        ];
+    if (!testimonialsToUse?.length) {
+      return [];
     }
     
-    return testimonials.map(testimonial => ({
-      content: testimonial.content || "",
-      author: testimonial.author || "Anoniem",
+    return testimonialsToUse.map(testimonial => ({
+      content: testimonial.content || "Zeer tevreden over de behandeling",
+      author: testimonial.author || "Patiënt",
       role: testimonial.occupation || "Patiënt",
       rating: testimonial.rating || 5,
       imgSrc: testimonial.image?.url,
-    })).slice(0, 3);
+    }));
   };
+  
+  const averageRating = calculateAverageRating();
+  const mappedTestimonials = mapTestimonials();
   
   return {
     title: "Wat onze patiënten zeggen",
     subtitle: "Lees de ervaringen van onze tevreden patiënten",
-    averageRating: parseFloat(calculateAverageRating()),
-    totalReviews: testimonials?.length || 120,
-    testimonials: mapTestimonials()
+    averageRating,
+    totalReviews: testimonialsToUse?.length || 0,
+    testimonials: mappedTestimonials
   };
 }
 
-export async function Testimonials({ isFirstSection = false }: TestimonialsProps) {
+export default async function Testimonials({ isFirstSection = false }: TestimonialsProps) {
   const data = await getTestimonialsData();
+  
+  // If no testimonials were found, don't render the section
+  if (!data.testimonials.length) {
+    return null;
+  }
   
   return (
     <div className="bg-gradient-to-br from-primary-50 to-primary-100/60 py-24 relative overflow-hidden">
-      {/* Decorative pattern overlay */}
-      <div className="absolute inset-0 bg-[url('/images/pattern-bg.png')] opacity-5"></div>
-      
       {/* Decorative elements */}
       <div className="absolute inset-0">
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent-500/10"></div>
@@ -118,13 +119,14 @@ export async function Testimonials({ isFirstSection = false }: TestimonialsProps
           <span className="inline-block px-4 py-1.5 rounded-full bg-accent-50 text-accent-600 text-sm font-medium mb-4">
             Patiëntervaringen
           </span>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-900 mb-4 animate-fade-in flex items-center justify-center">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary-900 mb-4 animate-fade-in flex items-center justify-center">
             {data.title}
           </h2>
           <div className="w-16 h-1 bg-accent-500 mx-auto my-6"></div>
           <p className="text-lg text-gray-600 mb-6">
             {data.subtitle}
           </p>
+        
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

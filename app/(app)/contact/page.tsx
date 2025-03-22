@@ -7,6 +7,7 @@ import { MapPin, Mail, Building, CreditCard, ExternalLink, ChevronRight, Phone, 
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { Metadata, Viewport } from 'next';
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Contact | Tandartsenpraktijk Berben & Bouman',
@@ -19,21 +20,118 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-async function getContactPage() {
-  const payload = await getPayload({ config });
-  const page = await payload.find({
-    collection: 'pages',
-    where: {
-      slug: {
-        equals: 'contact',
-      }
-    },
-  }).then(res => res.docs[0]);
-  return page;
+// Define types for the contact info
+interface ContactInfo {
+  title?: string;
+  address?: {
+    street?: string;
+    postalCode?: string;
+    city?: string;
+    area?: string;
+  };
+  contactDetails?: {
+    phone?: string;
+    email?: string;
+    kvkNumber?: string;
+    agbCode?: string;
+  };
+  openingHours?: Array<{
+    day: string;
+    openTime: string;
+    closeTime: string;
+    isClosed: boolean;
+  }>;
+  emergencyInfo?: {
+    phone?: string;
+    alternatePhone?: string;
+    instructions?: any;
+  };
+  mapEmbed?: string;
+}
+
+async function getContactData() {
+  try {
+    const payload = await getPayload({ config });
+    
+    // Fetch the contact page
+    const contactPage = await payload.find({
+      collection: 'pages',
+      where: {
+        slug: {
+          equals: 'contact',
+        }
+      },
+    }).then(res => res.docs[0] || null);
+    
+    // Fetch contact info
+    const contactInfoData = await payload.find({
+      collection: 'contact-info',
+      limit: 1,
+    }).then(res => (res.docs.length > 0 ? res.docs[0] : null) as any as ContactInfo);
+    
+    return { contactPage, contactInfo: contactInfoData };
+  } catch (error) {
+    console.error('Error fetching contact data:', error);
+    return { contactPage: null, contactInfo: null };
+  }
 }
 
 export default async function ContactPage() {
-  const page = await getContactPage();
+  const { contactPage, contactInfo } = await getContactData();
+
+  // Format opening hours for display
+  const formatOpeningHours = () => {
+    if (!contactInfo?.openingHours?.length) {
+      // Fallback opening hours
+      return {
+        monday: '8:00 - 17:00',
+        tuesday: '8:00 - 17:00',
+        wednesday: '8:00 - 17:00',
+        thursday: '8:00 - 17:00',
+        friday: '8:00 - 17:00',
+        saturday: 'Gesloten',
+        sunday: 'Gesloten',
+      };
+    }
+
+    const hoursMap: Record<string, string> = {
+      monday: 'Gesloten',
+      tuesday: 'Gesloten',
+      wednesday: 'Gesloten',
+      thursday: 'Gesloten',
+      friday: 'Gesloten',
+      saturday: 'Gesloten',
+      sunday: 'Gesloten',
+    };
+
+    contactInfo.openingHours.forEach(item => {
+      if (item.isClosed) {
+        hoursMap[item.day] = 'Gesloten';
+      } else {
+        hoursMap[item.day] = `${item.openTime} - ${item.closeTime}`;
+      }
+    });
+
+    return hoursMap;
+  };
+
+  const openingHours = formatOpeningHours();
+
+  // Get address information
+  const street = contactInfo?.address?.street || 'Musicallaan 413';
+  const postalCode = contactInfo?.address?.postalCode || '3543 EE';
+  const city = contactInfo?.address?.city || 'Utrecht';
+  const area = contactInfo?.address?.area || 'Wijk Terwijde';
+  
+  // Get contact details
+  const phone = contactInfo?.contactDetails?.phone || '030 - 294 01 50';
+  const email = contactInfo?.contactDetails?.email || 'info@berben-bouman.nl';
+  
+  // Get emergency information
+  const emergencyPhone = contactInfo?.emergencyInfo?.phone || '030 - 294 01 51';
+  
+  // Get map embed code or use fallback
+  const mapEmbed = contactInfo?.mapEmbed || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2450.643924410514!2d5.041193312804578!3d52.104411671838314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c66fe78f2fa5cb%3A0x1244314e5623322a!2sMusicallaan%20413%2C%203543%20EE%20Utrecht!5e0!3m2!1snl!2snl!4v1742291492607!5m2!1snl!2snl';
 
   return (
     <div className="flex flex-col">
@@ -50,7 +148,7 @@ export default async function ContactPage() {
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar home</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-white">
               Contact
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">
@@ -188,7 +286,7 @@ export default async function ContactPage() {
               </h2>
               <div className="aspect-video relative rounded-lg overflow-hidden border border-neutral-200">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2450.643924410514!2d5.041193312804578!3d52.104411671838314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c66fe78f2fa5cb%3A0x1244314e5623322a!2sMusicallaan%20413%2C%203543%20EE%20Utrecht!5e0!3m2!1snl!2snl!4v1742291492607!5m2!1snl!2snl" 
+                  src={mapEmbed} 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 
@@ -210,26 +308,26 @@ export default async function ContactPage() {
 
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <MapPin className="h-5 w-5 text-primary-600 mt-1 mr-3 flex-shrink-0" />
+                  <MapPin className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0 mt-4" />
                   <div>
                     <h4 className="font-bold text-primary-800 mb-1">Adres</h4>
                     <p className="text-neutral-700">
-                      Musicallaan 413<br />
-                      3543 EE Utrecht<br />
-                      Wijk Terwijde
+                      {street}<br />
+                      {postalCode} {city}<br />
+                      {area}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <Phone className="h-5 w-5 text-primary-600 mt-1 mr-3 flex-shrink-0" />
+                  <Phone className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0 mt-4" />
                   <div>
                     <h4 className="font-bold text-primary-800 mb-1">Telefoon</h4>
                     <a 
-                      href="tel:+31302940150"
+                      href={`tel:+31${phone.replace(/[^0-9]/g, '')}`}
                       className="text-primary-600 hover:text-primary-700 transition-colors"
                     >
-                      030 - 294 01 50
+                      {phone}
                     </a>
                     <p className="text-neutral-600 text-sm mt-1">
                       Bereikbaar op werkdagen van 8:00 tot 17:00 uur
@@ -238,50 +336,50 @@ export default async function ContactPage() {
                 </div>
 
                 <div className="flex items-start">
-                  <Mail className="h-5 w-5 text-primary-600 mt-1 mr-3 flex-shrink-0" />
+                  <Mail className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0 mt-4" />
                   <div>
                     <h4 className="font-bold text-primary-800 mb-1">E-mail</h4>
                     <a 
-                      href="mailto:info@berben-bouman.nl"
+                      href={`mailto:${email}`}
                       className="text-primary-600 hover:text-primary-700 transition-colors"
                     >
-                      info@berben-bouman.nl
+                      {email}
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start">
-                  <Clock className="h-5 w-5 text-primary-600 mt-1 mr-3 flex-shrink-0" />
+                  <Clock className="h-5 w-5 text-primary-600 mr-3 flex-shrink-0 mt-4" />
                   <div>
                     <h4 className="font-bold text-primary-800 mb-1">Openingstijden</h4>
                     <ul className="text-neutral-700">
                       <li className="flex justify-between">
-                        <span>Maandag</span>
-                        <span>8:00 - 17:00</span>
+                        <span className="min-w-[100px]">Maandag</span>
+                        <span>{openingHours.monday}</span>
                       </li>
                       <li className="flex justify-between">
-                        <span>Dinsdag</span>
-                        <span>8:00 - 17:00</span>
+                        <span className="min-w-[100px]">Dinsdag</span>
+                        <span>{openingHours.tuesday}</span>
                       </li>
                       <li className="flex justify-between">
-                        <span>Woensdag</span>
-                        <span>8:00 - 17:00</span>
+                        <span className="min-w-[100px]">Woensdag</span>
+                        <span>{openingHours.wednesday}</span>
                       </li>
                       <li className="flex justify-between">
-                        <span>Donderdag</span>
-                        <span>8:00 - 17:00</span>
+                        <span className="min-w-[100px]">Donderdag</span>
+                        <span>{openingHours.thursday}</span>
                       </li>
                       <li className="flex justify-between">
-                        <span>Vrijdag</span>
-                        <span>8:00 - 17:00</span>
+                        <span className="min-w-[100px]">Vrijdag</span>
+                        <span>{openingHours.friday}</span>
                       </li>
                       <li className="flex justify-between">
-                        <span>Zaterdag</span>
-                        <span>Gesloten</span>
+                        <span className="min-w-[100px]">Zaterdag</span>
+                        <span>{openingHours.saturday}</span>
                       </li>
                       <li className="flex justify-between">
-                        <span>Zondag</span>
-                        <span>Gesloten</span>
+                        <span className="min-w-[100px]">Zondag</span>
+                        <span>{openingHours.sunday}</span>
                       </li>
                     </ul>
                   </div>
@@ -294,11 +392,11 @@ export default async function ContactPage() {
                   Heeft u buiten openingstijden dringend een tandarts nodig? Bel dan de spoedlijn.
                 </p>
                 <a 
-                  href="tel:+31302940151" 
-                  className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md font-medium transition-colors inline-flex items-center justify-center w-full"
+                  href={`tel:+31${emergencyPhone.replace(/[^0-9]/g, '')}`}
+                  className="bg-primary-600 hover:bg-primary-700 text-primary-900 px-4 py-2 rounded-md font-medium transition-colors inline-flex items-center justify-center w-full"
                 >
                   <Phone className="h-4 w-4 mr-2" />
-                  <span>030 - 294 01 51</span>
+                  <span>{emergencyPhone}</span>
                 </a>
               </div>
             </div>
@@ -324,11 +422,11 @@ export default async function ContactPage() {
               <span>Online afspraak maken</span>
             </Link>
             <a 
-              href="tel:+31302940150" 
+              href={`tel:+31${phone.replace(/[^0-9]/g, '')}`}
               className="bg-white hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
             >
               <Phone className="h-5 w-5 mr-2" />
-              <span>030 - 294 01 50</span>
+              <span>{phone}</span>
             </a>
           </div>
         </div>
