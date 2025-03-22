@@ -1,13 +1,8 @@
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { getPayload } from 'payload';
 import config from '@payload-config';
-import { ContactForm } from '@/components/ui/contact-form';
-import { MapPin, Mail, Building, CreditCard, ExternalLink, ChevronRight, Phone, Clock, Calendar, ArrowRight, ArrowLeft } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
+import { MapPin, Mail, Phone, Clock, Calendar, ArrowLeft } from 'lucide-react';
 import { Metadata, Viewport } from 'next';
-import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Contact | Tandartsenpraktijk Berben & Bouman',
@@ -131,7 +126,7 @@ export default async function ContactPage() {
   const emergencyPhone = contactInfo?.emergencyInfo?.phone || '030 - 294 01 51';
   
   // Get map embed code or use fallback
-  const mapEmbed = contactInfo?.mapEmbed || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2450.643924410514!2d5.041193312804578!3d52.104411671838314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c66fe78f2fa5cb%3A0x1244314e5623322a!2sMusicallaan%20413%2C%203543%20EE%20Utrecht!5e0!3m2!1snl!2snl!4v1742291492607!5m2!1snl!2snl';
+  const mapEmbed = contactInfo?.mapEmbed || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d159.34949378320016!2d5.050466950084864!3d52.09946265638086!2m3!1f0!2f39.44418271812732!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x47c66feb9ec71695%3A0xfd5000d44a744ebe!2sTandartsenpraktijk%20Berben%20%26%20Bouman!5e1!3m2!1sen!2snl!4v1742649241080!5m2!1sen!2snl';
 
   return (
     <div className="flex flex-col">
