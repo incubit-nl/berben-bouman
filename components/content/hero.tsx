@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Calendar, Phone } from 'lucide-react';
+import { ArrowRight, Calendar, Phone, ChevronRight } from 'lucide-react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 
@@ -54,40 +54,73 @@ export default async function Hero() {
   const heroData = await getHeroData();
   
   return (
-    <div className="relative bg-gradient-to-r from-primary-900 to-primary-800 overflow-hidden">
-      {/* Background pattern for depth */}
-      <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:16px_16px]"></div>
+    <section className="relative overflow-hidden bg-gradient-to-b from-primary-900 via-primary-800 to-primary-700">
+      {/* Decorative elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-800/80 to-transparent"></div>
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-accent-400/10 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary-600/10 rounded-full translate-y-1/3 -translate-x-1/3 blur-3xl"></div>
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-8 items-center py-16 md:py-20 lg:py-24">
+      {/* Pattern overlay */}
+      <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:32px_32px]"></div>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-24">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Text Content */}
           <div className="text-center lg:text-left space-y-8 z-10">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-heading font-bold text-white tracking-tight animate-fade-in-down">
-              <span className="block mb-2">{heroData.title}</span>
-              <span className="block text-accent-500 animate-[fadeInDown_0.6s_ease-out_0.2s_forwards]">
+            <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-accent-400 text-sm font-medium mb-2 backdrop-blur-sm">
+              Welkom bij Tandartsenpraktijk Berben & Bouman
+            </div>
+            
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-heading font-bold text-white tracking-tight">
+              <span className="block mb-3">{heroData.title}</span>
+              <span className="bg-gradient-to-r from-accent-400 to-accent-500 bg-clip-text text-transparent">
                 {heroData.subtitle}
               </span>
             </h1>
             
-            <div className="w-20 h-1.5 bg-accent-500 mx-auto lg:mx-0 rounded-full animate-[fadeInDown_0.6s_ease-out_0.4s_forwards]"></div>
+            <div className="w-24 h-1.5 bg-accent-500 mx-auto lg:mx-0 rounded-full"></div>
             
-            <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-[fadeInDown_0.6s_ease-out_0.6s_forwards]">
+            <p className="text-xl text-white/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
               {heroData.description}
             </p>
             
+            {/* Quick Contact Info */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto lg:mx-0">
+              <div className="flex items-center space-x-3 p-3 bg-white/10 rounded-xl backdrop-blur-sm">
+                <div className="bg-accent-500/20 p-2 rounded-lg">
+                  <Phone className="h-5 w-5 text-accent-400" />
+                </div>
+                <div className="text-white text-left">
+                  <div className="text-xs text-white">Telefonisch bereikbaar</div>
+                  <a href="tel:+31306701221" className="text-accent-400 font-medium hover:text-accent-400 transition-colors">
+                    +31 30 670 12 21
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3 p-3 bg-white/10 rounded-xl backdrop-blur-sm">
+                <div className="bg-accent-500/20 p-2 rounded-lg">
+                  <Calendar className="h-5 w-5 text-accent-400" />
+                </div>
+                <div className="text-white text-left">
+                  <div className="text-xs text-white/70">Openingstijden</div>
+                  <div className="text-sm font-medium">Ma-Vr: 08:00-17:00</div>
+                </div>
+              </div>
+            </div>
+            
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start mt-10 animate-[fadeInDown_0.6s_ease-out_0.8s_forwards]">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start mt-10">
               <Link
                 href={heroData.primaryButtonUrl}
-                className="group inline-flex items-center justify-center px-8 py-4 border-2 border-white/30 text-white font-medium rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white font-medium rounded-xl hover:bg-white/10 hover:border-white/50 transition-all duration-300 backdrop-blur-sm"
               >
-                <Calendar className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                 {heroData.primaryButtonText}
+                <ChevronRight className="w-5 h-5 ml-2" />
               </Link>
               
               <Link
                 href={heroData.secondaryButtonUrl}
-                className="group inline-flex items-center justify-center px-8 py-4 border-2 border-white/30 text-white font-medium rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white font-medium rounded-xl hover:bg-white/10 hover:border-white/50 transition-all duration-300 backdrop-blur-sm"
               >
                 {heroData.secondaryButtonText}
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -96,19 +129,19 @@ export default async function Hero() {
           </div>
           
           {/* Image */}
-          <div className="relative h-80 sm:h-96 md:h-[500px] lg:h-[650px] w-full lg:w-auto overflow-hidden">
+          <div className="relative h-96 md:h-[550px] w-full overflow-hidden rounded-2xl lg:rounded-[2rem] shadow-2xl">
             <Image
               src={heroData.backgroundImage}
               alt="Tandartsenpraktijk Berben & Bouman"
               fill
-              className="object-cover rounded-2xl shadow-2xl lg:rounded-tr-none lg:rounded-bl-[4rem] transition-transform hover:scale-105 duration-700"
+              className="object-cover transition-transform hover:scale-105 duration-700"
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary-900/70 to-transparent lg:bg-gradient-to-l lg:from-primary-900/50 lg:via-transparent lg:to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary-900/70 via-primary-800/40 to-transparent" />
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
