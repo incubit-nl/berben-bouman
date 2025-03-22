@@ -190,7 +190,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "group px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px] flex items-center",
+                  "group px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px] flex items-center border-2 border-white",
                   isScrolled || isMobileMenuOpen
                     ? "bg-primary-900 hover:bg-primary-800 text-primary-900" 
                     : "bg-accent-600 hover:bg-accent-700 text-white"
@@ -271,7 +271,7 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
             <div className="mt-10 space-y-6">
               <Link
                 href="https://www.anamneselijst.nl/Berben-Bouman"
-                className="block w-1/4 mx-auto bg-accent-600 hover:bg-accent-700 text-primary-900 px-5 py-3 rounded-lg font-medium transition-all duration-300 text-center shadow-md flex items-center justify-center"
+                className="block w-1/4 mx-auto bg-accent-600 hover:bg-accent-700 text-primary-900 px-5 py-3 rounded-lg font-medium transition-all duration-300 text-center shadow-md flex items-center justify-center border-2 border-white"
                 onClick={handleCloseMenu}
               >
                 <Calendar className="mr-2 h-5 w-5" />
@@ -324,6 +324,10 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
         "w-full transition-all duration-300",
         isScrolled || isMobileMenuOpen ? "h-[60px] sm:h-[74px]" : "h-[60px] sm:h-[74px]"
       )} aria-hidden="true" />
+      {/* Small white bar between header and content */}
+      <div className="w-full flex justify-center">
+        <div className="h-[2px] bg-white w-[80%] max-w-[300px] mx-auto" aria-hidden="true" />
+      </div>
     </>
   );
 } 

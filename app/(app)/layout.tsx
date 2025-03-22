@@ -6,6 +6,7 @@ import config from '@payload-config';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ActiveAlerts } from '@/components/ui/active-alerts';
+import { CookieConsent } from '@/components/ui/cookie-consent';
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
@@ -130,6 +131,7 @@ export default async function RootLayout({
         <Footer 
           contactInfo={contactInfo}
         />
+        <CookieConsent />
       </body>
     </html>
   );

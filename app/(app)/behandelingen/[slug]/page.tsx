@@ -157,7 +157,7 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
               <ArrowLeft className="mr-2 h-4 w-4" />
               <span>Terug naar alle behandelingen</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-accent-50">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4 text-white">
               {treatment.title}
             </h1>
             <p className="text-lg md:text-xl mb-0 text-white/90">
@@ -198,7 +198,7 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
               <div className="bg-primary-50 rounded-lg p-6 mb-6">
                 <h3 className="text-xl font-bold mb-4 text-primary-900">Afspraak maken?</h3>
                 <div className="flex items-start mb-4">
-                  <Phone className="h-5 w-5 text-primary-600 mr-3 mt-1" />
+                  <Phone className="h-5 w-5 text-primary-600 mr-3 mt-5" />
                   <div>
                     <p className="text-neutral-700 mb-1">Bel ons direct:</p>
                     <a
@@ -210,7 +210,7 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <Clock className="h-5 w-5 text-primary-600 mr-3 mt-1" />
+                  <Clock className="h-5 w-5 text-primary-600 mr-3 mt-5" />
                   <div>
                     <p className="text-neutral-700 mb-1">Openingstijden:</p>
                     <p className="text-neutral-800">
@@ -288,7 +288,7 @@ export default async function TreatmentPage({ params }: TreatmentPageProps) {
               className="bg-blue hover:bg-neutral-100 text-primary-900 border border-primary-200 px-6 py-3 rounded-md font-medium transition-colors inline-flex items-center justify-center"
             >
               <Phone className="mr-2 h-5 w-5" />
-              <span>Bel direct: {phone}</span>
+              <span>{phone}</span>
             </a>
           </div>
         </div>
