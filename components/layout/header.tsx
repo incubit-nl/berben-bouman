@@ -196,7 +196,6 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
                     : "bg-accent-600 hover:bg-accent-700 text-white"
                 )}
               >
-                <Calendar className="mr-2 h-5 w-5 group-hover:animate-pulse" />
                 Inschrijven
               </a>
             </div>
@@ -271,11 +270,11 @@ export function Header({ contactInfo, practicePages, treatmentCategories }: Head
             <div className="mt-10 space-y-6">
               <Link
                 href="https://www.anamneselijst.nl/Berben-Bouman"
-                className="block w-1/4 mx-auto bg-accent-600 hover:bg-accent-700 text-primary-900 px-5 py-3 rounded-lg font-medium transition-all duration-300 text-center shadow-md flex items-center justify-center border-2 border-white"
+                className="block w-2/5 mx-auto bg-accent-600 hover:bg-accent-700 text-primary-900 px-5 py-3 rounded-lg font-medium transition-all duration-300 text-center shadow-md flex items-center justify-center border-2 border-white"
                 onClick={handleCloseMenu}
               >
-                <Calendar className="mr-2 h-5 w-5" />
-                Inschrijven
+                <div className="h-5 w-5" />
+                <span className="text-center w-full mr-2">Inschrijven</span>
               </Link>
               
               <div className="space-y-6 text-neutral-700 mt-8">
